@@ -80,11 +80,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentService", "PaymentSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.IntegrationEvents", "src\Services\PaymentService\PaymentService.IntegrationEvents\PaymentService.IntegrationEvents.csproj", "{A6EADCBB-788F-4B5B-A376-A84716338719}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService.Domain", "src\Services\RecommendationService\RecommendationService.Domain\RecommendationService.Domain.csproj", "{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationService.Domain", "src\Services\RecommendationService\RecommendationService.Domain\RecommendationService.Domain.csproj", "{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService.Aplication", "RecommendationService.Aplication\RecommendationService.Aplication.csproj", "{30491FDF-3795-46C7-BCA0-6E4E76713257}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationService.Aplication", "RecommendationService.Aplication\RecommendationService.Aplication.csproj", "{30491FDF-3795-46C7-BCA0-6E4E76713257}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService.Infrastructure", "RecommendationService.Infrastructure\RecommendationService.Infrastructure.csproj", "{AA7460F7-62D7-4148-B1B3-3CF18D54847C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationService.Infrastructure", "RecommendationService.Infrastructure\RecommendationService.Infrastructure.csproj", "{AA7460F7-62D7-4148-B1B3-3CF18D54847C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -238,9 +238,9 @@ Global
 		{D0D5DD94-6221-4063-969C-79DEB5B07550} = {C3A61306-3988-4F45-A499-2A38CC0E20DE}
 		{FF97376A-14E5-4586-8252-DFE8C5F904D2} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
 		{A6EADCBB-788F-4B5B-A376-A84716338719} = {FF97376A-14E5-4586-8252-DFE8C5F904D2}
-		{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD} = {9D01EA8E-6980-409D-8FFB-0608CE1B8BD4}
-		{30491FDF-3795-46C7-BCA0-6E4E76713257} = {9D01EA8E-6980-409D-8FFB-0608CE1B8BD4}
-		{AA7460F7-62D7-4148-B1B3-3CF18D54847C} = {9D01EA8E-6980-409D-8FFB-0608CE1B8BD4}
+		{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD} = {E8E0206C-7FD7-45D6-97EE-A6AD987CFDA7}
+		{30491FDF-3795-46C7-BCA0-6E4E76713257} = {E8E0206C-7FD7-45D6-97EE-A6AD987CFDA7}
+		{AA7460F7-62D7-4148-B1B3-3CF18D54847C} = {E8E0206C-7FD7-45D6-97EE-A6AD987CFDA7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

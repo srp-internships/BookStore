@@ -11,13 +11,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1AFD0172-2B76-469E-A1EF-7BFE28BCA129}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnalyticsService", "AnalyticsService", "{24360CC8-42E1-4643-9891-1B04CE72993C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsServiceApi", "src\Services\AnalyticsService\AnalyticsServiceApi\AnalyticsServiceApi.csproj", "{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A0806768-C6D7-47C3-A08A-DDCFF6D8618D} = {D4564403-A463-4A90-9339-193B772F1549}
 		{1AFD0172-2B76-469E-A1EF-7BFE28BCA129} = {685EA633-9EF7-4F97-885B-98D08BC8BF6C}
+		{24360CC8-42E1-4643-9891-1B04CE72993C} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C} = {24360CC8-42E1-4643-9891-1B04CE72993C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

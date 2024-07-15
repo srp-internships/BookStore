@@ -14,41 +14,46 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShipmentService", "Shipment
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShipmentService", "ShipmentService", "{33990015-EADE-4AD6-87BC-658B7086FDE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipmentService.IntegrationEvent", "src\Services\ShipmentService\ShipmentService.IntegrationEvent\ShipmentService.IntegrationEvent.csproj", "{26046A41-A2B1-4A22-8879-2923A66D2489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShipmentService.IntegrationEvent", "src\Services\ShipmentService\ShipmentService.IntegrationEvent\ShipmentService.IntegrationEvent.csproj", "{26046A41-A2B1-4A22-8879-2923A66D2489}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReviewService", "ReviewService", "{D78AE65C-1994-49D7-A316-2FF7BDD3B2DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Domain", "src\Services\ReviewService\ReviewService.Domain\ReviewService.Domain.csproj", "{FFBAE4C8-C33B-46CA-8D05-CC0A88CE596C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReviewService.Domain", "src\Services\ReviewService\ReviewService.Domain\ReviewService.Domain.csproj", "{FFBAE4C8-C33B-46CA-8D05-CC0A88CE596C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Application", "src\Services\ReviewService\ReviewService.Application\ReviewService.Application.csproj", "{A6EE87B1-1732-4BCB-B819-4901519729CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReviewService.Application", "src\Services\ReviewService\ReviewService.Application\ReviewService.Application.csproj", "{A6EE87B1-1732-4BCB-B819-4901519729CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Infrastructure", "src\Services\ReviewService\ReviewService.Infrastructure\ReviewService.Infrastructure.csproj", "{89B3DBE4-BF9C-4795-AF64-0B6105EB9FDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReviewService.Infrastructure", "src\Services\ReviewService\ReviewService.Infrastructure\ReviewService.Infrastructure.csproj", "{89B3DBE4-BF9C-4795-AF64-0B6105EB9FDA}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RecommendationService", "RecommendationService", "{E8E0206C-7FD7-45D6-97EE-A6AD987CFDA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService.WebApi", "src\Services\RecommendationService\RecommendationService.WebApi\RecommendationService.WebApi.csproj", "{229C9135-907F-4CB4-A3D6-3D9921A2E1A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationService.WebApi", "src\Services\RecommendationService\RecommendationService.WebApi\RecommendationService.WebApi.csproj", "{229C9135-907F-4CB4-A3D6-3D9921A2E1A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D01EA8E-6980-409D-8FFB-0608CE1B8BD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService.Contracts", "src\Services\RecommendationService\RecommendationService.Contracts\RecommendationService.Contracts.csproj", "{0EB38DA9-1762-47E5-BCD4-B9837B978D1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationService.Contracts", "src\Services\RecommendationService\RecommendationService.Contracts\RecommendationService.Contracts.csproj", "{0EB38DA9-1762-47E5-BCD4-B9837B978D1B}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Domain", "src\Services\OrderService\OrderService.Domain\OrderService.Domain.csproj", "{71E27116-9E6B-46D1-9298-36B4998F8C76}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderService", "OrderService", "{0BBA49D1-3682-416C-834C-3843FAEA5E24}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.IntegrationEvents", "src\Services\OrderService\Orders.IntegrationEvents\Orders.IntegrationEvents.csproj", "{46259BF4-CC1C-4884-9FEB-2C7BE3354D86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Application", "src\Services\OrderService\OrderService.Application\OrderService.Application.csproj", "{3F874720-BAE8-4C31-8A2A-A6375224C4DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Application", "src\Services\OrderService\OrderService.Application\OrderService.Application.csproj", "{3F874720-BAE8-4C31-8A2A-A6375224C4DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Infrastructure", "src\Services\OrderService\OrderService.Infrastructure\OrderService.Infrastructure.csproj", "{988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Infrastructure", "src\Services\OrderService\OrderService.Infrastructure\OrderService.Infrastructure.csproj", "{988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{6F0690CD-3547-4E0B-9665-7BFFF1587FDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Application", "src\Services\Catalog\CatalogService.Application\CatalogService.Application.csproj", "{6D7D829E-ADFA-45D8-9F29-D432989F77EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.Application", "src\Services\Catalog\CatalogService.Application\CatalogService.Application.csproj", "{6D7D829E-ADFA-45D8-9F29-D432989F77EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Infostructure", "src\Services\Catalog\CatalogService.Infostructure\CatalogService.Infostructure.csproj", "{6FA6C49B-9789-44F5-B481-4DB4721A0B22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.Infostructure", "src\Services\Catalog\CatalogService.Infostructure\CatalogService.Infostructure.csproj", "{6FA6C49B-9789-44F5-B481-4DB4721A0B22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Domain", "src\Services\Catalog\CatalogService.Domain\CatalogService.Domain.csproj", "{9A267655-93B6-4B26-9DDA-27E9CA88D379}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.Domain", "src\Services\Catalog\CatalogService.Domain\CatalogService.Domain.csproj", "{9A267655-93B6-4B26-9DDA-27E9CA88D379}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.WebApi", "src\Services\Catalog\CatalogService.WebApi\CatalogService.WebApi.csproj", "{872A5794-70EA-45A9-8482-349ABC46BD96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.WebApi", "src\Services\Catalog\CatalogService.WebApi\CatalogService.WebApi.csproj", "{872A5794-70EA-45A9-8482-349ABC46BD96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Contracts", "src\Services\Catalog\CatalogService.Contracts\CatalogService.Contracts.csproj", "{60F627BF-6CB8-4E25-8E40-6B524AD654F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.Contracts", "src\Services\Catalog\CatalogService.Contracts\CatalogService.Contracts.csproj", "{60F627BF-6CB8-4E25-8E40-6B524AD654F0}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CartService", "CartService", "{4391AB8B-3648-47C0-91E5-F3CDAE96E0A0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Domain", "src\Services\CartService\CartService.Domain\CartService.Domain.csproj", "{3E9298EB-2FD8-44F9-A6E4-E3E0B4E980CF}"
@@ -62,16 +67,24 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Aplication.UnitTests.NUnit", "tests\Services\CartService\CartService.Aplication.UnitTests.NUnit\CartService.Aplication.UnitTests.NUnit.csproj", "{680CBA1E-670B-40B8-90FE-39866B4E1279}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Api", "src\Services\CartService\CartService.Api\CartService.Api.csproj", "{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnalyticsService", "AnalyticsService", "{24360CC8-42E1-4643-9891-1B04CE72993C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsServiceApi", "src\Services\AnalyticsService\AnalyticsServiceApi\AnalyticsServiceApi.csproj", "{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyticsServiceApi", "src\Services\AnalyticsService\AnalyticsServiceApi\AnalyticsServiceApi.csproj", "{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3A61306-3988-4F45-A499-2A38CC0E20DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticService.Contracts", "src\Services\AnalyticsService\AnalyticService.Contracts\AnalyticService.Contracts.csproj", "{D0D5DD94-6221-4063-969C-79DEB5B07550}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyticService.Contracts", "src\Services\AnalyticsService\AnalyticService.Contracts\AnalyticService.Contracts.csproj", "{D0D5DD94-6221-4063-969C-79DEB5B07550}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentService", "PaymentService", "{FF97376A-14E5-4586-8252-DFE8C5F904D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.IntegrationEvents", "src\Services\PaymentService\PaymentService.IntegrationEvents\PaymentService.IntegrationEvents.csproj", "{A6EADCBB-788F-4B5B-A376-A84716338719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.IntegrationEvents", "src\Services\PaymentService\PaymentService.IntegrationEvents\PaymentService.IntegrationEvents.csproj", "{A6EADCBB-788F-4B5B-A376-A84716338719}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService.Domain", "src\Services\RecommendationService\RecommendationService.Domain\RecommendationService.Domain.csproj", "{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService.Aplication", "RecommendationService.Aplication\RecommendationService.Aplication.csproj", "{30491FDF-3795-46C7-BCA0-6E4E76713257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService.Infrastructure", "RecommendationService.Infrastructure\RecommendationService.Infrastructure.csproj", "{AA7460F7-62D7-4148-B1B3-3CF18D54847C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +184,18 @@ Global
 		{A6EADCBB-788F-4B5B-A376-A84716338719}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6EADCBB-788F-4B5B-A376-A84716338719}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6EADCBB-788F-4B5B-A376-A84716338719}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30491FDF-3795-46C7-BCA0-6E4E76713257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30491FDF-3795-46C7-BCA0-6E4E76713257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30491FDF-3795-46C7-BCA0-6E4E76713257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30491FDF-3795-46C7-BCA0-6E4E76713257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA7460F7-62D7-4148-B1B3-3CF18D54847C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA7460F7-62D7-4148-B1B3-3CF18D54847C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA7460F7-62D7-4148-B1B3-3CF18D54847C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA7460F7-62D7-4148-B1B3-3CF18D54847C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -213,6 +238,9 @@ Global
 		{D0D5DD94-6221-4063-969C-79DEB5B07550} = {C3A61306-3988-4F45-A499-2A38CC0E20DE}
 		{FF97376A-14E5-4586-8252-DFE8C5F904D2} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
 		{A6EADCBB-788F-4B5B-A376-A84716338719} = {FF97376A-14E5-4586-8252-DFE8C5F904D2}
+		{13E6DF18-DE3A-4891-BB8C-3D7CEEF5E1AD} = {9D01EA8E-6980-409D-8FFB-0608CE1B8BD4}
+		{30491FDF-3795-46C7-BCA0-6E4E76713257} = {9D01EA8E-6980-409D-8FFB-0608CE1B8BD4}
+		{AA7460F7-62D7-4148-B1B3-3CF18D54847C} = {9D01EA8E-6980-409D-8FFB-0608CE1B8BD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

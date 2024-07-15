@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnalyticsService", "Analyti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsServiceApi", "src\Services\AnalyticsService\AnalyticsServiceApi\AnalyticsServiceApi.csproj", "{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3A61306-3988-4F45-A499-2A38CC0E20DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticService.Contracts", "src\Services\AnalyticsService\AnalyticService.Contracts\AnalyticService.Contracts.csproj", "{D0D5DD94-6221-4063-969C-79DEB5B07550}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,10 @@ Global
 		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,6 +42,8 @@ Global
 		{1AFD0172-2B76-469E-A1EF-7BFE28BCA129} = {685EA633-9EF7-4F97-885B-98D08BC8BF6C}
 		{24360CC8-42E1-4643-9891-1B04CE72993C} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
 		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C} = {24360CC8-42E1-4643-9891-1B04CE72993C}
+		{C3A61306-3988-4F45-A499-2A38CC0E20DE} = {24360CC8-42E1-4643-9891-1B04CE72993C}
+		{D0D5DD94-6221-4063-969C-79DEB5B07550} = {C3A61306-3988-4F45-A499-2A38CC0E20DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

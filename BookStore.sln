@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
@@ -24,6 +23,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Aplication.UnitTests.NUnit", "tests\Services\CartService\CartService.Aplication.UnitTests.NUnit\CartService.Aplication.UnitTests.NUnit.csproj", "{680CBA1E-670B-40B8-90FE-39866B4E1279}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Api", "src\Services\CartService\CartService.Api\CartService.Api.csproj", "{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnalyticsService", "AnalyticsService", "{24360CC8-42E1-4643-9891-1B04CE72993C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsServiceApi", "src\Services\AnalyticsService\AnalyticsServiceApi\AnalyticsServiceApi.csproj", "{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3A61306-3988-4F45-A499-2A38CC0E20DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticService.Contracts", "src\Services\AnalyticsService\AnalyticService.Contracts\AnalyticService.Contracts.csproj", "{D0D5DD94-6221-4063-969C-79DEB5B07550}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentService", "PaymentService", "{FF97376A-14E5-4586-8252-DFE8C5F904D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.IntegrationEvents", "src\Services\PaymentService\PaymentService.IntegrationEvents\PaymentService.IntegrationEvents.csproj", "{A6EADCBB-788F-4B5B-A376-A84716338719}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +60,18 @@ Global
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6EADCBB-788F-4B5B-A376-A84716338719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EADCBB-788F-4B5B-A376-A84716338719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6EADCBB-788F-4B5B-A376-A84716338719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6EADCBB-788F-4B5B-A376-A84716338719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +86,12 @@ Global
 		{F3674980-185C-4D52-98DB-01BDE961F205} = {1AFD0172-2B76-469E-A1EF-7BFE28BCA129}
 		{680CBA1E-670B-40B8-90FE-39866B4E1279} = {F3674980-185C-4D52-98DB-01BDE961F205}
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D} = {4391AB8B-3648-47C0-91E5-F3CDAE96E0A0}
+		{24360CC8-42E1-4643-9891-1B04CE72993C} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C} = {24360CC8-42E1-4643-9891-1B04CE72993C}
+		{C3A61306-3988-4F45-A499-2A38CC0E20DE} = {24360CC8-42E1-4643-9891-1B04CE72993C}
+		{D0D5DD94-6221-4063-969C-79DEB5B07550} = {C3A61306-3988-4F45-A499-2A38CC0E20DE}
+		{FF97376A-14E5-4586-8252-DFE8C5F904D2} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
+		{A6EADCBB-788F-4B5B-A376-A84716338719} = {FF97376A-14E5-4586-8252-DFE8C5F904D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

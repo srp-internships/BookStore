@@ -13,23 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CartService", "CartService", "{4391AB8B-3648-47C0-91E5-F3CDAE96E0A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Domain", "src\Services\CartService\CartService.Domain\CartService.Domain.csproj", "{3E9298EB-2FD8-44F9-A6E4-E3E0B4E980CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Domain", "src\Services\CartService\CartService.Domain\CartService.Domain.csproj", "{3E9298EB-2FD8-44F9-A6E4-E3E0B4E980CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Aplication", "src\Services\CartService\CartService.Aplication\CartService.Aplication.csproj", "{21B1199B-AD90-4946-88E0-B147A364947E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Aplication", "src\Services\CartService\CartService.Aplication\CartService.Aplication.csproj", "{21B1199B-AD90-4946-88E0-B147A364947E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Infrastructure", "src\Services\CartService\CartService.Infrastructure\CartService.Infrastructure.csproj", "{6503359E-7FE0-4FCE-B42C-C65836624F06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Infrastructure", "src\Services\CartService\CartService.Infrastructure\CartService.Infrastructure.csproj", "{6503359E-7FE0-4FCE-B42C-C65836624F06}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CartService", "CartService", "{F3674980-185C-4D52-98DB-01BDE961F205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Aplication.UnitTests.NUnit", "tests\Services\CartService\CartService.Aplication.UnitTests.NUnit\CartService.Aplication.UnitTests.NUnit.csproj", "{680CBA1E-670B-40B8-90FE-39866B4E1279}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Aplication.UnitTests.NUnit", "tests\Services\CartService\CartService.Aplication.UnitTests.NUnit\CartService.Aplication.UnitTests.NUnit.csproj", "{680CBA1E-670B-40B8-90FE-39866B4E1279}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Api", "src\Services\CartService\CartService.Api\CartService.Api.csproj", "{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShipmentService", "ShipmentService", "{A47A845A-64E9-4718-B294-6ADDB9731BBB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShipmentService", "ShipmentService", "{F6ED755E-F4B2-4799-8E3E-26ACD89AA303}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipmentService.IntegrationEnent", "src\Services\ShipmentService\ShipmentService.IntegrationEnent\ShipmentService.IntegrationEnent.csproj", "{C880A967-39B6-4BE2-838E-8297ED37A14E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Api", "src\Services\CartService\CartService.Api\CartService.Api.csproj", "{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +51,6 @@ Global
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C880A967-39B6-4BE2-838E-8297ED37A14E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C880A967-39B6-4BE2-838E-8297ED37A14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C880A967-39B6-4BE2-838E-8297ED37A14E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C880A967-39B6-4BE2-838E-8297ED37A14E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,9 +65,6 @@ Global
 		{F3674980-185C-4D52-98DB-01BDE961F205} = {1AFD0172-2B76-469E-A1EF-7BFE28BCA129}
 		{680CBA1E-670B-40B8-90FE-39866B4E1279} = {F3674980-185C-4D52-98DB-01BDE961F205}
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D} = {4391AB8B-3648-47C0-91E5-F3CDAE96E0A0}
-		{A47A845A-64E9-4718-B294-6ADDB9731BBB} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
-		{F6ED755E-F4B2-4799-8E3E-26ACD89AA303} = {1AFD0172-2B76-469E-A1EF-7BFE28BCA129}
-		{C880A967-39B6-4BE2-838E-8297ED37A14E} = {A47A845A-64E9-4718-B294-6ADDB9731BBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipmentService.Infrastructure.Persistence
+namespace ShipmentService.Infrastructure.Persistence.DbContexts
 {
 
     public class ShipmentContext : DbContext

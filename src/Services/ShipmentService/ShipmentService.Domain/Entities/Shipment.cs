@@ -16,7 +16,20 @@ namespace ShipmentService.Domain.Entities
         public ShippingAddress? ShippingAddress { get; set; }
         public List<ShipmentItem>? Items { get; set; }
         public Status Status { get; set; }
-        public DateTime EstimatedDeliveryDate { get; set; }
+        public DateTime EstimatedDeliveryDate { get; set; }= DateTime.Now;
+        public Shipment(Guid shipmentId, Guid orderId, Guid customerId, ShippingAddress? shippingAddress, List<ShipmentItem>? items, Status status, DateTime estimatedDeliveryDate)
+        {
+            ShipmentId = shipmentId;
+            OrderId = orderId;
+            CustomerId = customerId;
+            ShippingAddress = shippingAddress;
+            Items = items;
+            Status = status;
+            EstimatedDeliveryDate = estimatedDeliveryDate;
+        }
+
+        public Shipment() { }
+
 
     }
 }

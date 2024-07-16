@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "RecommendationService";
+
+service Recommendation {
+    // Get a list of similar books
+    rpc GetSimilarBooks (BookRequest) returns (BookListResponse);
+
+    // Get a list of popular books
+    rpc GetPopularBooks (BookRequest) returns (BookListResponse);
+}
+
+// Request message containing the book ID
+message BookRequest {
+    string book_id = 1;
+}
+
+// Response message containing a list of book IDs
+message BookListResponse {
+    repeated string book_ids = 1;
+}

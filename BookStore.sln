@@ -84,6 +84,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.IntegrationEvents", "src\Services\PaymentService\PaymentService.IntegrationEvents\PaymentService.IntegrationEvents.csproj", "{A6EADCBB-788F-4B5B-A376-A84716338719}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderServiceWebAPI", "src\Services\OrderService\OrderServiceWebAPI\OrderServiceWebAPI.csproj", "{4B5698A7-E831-4B08-9E00-1B90EA964C96}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3F874720-BAE8-4C31-8A2A-A6375224C4DF} = {3F874720-BAE8-4C31-8A2A-A6375224C4DF}
+		{988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC} = {988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

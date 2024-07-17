@@ -16,5 +16,10 @@ namespace ShipmentService.Infrastructure.Persistence.DbContexts
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<ShippingAddress> ShippingAddresses { get; set; }
         public DbSet<ShipmentItem> ShipmentItems { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

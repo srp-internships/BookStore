@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CartService.Domain.Entities
 {
@@ -12,6 +7,10 @@ namespace CartService.Domain.Entities
         [Key]
         public Guid Id  { get; set; } 
         public Guid UserId { get; set; }
-        public List<CartItem>? cartItems { get; set; }=new List<CartItem>();
+        public List<CartItem>? Items { get; set; }=new List<CartItem>();
+        public decimal CalculateTotal()
+        {
+            return Items.Sum(item => item.TotalPrice);
+        }
     }
 }

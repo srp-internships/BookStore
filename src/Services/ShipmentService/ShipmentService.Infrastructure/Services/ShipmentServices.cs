@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ShipmentService.Infrastructure.Services
 {
-    public class ShipmentService: IShipmentService
+    public class ShipmentServices: IShipmentService
     {
         private readonly IShipmentRepository _shipmentRepository;
 
-        public ShipmentService(IShipmentRepository shipmentRepository)
+        public ShipmentServices(IShipmentRepository shipmentRepository)
         {
             _shipmentRepository = shipmentRepository;
         }

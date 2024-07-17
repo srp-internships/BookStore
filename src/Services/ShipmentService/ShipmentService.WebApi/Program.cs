@@ -1,7 +1,15 @@
 using System.Numerics;
+using System.Reflection;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ShipmentService.Aplication.Common.Mappings;
+using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
+using ShipmentService.Aplication.Interfaces;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
+using ShipmentService.Infrastructure.Repositories;
 using ShipmentService.Infrastructure.Services;
+using ShipmentService.IntegrationEvent;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +23,31 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
+builder.Services.AddScoped<IShipmentService, ShipmentServices>();
+builder.Services.AddAutoMapper(typeof(ShipmentMappings));
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateShipmentCommand).Assembly));
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<ShipmentRequestConsumer>();
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("rabbitmq://localhost");
+
+        cfg.ReceiveEndpoint("shipment_queue", e =>
+        {
+            e.ConfigureConsumer<ShipmentRequestConsumer>(context);
+        });
+    });
+});
+
+builder.Services.AddMassTransitHostedService();
+
 var app = builder.Build();
-
-
 
 using (var scope = app.Services.CreateScope())
 {
@@ -41,8 +71,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

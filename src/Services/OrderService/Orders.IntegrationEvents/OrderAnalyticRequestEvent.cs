@@ -1,7 +1,7 @@
 ﻿namespace Orders.IntegrationEvents;
 
 public sealed record OrderAnalyticRequestEvent(
-    List<Book> Books,
+    List<Book> Orders,
     Guid CustomerId,
     DateTime CreatedAt
 );

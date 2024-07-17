@@ -1,23 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderService.Domain.Entities;
+using OrderService.Domain;
+using OrderService.Infrastructure.Persistence.Configurations;
+using OrderService.Application.Data;
+using System.Reflection;
 
 namespace OrderService.Infrastructure.Persistence.DataBases;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
-    public DbSet<Order> Orders { get; set; }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options) { }
 
+    public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Book> Books => Set<Book>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        base.OnModelCreating(builder);
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=OrderService;Username=postgres;Password=7878_Postgresql");
         base.OnConfiguring(optionsBuilder);
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder); 
-    }
 }
+

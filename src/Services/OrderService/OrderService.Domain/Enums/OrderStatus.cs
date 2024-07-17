@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderService.Domain.Entities;
+namespace OrderService.Domain.Enums;
 
 public enum OrderStatus
 {
-    Pending, 
-    Shipped, 
-    Canceled,
-    Completed
+    Draft = 1,
+    Pending = 2,
+    Completed = 3,
+    Canceled = 4
 }

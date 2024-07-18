@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.FeatureManagement;
-using OrderService.Application.Behaviors;
-using System.Reflection;
-
-namespace OrderService.Application;
+﻿namespace OrderService.Application;
 
 public static class DependencyInjection
 {

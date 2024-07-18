@@ -1,0 +1,21 @@
+﻿using CartService.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace CartService.Infrastructure.Persistence.Configurations
+{
+    public class BookSellerConfiguration : IEntityTypeConfiguration<BookSeller>
+    {
+        public void Configure(EntityTypeBuilder<BookSeller> builder)
+        {
+            builder.HasKey(bs => new { bs.BookId, bs.SellerId });
+
+            builder.Property(bs => bs.Price)
+                .HasColumnType("decimal(18,2)");
+
+            builder.HasOne<Book>()
+                .WithMany()
+                .HasForeignKey(bs => bs.BookId);
+        }
+    }
+}

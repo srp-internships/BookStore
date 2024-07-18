@@ -1,4 +1,5 @@
 ﻿using CartService.Domain.Entities;
+using CartService.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,19 @@ namespace CartService.Infrastructure.Persistence.Contexts
     public class CartDbContext : DbContext
     {
         public CartDbContext(DbContextOptions<CartDbContext> options)
-            : base(options)
-        {
-        }
+            : base(options) {}
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> Items { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<BookSeller> BookSellers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Cart>(entity =>
-            {
-                modelBuilder.Entity<Cart>().HasKey(c => c.Id);
+            modelBuilder.ApplyConfiguration(new CartConfiguration());
+            modelBuilder.ApplyConfiguration(new CartItemConfiguration());
+            modelBuilder.ApplyConfiguration(new  BookConfiguration());
+            modelBuilder.ApplyConfiguration(new BookSellerConfiguration());
 
-            });
-            modelBuilder.Entity<CartItem>().HasKey(c => c.Id);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

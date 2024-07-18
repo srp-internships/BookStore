@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -28,6 +29,7 @@
     <ProjectReference Include="..\CartService.Aplication\CartService.Aplication.csproj" />
     <ProjectReference Include="..\CartService.Domain\CartService.Domain.csproj" />
     <ProjectReference Include="..\CartService.Infrastructure\CartService.Infrastructure.csproj" />
+    <ProjectReference Include="..\Consumers\CartService.Consumers.csproj" />
   </ItemGroup>
 
 </Project>

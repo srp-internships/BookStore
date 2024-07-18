@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CartService.Domain.Entities
 {
-    public class Book
+    public class BookSeller
     {
-        public Guid Id { get; set; }
-        public string? Title { get; set; }
-        public string? Image { get; set; }
+        public Guid BookId { get; set; }
+        public Guid SellerId { get; set; }
+        public decimal Price { get; set; }
     }
 }

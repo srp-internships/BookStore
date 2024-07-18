@@ -1,7 +1,4 @@
-﻿using OrderService.Domain.Abstractions;
-using OrderService.Domain.ValueObjects;
-
-namespace OrderService.Domain.Entities;
+﻿namespace OrderService.Domain.Entities;
 
 public class Book : Entity<BookId>
 {

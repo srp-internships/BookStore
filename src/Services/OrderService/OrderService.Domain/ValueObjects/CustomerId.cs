@@ -1,6 +1,4 @@
-﻿using OrderService.Domain.Exceptions;
-
-namespace OrderService.Domain.ValueObjects;
+﻿namespace OrderService.Domain.ValueObjects;
 
 public record CustomerId
 {

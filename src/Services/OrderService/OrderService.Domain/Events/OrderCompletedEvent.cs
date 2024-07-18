@@ -1,6 +1,4 @@
-﻿using OrderService.Domain.Entities;
-
-namespace OrderService.IntegrationEvents;
+﻿namespace OrderService.Domain.Events;
 
 public sealed record OrderCompletedEvent(
     List<Book> Books,

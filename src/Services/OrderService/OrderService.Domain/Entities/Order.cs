@@ -1,8 +1,4 @@
-﻿using OrderService.Domain.Abstractions;
-using OrderService.Domain.Enums;
-using OrderService.Domain.ValueObjects;
-
-namespace OrderService.Domain.Entities;
+﻿namespace OrderService.Domain.Entities;
 
 public class Order : Aggregate<OrderId>
 {
@@ -32,7 +28,7 @@ public class Order : Aggregate<OrderId>
             Status = OrderStatus.Pending
         };
 
-        // order.AddDomainEvent(new OrderProcessedEvent(order));
+        order.AddDomainEvent(new OrderProcessedEvent(order));
         return order;
     }
 
@@ -43,7 +39,7 @@ public class Order : Aggregate<OrderId>
         Payment = payment;
         Status = status;
 
-        // AddDomainEvent(new OrderStatusUpdatedEvent(this));
+        AddDomainEvent(new OrderStatusUpdatedEvent(this));
     }
 
     public void Add(BookId bookId, int quantity, decimal price)

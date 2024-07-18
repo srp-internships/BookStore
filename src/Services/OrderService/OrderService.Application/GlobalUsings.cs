@@ -1,6 +1,5 @@
 ﻿global using OrderService.Domain.Entities;
-global using OrderService.Domain.ValueObjects;
-global using OrderService.Application.Data;
-global using OrderService.Application.Exceptions;
-global using MediatR;
 global using Microsoft.EntityFrameworkCore;
+global using MediatR;
+global using FluentValidation;
+global using OrderService.Application.Common.Interfaces.CQRC;

@@ -33,9 +33,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationService.Contracts", "src\Services\RecommendationService\RecommendationService.Contracts\RecommendationService.Contracts.csproj", "{0EB38DA9-1762-47E5-BCD4-B9837B978D1B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Domain", "src\Services\OrderService\OrderService.Domain\OrderService.Domain.csproj", "{71E27116-9E6B-46D1-9298-36B4998F8C76}"
-	ProjectSection(ProjectDependencies) = postProject
-		{62661D7C-1ABC-49EC-A134-98A9E69B2CFE} = {62661D7C-1ABC-49EC-A134-98A9E69B2CFE}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderService", "OrderService", "{0BBA49D1-3682-416C-834C-3843FAEA5E24}"
 EndProject
@@ -92,8 +89,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderServiceWebAPI", "src\S
 		{3F874720-BAE8-4C31-8A2A-A6375224C4DF} = {3F874720-BAE8-4C31-8A2A-A6375224C4DF}
 		{988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC} = {988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC}
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.IntegrationEvents", "src\Services\OrderService\OrderService.IntegrationEvents\OrderService.IntegrationEvents.csproj", "{62661D7C-1ABC-49EC-A134-98A9E69B2CFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,10 +188,6 @@ Global
 		{4B5698A7-E831-4B08-9E00-1B90EA964C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B5698A7-E831-4B08-9E00-1B90EA964C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B5698A7-E831-4B08-9E00-1B90EA964C96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62661D7C-1ABC-49EC-A134-98A9E69B2CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62661D7C-1ABC-49EC-A134-98A9E69B2CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62661D7C-1ABC-49EC-A134-98A9E69B2CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62661D7C-1ABC-49EC-A134-98A9E69B2CFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,7 +230,6 @@ Global
 		{FF97376A-14E5-4586-8252-DFE8C5F904D2} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
 		{A6EADCBB-788F-4B5B-A376-A84716338719} = {FF97376A-14E5-4586-8252-DFE8C5F904D2}
 		{4B5698A7-E831-4B08-9E00-1B90EA964C96} = {0BBA49D1-3682-416C-834C-3843FAEA5E24}
-		{62661D7C-1ABC-49EC-A134-98A9E69B2CFE} = {0BBA49D1-3682-416C-834C-3843FAEA5E24}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

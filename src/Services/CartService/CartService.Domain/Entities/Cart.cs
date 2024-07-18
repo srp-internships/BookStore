@@ -8,9 +8,12 @@ namespace CartService.Domain.Entities
         public Guid Id  { get; set; } 
         public Guid UserId { get; set; }
         public List<CartItem>? Items { get; set; }=new List<CartItem>();
-        public decimal CalculateTotal()
+        public decimal TotalPrice
         {
-            return Items.Sum(item => item.TotalPrice);
+            get
+            {
+                return Items.Sum(item => item.Price * item.Quantity);
+            }
         }
     }
 }

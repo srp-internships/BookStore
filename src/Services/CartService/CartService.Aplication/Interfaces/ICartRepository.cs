@@ -9,9 +9,11 @@ namespace CartService.Aplication.Interfaces
 {
     public interface ICartRepository
     {
-        Task AddAsync(CartItem item);
-        Task<List<CartItem>> GetCartItemsAsync(string userId);
-        Task UpdateAsync(CartItem item);
-        Task RemoveAsync(int cartItemId);
+        Task<Cart> GetCartByUserIdAsync(Guid userId);
+        Task AddItemToCartAsync(Guid userId, CartItem item);
+        Task UpdateCartItemAsync(Guid userId, CartItem item);
+        Task RemoveItemFromCartAsync(Guid userId, Guid itemId);
+        Task<decimal> GetCartTotalAsync(Guid userId);
     }
 }
+

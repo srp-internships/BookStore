@@ -9,3 +9,4 @@ global using Microsoft.FeatureManagement;
 global using OrderService.Application.Behaviors;
 global using OrderService.Application.Common.MassTransit;
 global using System.Reflection;
+global using OrderService.Application.Dtos;

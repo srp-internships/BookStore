@@ -2,8 +2,8 @@
 using OrderService.Domain.Entities;
 using OrderService.Domain;
 using OrderService.Infrastructure.Persistence.Configurations;
-using OrderService.Application.Data;
 using System.Reflection;
+using OrderService.Application.Data;
 
 namespace OrderService.Infrastructure.Persistence.DataBases;
 

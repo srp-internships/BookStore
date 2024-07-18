@@ -16,8 +16,8 @@ namespace AnalyticsService.Application
             services.AddValidatorsFromAssembly(AssemblyReference.Assembly);
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AssemblyReference.Assembly));
-
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+           
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 
             return services;

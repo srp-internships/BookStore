@@ -12,7 +12,7 @@ internal class InitialData
         Customer.Create(CustomerId.Of(new Guid("189dc8dc-990f-48e0-a37b-e6f2b60b9d7d")), "bob", "bob@example.com")
     };
 
-    public static IEnumerable<Book> Products =>
+    public static IEnumerable<Book> Books =>
         new List<Book>
         {
             Book.Create(BookId.Of(new Guid("5334c996-8457-4cf0-815c-ed2b77c4ff61")), "The Great Gatsby", 20),

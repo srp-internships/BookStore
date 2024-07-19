@@ -35,7 +35,7 @@ public static class DatabaseExtentions
     {
         if (!await context.Books.AnyAsync())
         {
-            await context.Books.AddRangeAsync(InitialData.Products);
+            await context.Books.AddRangeAsync(InitialData.Books);
             await context.SaveChangesAsync();
         }
     }

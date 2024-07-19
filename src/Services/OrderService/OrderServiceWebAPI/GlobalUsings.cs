@@ -9,4 +9,10 @@ global using OrderService.Application;
 global using OrderService.Infrastructure;
 global using OrderService.Infrastructure.Persistence.DataBases.Extensions;
 global using OrderService.Infrastructure.Persistence.DataBases;
+global using OrderService.Application.Common.Pagination;
+global using OrderService.Application.Orders.Queries.GetOrders;
+global using MassTransit;
+global using OrderService.Domain.Entities;
+global using OrderService.IntegrationEvents;
+global using OrderService.Application.Orders.Commands.UpdateOrder;
 

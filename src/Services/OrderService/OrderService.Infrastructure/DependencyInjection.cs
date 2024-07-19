@@ -1,4 +1,6 @@
-﻿namespace OrderService.Infrastructure;
+﻿using OrderService.Application.Data;
+
+namespace OrderService.Infrastructure;
 
 public static class DependencyInjection
 {

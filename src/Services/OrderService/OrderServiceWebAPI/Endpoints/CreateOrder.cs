@@ -13,13 +13,22 @@ public class CreateOrder : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/orders", async (CreateOrderRequest request, ISender sender) =>
+        app.MapPost("/orders", async (CreateOrderRequest request, ISender sender, IBus bus) =>
         {
             var command = request.Adapt<CreateOrderCommand>();
 
             var result = await sender.Send(command);
 
             var response = result.Adapt<CreateOrderResponse>();
+
+            var orderId = response.Id;
+            var books = new List<Book> { };
+            var customers = new List<Customer> { };
+
+            var integrationEvent = new OrderProcessedIntegrationEvent(customers, books);
+
+            await bus.Publish(integrationEvent);
+
 
             return Results.Created($"/orders/{response.Id}", response);
         })

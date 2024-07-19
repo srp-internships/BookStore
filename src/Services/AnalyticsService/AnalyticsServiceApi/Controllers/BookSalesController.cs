@@ -44,7 +44,7 @@ namespace AnalyticsServiceApi.Controllers
             }
             catch (Exception ex)
             {
-                // Обработка исключений и возврат соответствующего ответа
+                
                 return BadRequest(ex.Message);
             }
         }

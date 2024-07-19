@@ -1,11 +1,4 @@
-﻿using CartService.Domain.Entities;
-using CartService.Infrastructure.Persistence.Configurations;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CartService.Infrastructure.Persistence.Configurations;
 
 namespace CartService.Infrastructure.Persistence.Contexts
 {

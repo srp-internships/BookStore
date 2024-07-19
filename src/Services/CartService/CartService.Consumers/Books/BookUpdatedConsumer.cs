@@ -4,7 +4,7 @@ using CatalogService.Contracts;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace Consumers.Books
+namespace CartService.Consumers.Books
 {
     public class BookUpdatedConsumer : IConsumer<BookUpdatedEvent>
     {

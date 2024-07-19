@@ -91,22 +91,6 @@ namespace CartService.Api.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //private readonly ICartRepository _cartRepository;
 
         //public CartController(ICartRepository cartRepository)

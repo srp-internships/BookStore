@@ -1,7 +1,5 @@
 ﻿using CartService.Aplication.Interfaces;
-using CartService.Domain.Entities;
 using CartService.Infrastructure.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
 
 namespace CartService.Infrastructure.Repositories
 {

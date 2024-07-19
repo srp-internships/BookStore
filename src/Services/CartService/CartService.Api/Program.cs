@@ -5,8 +5,10 @@ using CartService.Infrastructure.Services;
 using MassTransit;
 using System.Text.Json.Serialization;
 using CartService.Infrastructure.Repositories;
-using Consumers.Books;
-using Consumers.BookSellers;
+using CartService.Consumers.Books;
+using CartService.Consumers.BookSellers;
+using CartService.Api.Middlewares;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CartDbContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
                       .LogTo(Console.Write, LogLevel.Error)
           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+builder.Services.AddLogging();
 
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 
@@ -76,10 +79,22 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetService<CartDbContext>();
-    context.Database.Migrate();
+#if DEBUG
+    if (builder.Environment.IsEnvironment("Test"))
+    {
+        context.Database.EnsureCreated();
+    }
+    else
+    {
+#endif
+        context.Database.Migrate();
+#if DEBUG
+    }
+#endif
 }
 
 if (app.Environment.IsDevelopment())
@@ -89,7 +104,9 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors();
 app.UseHttpsRedirection();
-
+app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<ApplicationKeyMiddleware>();
+app.UseMiddleware<EndpointListenerMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,12 +1,5 @@
 ﻿using CartService.Aplication.Interfaces;
-using CartService.Domain.Entities;
 using CartService.Infrastructure.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CartService.Infrastructure.Repositories
 {

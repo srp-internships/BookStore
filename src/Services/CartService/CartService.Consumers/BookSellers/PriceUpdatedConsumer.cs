@@ -4,7 +4,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Consumers.BookSellers
+namespace CartService.Consumers.BookSellers
 {
     public class PriceUpdatedConsumer : IConsumer<PriceUpdatedEvent>
     {

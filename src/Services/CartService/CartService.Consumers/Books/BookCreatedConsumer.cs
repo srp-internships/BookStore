@@ -10,7 +10,7 @@ using CartService.Infrastructure.Persistence.Contexts;
 using Microsoft.Extensions.Logging;
 using CatalogService.Contracts;
 
-namespace Consumers.Books
+namespace CartService.Consumers.Books
 {
     public class BookCreatedConsumer : IConsumer<BookCreatedEvent>
     {

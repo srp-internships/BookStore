@@ -19,6 +19,8 @@ builder.Services.AddDbContext<CartDbContext>(con => con.UseSqlServer(builder.Con
 builder.Services.AddLogging();
 
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartRepositoryV2, CartRepositoryV2>();
+builder.Services.AddScoped<ICartServiceV3, CartServiceV3>();
 
 #region MassTransit
 builder.Services.AddMassTransit(x =>

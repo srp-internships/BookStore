@@ -16,7 +16,6 @@ namespace CartService.Consumers.BookSellers
             _logger = logger;
             _context = context;
         }
-
         public async Task Consume(ConsumeContext<PriceCreatedEvent> context)
         {
             _logger.LogInformation("Price Created: {BookId}, {SellerId}, {Price}",
@@ -28,7 +27,6 @@ namespace CartService.Consumers.BookSellers
                 SellerId = context.Message.SellerId,
                 Price = context.Message.Price
             };
-
             _context.BookSellers.Add(price);
             await _context.SaveChangesAsync();
         }

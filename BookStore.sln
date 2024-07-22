@@ -88,9 +88,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShipmentService.Aplication"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShipmentService.WebApi", "src\Services\ShipmentService\ShipmentService.WebApi\ShipmentService.WebApi.csproj", "{3F3C585C-5AD1-4ED9-9A2A-3FEA06095548}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Infrastructure.UnitTests.NUnit", "tests\Services\CartService\CartService.UnitTests.NUnit\CartService.Infrastructure.UnitTests.NUnit.csproj", "{98710482-3DFC-4D08-92C7-B47E48BDB7AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Infrastructure.UnitTests.NUnit", "tests\Services\CartService\CartService.UnitTests.NUnit\CartService.Infrastructure.UnitTests.NUnit.csproj", "{98710482-3DFC-4D08-92C7-B47E48BDB7AE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Consumers", "src\Services\CartService\CartService.Consumers\CartService.Consumers.csproj", "{592A8727-7F61-4FAC-8C9F-B9E47F75EF9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Consumers.IntegrationTests.NUnit", "tests\Services\CartService\CartService.Consumers.IntegrationTests.NUnit\CartService.Consumers.IntegrationTests.NUnit.csproj", "{BA44F682-F336-4A94-9471-27D50C94DBFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -214,6 +216,10 @@ Global
 		{592A8727-7F61-4FAC-8C9F-B9E47F75EF9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{592A8727-7F61-4FAC-8C9F-B9E47F75EF9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{592A8727-7F61-4FAC-8C9F-B9E47F75EF9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA44F682-F336-4A94-9471-27D50C94DBFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA44F682-F336-4A94-9471-27D50C94DBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA44F682-F336-4A94-9471-27D50C94DBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA44F682-F336-4A94-9471-27D50C94DBFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,6 +268,7 @@ Global
 		{3F3C585C-5AD1-4ED9-9A2A-3FEA06095548} = {84566DAF-0371-41CB-9633-F33316915257}
 		{98710482-3DFC-4D08-92C7-B47E48BDB7AE} = {F3674980-185C-4D52-98DB-01BDE961F205}
 		{592A8727-7F61-4FAC-8C9F-B9E47F75EF9F} = {4391AB8B-3648-47C0-91E5-F3CDAE96E0A0}
+		{BA44F682-F336-4A94-9471-27D50C94DBFA} = {F3674980-185C-4D52-98DB-01BDE961F205}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

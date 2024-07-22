@@ -28,7 +28,6 @@ namespace CartService.Api.Controllers
 
             return cart;
         }
-
         // POST: api/cart/{userId}/items
         [HttpPost("{userId}/items")]
         public async Task<ActionResult> AddOrUpdateCartItem(Guid userId, [FromBody] CartItem cartItem)
@@ -55,7 +54,7 @@ namespace CartService.Api.Controllers
                 await _cartRepository.AddOrUpdateCartItemAsync(cartItem);
             }
 
-            await _cartRepository.SaveChangesAsync();
+            await _cartRepository.SaveChangesAsync(); 
             return Ok();
         }
         // PUT: api/cart/items/{cartItemId}/quantity
@@ -66,17 +65,14 @@ namespace CartService.Api.Controllers
 
             if (cartItem == null)
             {
-                return NotFound();
+                return NotFound(); 
             }
-
             cartItem.Quantity = quantity;
-
             await _cartRepository.AddOrUpdateCartItemAsync(cartItem);
-            await _cartRepository.SaveChangesAsync();
+            await _cartRepository.SaveChangesAsync(); 
 
-            return Ok();
+            return Ok(); 
         }
-
         // DELETE: api/cart/items/{cartItemId}
         [HttpDelete("items/{cartItemId}")]
         public async Task<ActionResult> RemoveCartItem(Guid cartItemId)
@@ -86,71 +82,5 @@ namespace CartService.Api.Controllers
 
             return Ok();
         }
-
-
-
-
-
-        //private readonly ICartRepository _cartRepository;
-
-        //public CartController(ICartRepository cartRepository)
-        //{
-        //    _cartRepository = cartRepository;
-        //}
-
-        //// GET: api/cart/{userId}
-        //[HttpGet("{userId}")]
-        //public async Task<IActionResult> GetCartByUserId(Guid userId)
-        //{
-        //    var cart = await _cartRepository.GetCartByUserIdAsync(userId);
-        //    if (cart == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(cart);
-        //}
-
-        //// POST: api/cart/{userId}/items
-        //[HttpPost("{userId}/items")]
-        //public async Task<IActionResult> AddItemToCart(Guid userId, [FromBody] CartItem item)
-        //{
-        //    if (item == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    await _cartRepository.AddItemToCartAsync(userId, item);
-
-        //    return Ok();
-        //}
-
-        //// PUT: api/cart/{userId}/items/{itemId}
-        //[HttpPut("{userId}/items/{itemId}")]
-        //public async Task<IActionResult> UpdateCartItem(Guid userId, Guid itemId, [FromBody] CartItem item)
-        //{
-        //    if (item == null || item.Id != itemId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    await _cartRepository.UpdateCartItemAsync(userId, item);
-        //    return Ok();
-        //}
-
-        //// DELETE: api/cart/{userId}/items/{itemId}
-        //[HttpDelete("{userId}/items/{itemId}")]
-        //public async Task<IActionResult> RemoveItemFromCart(Guid userId, Guid itemId)
-        //{
-        //    await _cartRepository.RemoveItemFromCartAsync(userId, itemId);
-        //    return Ok();
-        //}
-
-        //// GET: api/cart/{userId}/total
-        //[HttpGet("{userId}/total")]
-        //public async Task<IActionResult> GetCartTotal(Guid userId)
-        //{
-        //    var total = await _cartRepository.GetCartTotalAsync(userId);
-        //    return Ok(total);
-        //}
     }
 }

@@ -32,6 +32,7 @@ namespace CartService.Consumers.Books
                 Id = context.Message.Id,
                 Title = context.Message.Title,
                 Image = context.Message.Image
+
             };
             _context.Books.Add(book);
             await _context.SaveChangesAsync();

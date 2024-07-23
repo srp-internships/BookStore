@@ -45,10 +45,10 @@ namespace CatalogService.Infostructure.Repositories
             return authorlist;
         }
 
-        public async Task UpdateAsync(Guid id, Author author, CancellationToken token = default)
+        public async Task UpdateAsync(Author author, CancellationToken token = default)
         {
             Author entity = await _dbcontext.Authors.FirstOrDefaultAsync(author
-                => author.Id.Equals(id), token);
+                => author.Id.Equals(author.Id), token);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Author), author.Id);

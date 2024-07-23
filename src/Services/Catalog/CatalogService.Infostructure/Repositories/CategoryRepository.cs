@@ -45,10 +45,10 @@ namespace CatalogService.Infostructure.Repositories
             return categoryList;
         }
 
-        public async Task UpdateAsync(Guid id, Category category, CancellationToken token = default)
+        public async Task UpdateAsync(Category category, CancellationToken token = default)
         {
             var entity = await _dbcontext.Categories.FirstOrDefaultAsync(Category
-                => Category.Id.Equals(id), token);
+                => Category.Id.Equals(category.Id), token);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Category), category.Id);

@@ -13,7 +13,7 @@ namespace CatalogService.Domain.Interfaces
         Task<Category> GetByIdAsync(Guid id, CancellationToken token = default);
         Task<IEnumerable<Category>> GetAllAsync(CancellationToken token = default);
         Task<IEnumerable<Category>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default);
-        Task UpdateAsync(Guid id, Category category, CancellationToken token = default);
+        Task UpdateAsync(Category category, CancellationToken token = default);
         Task DeleteAsync(Guid id, CancellationToken token = default);
     }
 }

@@ -72,17 +72,12 @@ namespace CatalogService.Infostructure.Repositories
             return booklist;
         }
 
-        public async Task UpdateTitleAsync(Guid id, string newTitle, CancellationToken token = default)
+        public async Task UpdateAsync(Book book, CancellationToken token = default)
         {
-            var book = await GetByIdAsync(id, token);
-            book.Title = newTitle;
-            await _dbcontext.SaveChangesAsync(token);
-        }
-
-        public async Task UpdateImageAsync(Guid id, string newImage, CancellationToken token = default)
-        {
-            var book = await GetByIdAsync(id, token);
-            book.Image = newImage;
+            var bookToUpdate = await GetByIdAsync(book.Id, token);
+            bookToUpdate.Title = book.Title;
+            bookToUpdate.ISBN = book.ISBN;
+            bookToUpdate.Image = book.Image;
             await _dbcontext.SaveChangesAsync(token);
         }
 

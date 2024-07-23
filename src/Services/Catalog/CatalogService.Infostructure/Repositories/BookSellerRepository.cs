@@ -34,42 +34,21 @@ namespace CatalogService.Infostructure.Repositories
             return bookSeller;
         }
 
-        public async Task UpdatePriceAsync(Guid id, decimal price, CancellationToken token = default)
+        public async Task UpdateAsync(BookSeller bookSeller, CancellationToken token = default)
         {
             BookSeller entity = await _dbcontext.BookSellers.FirstOrDefaultAsync(bookSeller
-                => bookSeller.Id.Equals(id), token);
+                => bookSeller.Id.Equals(bookSeller), token);
             if (entity == null)
             {
-                throw new NotFoundException(nameof(BookSeller), id);
+                throw new NotFoundException(nameof(BookSeller), bookSeller.Id);
             }
-            entity.Price = price;
+            entity.Price = bookSeller.Price;
+            entity.Amount = bookSeller.Amount;
+            entity.Description = bookSeller.Description;
 
             await _dbcontext.SaveChangesAsync(token);
         }
-        public async Task UpdateAmountAsync(Guid id, int amount, CancellationToken token = default)
-        {
-            BookSeller entity = await _dbcontext.BookSellers.FirstOrDefaultAsync(bookSeller
-                => bookSeller.Id.Equals(id), token);
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(BookSeller), id);
-            }
-            entity.Amount = amount;
-
-            await _dbcontext.SaveChangesAsync(token);
-        }
-        public async Task UpdateDescriptionAsync(Guid id, string description, CancellationToken token = default)
-        {
-            BookSeller entity = await _dbcontext.BookSellers.FirstOrDefaultAsync(bookSeller
-                => bookSeller.Id.Equals(id), token);
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(BookSeller), id);
-            }
-            entity.Description = description;
-
-            await _dbcontext.SaveChangesAsync(token);
-        }
+        
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
             Author entity = await _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);

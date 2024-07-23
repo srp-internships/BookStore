@@ -41,10 +41,10 @@ namespace CatalogService.Infostructure.Repositories
             return publisherlist;
         }
 
-        public async Task UpdateAsync(Guid id, Publisher publisher, CancellationToken token = default)
+        public async Task UpdateAsync(Publisher publisher, CancellationToken token = default)
         {
             Publisher entity = await _dbcontext.Publishers.FirstOrDefaultAsync(author
-                => author.Id.Equals(id), token);
+                => author.Id.Equals(publisher.Id), token);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Publisher), publisher.Id);

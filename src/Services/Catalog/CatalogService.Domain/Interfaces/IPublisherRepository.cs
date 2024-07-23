@@ -12,7 +12,7 @@ namespace CatalogService.Domain.Interfaces
         Task<Guid> CreateAsync(Publisher publisher, CancellationToken token = default);
         Task<Publisher> GetByIdAsync(Guid id, CancellationToken token = default);
         Task<IEnumerable<Publisher>> GetAllAsync(CancellationToken token = default);
-        Task UpdateAsync(Guid id, Publisher publisher, CancellationToken token = default);
+        Task UpdateAsync(Publisher publisher, CancellationToken token = default);
         Task DeleteAsync(Guid id, CancellationToken token = default);
     }
 }

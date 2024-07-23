@@ -68,7 +68,7 @@ namespace CatalogService.Infostructure.Repositories
 
         public async Task<IEnumerable<Book>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
         {
-            var booklist = await _dbcontext.Books.Where(p => ids.Contains(p.Id)).ToListAsync(token);
+            var booklist = await _dbcontext.Books.Where(p => ids.Contains(p.Id)).Include(p=>p.Authors).Include(m=>m.Categories).ToListAsync(token);
             return booklist;
         }
 
@@ -76,7 +76,7 @@ namespace CatalogService.Infostructure.Repositories
         {
             var bookToUpdate = await GetByIdAsync(book.Id, token);
             bookToUpdate.Title = book.Title;
-            bookToUpdate.ISBN = book.ISBN;
+            bookToUpdate.ISBN = bookToUpdate.ISBN;
             bookToUpdate.Image = book.Image;
             await _dbcontext.SaveChangesAsync(token);
         }
@@ -94,10 +94,11 @@ namespace CatalogService.Infostructure.Repositories
         public async Task UpdateAuthorsAsync(Guid id, IEnumerable<Author> newAuthors, CancellationToken token = default)
         {
             var book = await GetByIdAsync(id, token);
-            foreach(var author in newAuthors)
+            book.Authors = newAuthors.ToArray();
+            /*foreach(var author in newAuthors)
             {
                 book.Authors.Add(author);
-            }
+            }*/
             await _dbcontext.SaveChangesAsync(token);
         }
 

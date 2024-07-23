@@ -30,12 +30,12 @@ namespace CatalogService.Application.UseCases
         {
             await _validator.ValidateAsync(request, token);
 
-            var categoryList = await _categoryRepository.GetByIdsAsync(request.CategoryIds);
+            var categoryList = await _categoryRepository.GetByIdsAsync(request.CategoryIds, token);
             if (!categoryList.Count().Equals(request.CategoryIds.Count))
             {
                 throw new NotFoundException(nameof(Category), categoryList); //TODO: to be fixed
             }
-            var authorList = await _authorRepository.GetByIdsAsync(request.AuthorIds);
+            var authorList = await _authorRepository.GetByIdsAsync(request.AuthorIds, token);
             if (!authorList.Count().Equals(request.AuthorIds.Count))
             {
                 throw new NotFoundException(nameof(Author), authorList);

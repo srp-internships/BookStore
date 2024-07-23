@@ -36,7 +36,10 @@ namespace CatalogService.Application.Mappers
             CreateMap<CreateBookSellerCommand, BookSeller>();
             CreateMap<UpdateBookSellerCommand, BookSeller>();
 
-            CreateMap<Book, BookDto>();
+            CreateMap<Book, BookDto>()
+                .ForMember(dest => dest.CategoryIds, opt => opt.MapFrom(src => src.Categories.Select(c => c.Id)))
+                .ForMember(dest => dest.AuthorIds, opt => opt.MapFrom(src => src.Authors.Select(a => a.Id)));
+
             CreateMap<Author, AuthorDto>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Publisher, PublisherDto>();

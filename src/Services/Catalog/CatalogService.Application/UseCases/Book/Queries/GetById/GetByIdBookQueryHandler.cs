@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Dto;
-
+using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MediatR;
 using System;
@@ -22,6 +22,7 @@ namespace CatalogService.Application.UseCases
         {
             var book = await _bookRepository.GetByIdAsync(request.Id, token);
             var bookDto = _mapper.Map<BookDto>(book);
+
             return bookDto;
 
         }

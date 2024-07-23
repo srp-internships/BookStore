@@ -20,10 +20,7 @@ namespace CatalogService.Application.Validators.Book
                 .NotEmpty().WithMessage("Name can not be empty")
                 .MinimumLength(3).WithMessage("Name's length can not be less than 3")
                 .MaximumLength(50).WithMessage("Name's length can not be more than 50");
-            RuleFor(prop => prop.ISBN)
-                .NotEmpty().WithMessage("ISBN is required.")
-                .Length(10, 13).WithMessage("ISBN must be either 10 or 13 characters long.")
-                .Matches(@"^\d{9}[\d|X]$|^\d{13}$").WithMessage("ISBN must be either a 10-digit or 13-digit number, or a 10-digit number ending with an 'X'.");
+   
 
         }
         private bool BeAValidUrl(string url)

@@ -8,11 +8,12 @@ namespace CatalogService.Application.Dto
 {
     public class BookDto
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
         public string ISBN { get; set; }
-        public PublisherDto PublisherId { get; set; }
-        public ICollection<CategoryDto> CategoryIds { get; set; }
-        public ICollection<AuthorDto> AuthorIds { get; set; }
+        public Guid PublisherId { get; set; }
+        public ICollection<Guid> CategoryIds { get; set; }
+        public ICollection<Guid> AuthorIds { get; set; }
     }
 }

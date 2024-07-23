@@ -23,7 +23,7 @@ namespace CatalogService.Application.UseCases
 
         public async Task<Guid> Handle(CreateBookSellerCommand request, CancellationToken token)
         {
-            await _validator.ValidateAndThrowAsync(request, token );
+            await _validator.ValidateAndThrowAsync(request, token);
             var bookSeller = _mapper.Map<BookSeller>(request);
             return await _repository.CreateAsync(bookSeller, token);
         }

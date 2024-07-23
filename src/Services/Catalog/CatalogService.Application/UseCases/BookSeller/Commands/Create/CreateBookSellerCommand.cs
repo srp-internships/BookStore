@@ -9,6 +9,7 @@ namespace CatalogService.Application.UseCases
 {
     public class CreateBookSellerCommand : IRequest<Guid>
     {
+        public Guid BookId { get; set; }
         public Guid SellerId { get; set; }
         public decimal Price { get; set; }
         public int Amount { get; set; }

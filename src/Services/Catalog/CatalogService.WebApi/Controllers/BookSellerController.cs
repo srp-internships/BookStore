@@ -1,5 +1,5 @@
 ﻿using CatalogService.Application.UseCases;
-using MassTransit.Mediator;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.WebApi.Controllers

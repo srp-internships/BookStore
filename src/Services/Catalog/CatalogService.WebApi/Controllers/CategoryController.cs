@@ -21,21 +21,20 @@ namespace CatalogService.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken token = default)
         {
-            var query = new GetAllCategoryQuery();
-            await _mediator.Send(query, token);
-            return Ok(query);
+            var vm = await _mediator.Send(new GetAllCategoryQuery(), token);
+            return Ok(vm);
         }
 
 
 
 
         [HttpGet]
-        [Route("id")]
+        [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token = default)
         {
             var query = new GetByIdCategoryQuery() { Id = id };
-            await _mediator.Send(query, token);
-            return Ok(query);
+            var categoryDto = await _mediator.Send(query, token);
+            return Ok(categoryDto);
         }
 
         [HttpPut]

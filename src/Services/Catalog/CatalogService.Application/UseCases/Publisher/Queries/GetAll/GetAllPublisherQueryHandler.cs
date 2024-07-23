@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CatalogService.Application.Dto;
 using CatalogService.Domain.Interfaces;
 using MediatR;
 using System;
@@ -18,9 +19,10 @@ namespace CatalogService.Application.UseCases
 
         public async Task<PublisherListVm> Handle(GetAllPublisherQuery request, CancellationToken token)
         {
-            var publishers = _publisherRepository.GetAllAsync(token);
-            var publishersVm = _mapper.Map<PublisherListVm>(publishers);
-            return publishersVm;
+            var publishers = await _publisherRepository.GetAllAsync(token);
+            var publisherDtos = _mapper.Map<IEnumerable<PublisherDto>>(publishers);
+            return new PublisherListVm { Publishers = publisherDtos.ToList() };
+
         }
     }
 }

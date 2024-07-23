@@ -54,6 +54,7 @@ namespace CatalogService.Infostructure.Repositories
                 throw new NotFoundException(nameof(Author), author.Id);
             }
             entity.Name = author.Name;
+            entity.Description = author.Description;
 
             await _dbcontext.SaveChangesAsync();
         }

@@ -31,15 +31,15 @@ namespace CatalogService.Application.UseCases
             await _validator.ValidateAsync(request, token);
 
             var categoryList = await _categoryRepository.GetByIdsAsync(request.CategoryIds);
-            /*if (!categoryList.Count().Equals(request.CategoryIds.Count))
+            if (!categoryList.Count().Equals(request.CategoryIds.Count))
             {
                 throw new NotFoundException(nameof(Category), categoryList); //TODO: to be fixed
-            }*/
+            }
             var authorList = await _authorRepository.GetByIdsAsync(request.AuthorIds);
-            /*if (!authorList.Count().Equals(request.AuthorIds.Count))
+            if (!authorList.Count().Equals(request.AuthorIds.Count))
             {
                 throw new NotFoundException(nameof(Author), authorList);
-            }*/
+            }
 
             var book = _mapper.Map<Book>(request);
 

@@ -19,12 +19,12 @@ namespace CatalogService.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("id")]
+        [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token = default)
         {
             var query = new GetByIdBookSellerQuery() { Id = id };
-            await _mediator.Send(query, token);
-            return Ok(query);
+            var bookSellerDto = await _mediator.Send(query, token);
+            return Ok(bookSellerDto);
         }
 
         [HttpPut]

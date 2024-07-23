@@ -1,4 +1,5 @@
-﻿using CatalogService.Application.UseCases;
+﻿using CatalogService.Application.Dto;
+using CatalogService.Application.UseCases;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,22 +22,20 @@ namespace CatalogService.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken token = default)
         {
-            var query = new GetAllAuthorQuery();
-            await _mediator.Send(query, token);
-            return Ok(query);
+            var vm = await _mediator.Send(new GetAllAuthorQuery(), token);
+            return Ok(vm);
         }
 
 
 
 
         [HttpGet]
-        [Route("id")]
+        [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token = default)
         {
             var query = new GetByIdAuthorQuery() { Id = id };
-            await _mediator.Send(query, token);
-            return Ok(query);
-
+            var authorDto = await _mediator.Send(query, token);
+            return Ok(authorDto);
         }
 
         [HttpPut]

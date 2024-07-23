@@ -50,6 +50,9 @@ namespace CatalogService.Infostructure.Repositories
                 throw new NotFoundException(nameof(Publisher), publisher.Id);
             }
             entity.Name = publisher.Name;
+            entity.Address = publisher.Address;
+            entity.Logo = publisher.Logo;
+            entity.Email = publisher.Email;
 
             await _dbcontext.SaveChangesAsync(token);
         }

@@ -9,6 +9,6 @@ namespace CatalogService.Application.UseCases
 {
     public class AuthorListVm
     {
-        public IList<AuthorDto> Authors { get; set; }
+        public List<AuthorDto> Authors { get; set; }
     }
 }

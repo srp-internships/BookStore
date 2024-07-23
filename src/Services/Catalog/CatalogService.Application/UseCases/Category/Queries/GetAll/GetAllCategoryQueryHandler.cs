@@ -20,9 +20,9 @@ namespace CatalogService.Application.UseCases
 
         public async Task<CategoryListVm> Handle(GetAllCategoryQuery request, CancellationToken token)
         {
-            var categories = _categoryRepository.GetAllAsync(token);
-            var categoriesVm = _mapper.Map<CategoryListVm>(categories);
-            return categoriesVm;
+            var categories = await _categoryRepository.GetAllAsync(token);
+            var categoryDtos = _mapper.Map<IEnumerable<CategoryDto>>(categories);
+            return new CategoryListVm { Categories = categoryDtos.ToList() };
         }
     }
 }

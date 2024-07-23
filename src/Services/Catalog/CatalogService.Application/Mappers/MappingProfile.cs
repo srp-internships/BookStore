@@ -24,16 +24,20 @@ namespace CatalogService.Application.Mappers
                 .ForMember(dest => dest.Sellers, opt => opt.Ignore());
 
             CreateMap<CreateAuthorCommand, Author>();
+            CreateMap<UpdateAuthorCommand, Author>();
+
             CreateMap<CreateCategoryCommand, Category>();
+            CreateMap<UpdateCategoryCommand, Category>();
+
             CreateMap<CreatePublisherCommand, Publisher>();
+            CreateMap<UpdatePublisherCommand, Publisher>();
 
             CreateMap<Book, BookDto>();
 
             CreateMap<Author, AuthorDto>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Publisher, PublisherDto>();
-            CreateMap<IEnumerable<Author>, AuthorListVm>();
-            CreateMap<IEnumerable<Category>, CategoryListVm>();
+            
         }
     }
 }

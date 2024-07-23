@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CatalogService.Application.Dto;
 using CatalogService.Application.UseCases;
 using CatalogService.Domain.Interfaces;
 using MediatR;
@@ -19,9 +20,9 @@ namespace CatalogService.Application
 
         public async Task<BookListVm> Handle(GetByIdsBookQuery request, CancellationToken token)
         {
-            var books = _bookRepository.GetByIdsAsync(request.BookIds, token);
-            var booksVm = _mapper.Map<BookListVm>(books);
-            return booksVm;
+            var books = await _bookRepository.GetByIdsAsync(request.BookIds, token);
+            var bookDtos = _mapper.Map<IEnumerable<BookDto>>(books);
+            return new BookListVm { Books = bookDtos.ToList() };
         }
     }
 }

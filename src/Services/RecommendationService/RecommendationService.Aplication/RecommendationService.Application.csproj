@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Services\RecommendationService\RecommendationService.Contracts\RecommendationService.Contracts\RecommendationService.Contracts.csproj" />
+    <ProjectReference Include="..\src\Services\Catalog\CatalogService.Contracts\CatalogService.Contracts.csproj" />
     <ProjectReference Include="..\src\Services\RecommendationService\RecommendationService.Domain\RecommendationService.Domain.csproj" />
   </ItemGroup>
 

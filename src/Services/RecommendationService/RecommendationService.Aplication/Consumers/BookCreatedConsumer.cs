@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RecommendationService.Contracts;
 using RecommendationService.Domain.Entities;
+using CatalogService.Contracts;
 
 namespace RecommendationService.Application.Consumers
 {
@@ -28,7 +28,7 @@ namespace RecommendationService.Application.Consumers
                 var newBook = new Book
                 {
                     Id = Guid.NewGuid(),
-                    //Categories = book.Categories
+                    Categories = book.Categories
                 };
 
                 await _dbContext.Books.AddAsync(newBook);

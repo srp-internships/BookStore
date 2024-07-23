@@ -25,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BookSellers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Services\CartService\CartService.Consumers\CartService.Consumers.csproj" />
     <ProjectReference Include="..\..\..\..\src\Services\CartService\CartService.Infrastructure\CartService.Infrastructure.csproj" />
   </ItemGroup>

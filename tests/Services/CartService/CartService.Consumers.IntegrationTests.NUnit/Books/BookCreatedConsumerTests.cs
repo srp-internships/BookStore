@@ -1,11 +1,4 @@
-using Azure;
 using CartService.Consumers.Books;
-using CartService.Infrastructure.Persistence.Contexts;
-using CatalogService.Contracts;
-using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Moq;
 
 namespace CartService.Consumers.IntegrationTests.NUnit.Books
 {

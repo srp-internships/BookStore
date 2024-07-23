@@ -1,6 +1,6 @@
 namespace CartService.Consumers.IntegrationTests.NUnit
 {
-    public class BookUpdatedEvent
+    public class BookUpdatedConsumerTests
 
     {
         [SetUp]

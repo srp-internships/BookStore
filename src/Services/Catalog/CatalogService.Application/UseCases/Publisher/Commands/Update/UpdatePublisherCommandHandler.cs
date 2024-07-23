@@ -24,7 +24,7 @@ namespace CatalogService.Application.UseCases
         {
             await _validator.ValidateAndThrowAsync(request, token);
             var publisher = _mapper.Map<Publisher>(request);
-            await _publisherRepository.UpdateAsync(request.Id, publisher, token);
+            await _publisherRepository.UpdateAsync(publisher, token);
 
         }
     }

@@ -22,6 +22,7 @@ namespace CatalogService.Application.Mappers
                 .ForMember(dest => dest.Authors, opt => opt.Ignore())
                 .ForMember(dest => dest.Categories, opt => opt.Ignore())
                 .ForMember(dest => dest.Sellers, opt => opt.Ignore());
+            CreateMap<UpdateBookCommand, Book>();
 
             CreateMap<CreateAuthorCommand, Author>();
             CreateMap<UpdateAuthorCommand, Author>();
@@ -32,8 +33,10 @@ namespace CatalogService.Application.Mappers
             CreateMap<CreatePublisherCommand, Publisher>();
             CreateMap<UpdatePublisherCommand, Publisher>();
 
-            CreateMap<Book, BookDto>();
+            CreateMap<CreateBookSellerCommand, BookSeller>();
+            CreateMap<UpdateBookSellerCommand, BookSeller>();
 
+            CreateMap<Book, BookDto>();
             CreateMap<Author, AuthorDto>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Publisher, PublisherDto>();

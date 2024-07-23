@@ -25,7 +25,7 @@ namespace CatalogService.Application.UseCases
         {
             await _validator.ValidateAndThrowAsync(request, token);
             var category = _mapper.Map<Category>(request);
-            await _categoryRepository.UpdateAsync(request.Id, category, token);
+            await _categoryRepository.UpdateAsync(category, token);
         }
     }
 }

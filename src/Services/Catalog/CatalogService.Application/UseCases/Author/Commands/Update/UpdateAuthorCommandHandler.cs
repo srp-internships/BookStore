@@ -25,7 +25,7 @@ namespace CatalogService.Application.UseCases
             await _validator.ValidateAsync(request, token);
 
             var author = _mapper.Map<Author>(request);
-            await _authorRepository.UpdateAsync(request.Id, author, token);
+            await _authorRepository.UpdateAsync(author, token);
         }
     }
 }

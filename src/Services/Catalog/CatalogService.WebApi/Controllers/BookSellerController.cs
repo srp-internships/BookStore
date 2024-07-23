@@ -23,29 +23,12 @@ namespace CatalogService.WebApi.Controllers
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token = default)
         {
             var query = new GetByIdBookSellerQuery() { Id = id };
-            var bookSellerDto = await _mediator.Send(query, token);
+            var bookSellerDto = _mediator.Send(query, token);
             return Ok(bookSellerDto);
         }
 
         [HttpPut]
-        [Route("price")]
-        public async Task<IActionResult> UpdatePrice([FromBody] UpdatePriceBookSellerCommand request, CancellationToken token = default)
-        {
-            await _mediator.Send(request, token);
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("amount")]
-        public async Task<IActionResult> UpdateAmount([FromBody] UpdateAmountBookSellerCommand request, CancellationToken token = default)
-        {
-            await _mediator.Send(request, token);
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("description")]
-        public async Task<IActionResult> UpdateDescription([FromBody] UpdateDescriptionBookSellerCommand request, CancellationToken token = default)
+        public async Task<IActionResult> Update([FromBody] UpdateBookSellerCommand request, CancellationToken token = default)
         {
             await _mediator.Send(request, token);
             return Ok();

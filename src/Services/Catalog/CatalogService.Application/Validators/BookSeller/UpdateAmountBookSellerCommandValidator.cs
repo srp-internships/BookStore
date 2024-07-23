@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.Validators.BookSeller
 {
-    public class UpdateAmountBookSellerCommandValidator : AbstractValidator<UpdateAmountBookSellerCommand>
+    public class UpdateAmountBookSellerCommandValidator : AbstractValidator<UpdateBookSellerCommand>
     {
         public UpdateAmountBookSellerCommandValidator()
         {

@@ -16,7 +16,8 @@ namespace OrderService.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    SellerId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,13 +43,9 @@ namespace OrderService.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false, defaultValue: "Draft"),
-                    OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CartId = table.Column<Guid>(type: "uuid", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    Payment_CardName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Payment_CardNumber = table.Column<string>(type: "character varying(24)", maxLength: 24, nullable: true),
-                    Payment_Cvv = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: true),
-                    Payment_Expiration = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
                     ShippingAddress_Country = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     ShippingAddress_EmailAddress = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     ShippingAddress_FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),

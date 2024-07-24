@@ -34,7 +34,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
        throw new NotImplementedException();
     }
 
-    public async Task<TEntity> GetAsync(int id, CancellationToken token = default)
+    public async Task<TEntity> GetAsync(Guid id, CancellationToken token = default)
     {
         var entity = await _dbSet.FindAsync(id, token);
 

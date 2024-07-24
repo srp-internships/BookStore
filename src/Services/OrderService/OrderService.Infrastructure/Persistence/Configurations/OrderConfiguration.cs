@@ -10,7 +10,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
     public void Configure(EntityTypeBuilder<Order> builder)
     {
         builder.HasKey(o => o.Id);
-        builder.Property(o => o.OrderDate).IsRequired();
+        builder.Property(o => o.CartId);
 
         builder.HasOne<Customer>(i => i.Customer)
           .WithMany(o=>o.Orders)
@@ -20,7 +20,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.HasMany(o => o.Items)
             .WithOne(o => o.Order)
             .HasForeignKey(oi => oi.OrderId);
-
 
         builder.ComplexProperty(
            o => o.ShippingAddress, addressBuilder =>
@@ -44,22 +43,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
                    .HasMaxLength(5);
                    
            });
-
-        builder.ComplexProperty(
-               o => o.Payment, paymentBuilder =>
-               {
-                   paymentBuilder.Property(p => p.CardName)
-                       .HasMaxLength(50);
-
-                   paymentBuilder.Property(p => p.CardNumber)
-                       .HasMaxLength(24);
-
-                   paymentBuilder.Property(p => p.Expiration)
-                       .HasMaxLength(10);
-
-                   paymentBuilder.Property(p => p.Cvv)
-                       .HasMaxLength(3);
-               });
 
         builder.Property(o => o.Status)
             .HasDefaultValue(OrderStatus.Draft)

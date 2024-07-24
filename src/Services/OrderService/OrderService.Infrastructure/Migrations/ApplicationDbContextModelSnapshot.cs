@@ -29,6 +29,9 @@ namespace OrderService.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("SellerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -69,11 +72,11 @@ namespace OrderService.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CustomerId")
+                    b.Property<Guid>("CartId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -83,27 +86,6 @@ namespace OrderService.Infrastructure.Migrations
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("numeric");
-
-                    b.ComplexProperty<Dictionary<string, object>>("Payment", "OrderService.Domain.Entities.Order.Payment#Payment", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("CardName")
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<string>("CardNumber")
-                                .HasMaxLength(24)
-                                .HasColumnType("character varying(24)");
-
-                            b1.Property<string>("Cvv")
-                                .HasMaxLength(3)
-                                .HasColumnType("character varying(3)");
-
-                            b1.Property<string>("Expiration")
-                                .HasMaxLength(10)
-                                .HasColumnType("character varying(10)");
-                        });
 
                     b.ComplexProperty<Dictionary<string, object>>("ShippingAddress", "OrderService.Domain.Entities.Order.ShippingAddress#Address", b1 =>
                         {

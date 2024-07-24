@@ -4,10 +4,9 @@ namespace OrderService.Application.Orders.Commands.CreateOrder;
 
 public record CreateOrderCommand(
     Guid CustomerId,
+    Guid CartId,
     AddressDto ShippingAddress,
-    PaymentDto Payment,
     OrderStatus Status,
-    DateTime OrderDate,
     List<OrderItemDto> Items)
     : ICommand<CreateOrderResult>;
 

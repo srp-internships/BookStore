@@ -12,15 +12,7 @@ public class CreateOrderHandler(IMapper mapper, IOrderRepository orderRepository
 
     public async Task<CreateOrderResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
-        try
-        {
             var order = await _orderRepository.CreateAsync(_mapper.Map<Order>(command), cancellationToken);
             return _mapper.Map<CreateOrderResult>(order);
-        }
-        catch (Exception ex)
-        {
-
-            throw;
-        }
-    }   
-}
+    }
+}   

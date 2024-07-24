@@ -1,19 +1,18 @@
-﻿namespace OrderService.Application.Orders.Queries.GetOrdersByCustomer;
+﻿using OrderService.Domain.Entities;
 
-//public class GetOrdersByCustomerHandler(IApplicationDbContext dbContext)
-//    : IQueryHandler<GetOrdersByCustomerQuery, GetOrdersByCustomerResult>
-//{
-//    public async Task<GetOrdersByCustomerResult> Handle(GetOrdersByCustomerQuery query, CancellationToken cancellationToken)
-//    {
-//        get orders by customer using dbContext
-//         return result
+namespace OrderService.Application.Orders.Queries.GetOrdersByCustomer;
 
-//        var orders = await dbContext.Orders
-//                        .Include(o => o.Items)
-//                        .AsNoTracking()
-//                        .Where(((query.CustomerId)))
-//                        .ToListAsync(cancellationToken);
+public class GetOrdersByCustomerHandler(IApplicationDbContext dbContext)
+    : IQueryHandler<GetOrdersByCustomerQuery, GetOrdersByCustomerResult>
+{
+    public async Task<GetOrdersByCustomerResult> Handle(GetOrdersByCustomerQuery query, CancellationToken cancellationToken)
+    {
+        var orders = await dbContext.Orders
+                        .Include(o => o.Items)
+                        .AsNoTracking()
+                        .Where(o => o.CustomerId == (query.CustomerId))
+                        .ToListAsync(cancellationToken);
 
-//        return new GetOrdersByCustomerResult(orders.ToOrderDtoList());
-//    }
-//}
+        return new GetOrdersByCustomerResult(orders.ToOrderDtoList());
+    }
+}

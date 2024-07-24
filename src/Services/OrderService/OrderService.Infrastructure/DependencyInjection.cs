@@ -1,4 +1,6 @@
-﻿using OrderService.Application.Data;
+﻿using OrderService.Application.Common.Interfaces.Repositories;
+using OrderService.Application.Data;
+using OrderService.Infrastructure.Persistence.Repositories;
 
 namespace OrderService.Infrastructure;
 
@@ -10,16 +12,15 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("Database");
 
         // Add services to the container.
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
-            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
             options.UseNpgsql(connectionString);
         });
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
+        services.AddScoped<OrderRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
 
         return services;
     }

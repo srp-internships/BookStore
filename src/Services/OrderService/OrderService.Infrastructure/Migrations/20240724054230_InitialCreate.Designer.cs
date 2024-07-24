@@ -13,7 +13,7 @@ using OrderService.Infrastructure.Persistence.DataBases;
 namespace OrderService.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240717114152_InitialCreate")]
+    [Migration("20240724054230_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace OrderService.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Book", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -29,27 +29,13 @@ namespace OrderService.Infrastructure.Migrations
             modelBuilder.Entity("OrderService.Domain.Entities.Book", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -59,24 +45,13 @@ namespace OrderService.Infrastructure.Migrations
             modelBuilder.Entity("OrderService.Domain.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -94,24 +69,17 @@ namespace OrderService.Infrastructure.Migrations
             modelBuilder.Entity("OrderService.Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("LastModified")
+                    b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
                     b.Property<string>("Status")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
                         .HasDefaultValue("Draft");
@@ -119,83 +87,32 @@ namespace OrderService.Infrastructure.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("numeric");
 
-                    b.ComplexProperty<Dictionary<string, object>>("BillingAddress", "OrderService.Domain.Entities.Order.BillingAddress#Address", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("AddressLine")
-                                .IsRequired()
-                                .HasMaxLength(180)
-                                .HasColumnType("character varying(180)");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<string>("EmailAddress")
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<string>("LastName")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
-
-                            b1.Property<string>("ZipCode")
-                                .IsRequired()
-                                .HasMaxLength(5)
-                                .HasColumnType("character varying(5)");
-                        });
-
                     b.ComplexProperty<Dictionary<string, object>>("Payment", "OrderService.Domain.Entities.Order.Payment#Payment", b1 =>
                         {
                             b1.IsRequired();
-
-                            b1.Property<string>("CVV")
-                                .IsRequired()
-                                .HasMaxLength(3)
-                                .HasColumnType("character varying(3)");
 
                             b1.Property<string>("CardName")
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
                             b1.Property<string>("CardNumber")
-                                .IsRequired()
                                 .HasMaxLength(24)
                                 .HasColumnType("character varying(24)");
 
+                            b1.Property<string>("Cvv")
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)");
+
                             b1.Property<string>("Expiration")
-                                .IsRequired()
                                 .HasMaxLength(10)
                                 .HasColumnType("character varying(10)");
-
-                            b1.Property<int>("PaymentMethod")
-                                .HasColumnType("integer");
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("ShippingAddress", "OrderService.Domain.Entities.Order.ShippingAddress#Address", b1 =>
                         {
                             b1.IsRequired();
 
-                            b1.Property<string>("AddressLine")
-                                .IsRequired()
-                                .HasMaxLength(180)
-                                .HasColumnType("character varying(180)");
-
                             b1.Property<string>("Country")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
@@ -204,22 +121,18 @@ namespace OrderService.Infrastructure.Migrations
                                 .HasColumnType("character varying(50)");
 
                             b1.Property<string>("FirstName")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
                             b1.Property<string>("LastName")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
                             b1.Property<string>("State")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
                             b1.Property<string>("ZipCode")
-                                .IsRequired()
                                 .HasMaxLength(5)
                                 .HasColumnType("character varying(5)");
                         });
@@ -234,22 +147,11 @@ namespace OrderService.Infrastructure.Migrations
             modelBuilder.Entity("OrderService.Domain.Entities.OrderItem", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("BookId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
@@ -271,31 +173,42 @@ namespace OrderService.Infrastructure.Migrations
 
             modelBuilder.Entity("OrderService.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("OrderService.Domain.Entities.Customer", null)
-                        .WithMany()
+                    b.HasOne("OrderService.Domain.Entities.Customer", "Customer")
+                        .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("OrderService.Domain.Entities.OrderItem", b =>
                 {
-                    b.HasOne("OrderService.Domain.Entities.Book", null)
+                    b.HasOne("OrderService.Domain.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OrderService.Domain.Entities.Order", null)
-                        .WithMany("OrderItems")
+                    b.HasOne("OrderService.Domain.Entities.Order", "Order")
+                        .WithMany("Items")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("OrderService.Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("OrderService.Domain.Entities.Order", b =>
                 {
-                    b.Navigation("OrderItems");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

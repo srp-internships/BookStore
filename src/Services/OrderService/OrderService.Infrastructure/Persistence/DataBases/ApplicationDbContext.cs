@@ -19,6 +19,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Ignore<BaseEntity>();    
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);
     }

@@ -1,20 +1,13 @@
 ﻿namespace OrderService.Domain.Entities;
 
-public class OrderItem : Entity<OrderItemId>
+public class OrderItem : BaseEntity
 {
-    private OrderItem() { }
+    public int Quantity { get;  set; }
+    public decimal Price { get;  set; }
 
-    internal OrderItem(OrderId orderId, BookId bookId, int quantity, decimal price)
-    {
-        Id = OrderItemId.Of(Guid.NewGuid());
-        OrderId = orderId;
-        BookId = bookId;
-        Quantity = quantity;
-        Price = price;
-    }
-
-    public OrderId OrderId { get; private set; } = default!;
-    public BookId BookId { get; private set; } = default!;
-    public int Quantity { get; private set; } = default!;
-    public decimal Price { get; private set; } = default!;
+    public Order Order {  get; set; }   
+    public Guid OrderId { get; set; } 
+    public Book Book { get; set; }
+    public Guid BookId { get;  set; }
+   
 }

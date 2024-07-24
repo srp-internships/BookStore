@@ -1,4 +1,6 @@
-﻿namespace OrderService.Application;
+﻿using OrderService.Application.Orders.Commands.CreateOrder;
+
+namespace OrderService.Application;
 
 public static class DependencyInjection
 {
@@ -11,7 +13,6 @@ public static class DependencyInjection
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
             config.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
-
         services.AddFeatureManagement();
         services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
 

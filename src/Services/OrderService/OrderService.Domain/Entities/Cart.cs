@@ -1,6 +1,5 @@
 ﻿namespace OrderService.Domain.Entities;
 
-public class Cart
+public class Cart : BaseEntity
 {
-    public Guid Id { get; set; }
 }

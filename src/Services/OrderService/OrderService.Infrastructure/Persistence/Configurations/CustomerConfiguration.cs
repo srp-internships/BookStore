@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
 using OrderService.Domain.Entities;
-using OrderService.Domain.ValueObjects;
+
 
 namespace OrderService.Infrastructure.Persistence.Configurations;
 
@@ -10,9 +9,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     public void Configure(EntityTypeBuilder<Customer> builder)
     {
         builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasConversion(
-                customerId => customerId.Value,
-                dbId => CustomerId.Of(dbId));
 
         builder.Property(c => c.Name).HasMaxLength(100).IsRequired();
 

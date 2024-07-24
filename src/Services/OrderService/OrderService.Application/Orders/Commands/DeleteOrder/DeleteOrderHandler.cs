@@ -1,6 +1,5 @@
-﻿using OrderService.Application.Data;
-using OrderService.Application.Orders.Exceptions;
-using OrderService.Domain.ValueObjects;
+﻿using OrderService.Application.Orders.Exceptions;
+
 
 namespace OrderService.Application.Orders.Commands.DeleteOrder;
 
@@ -13,7 +12,7 @@ public class DeleteOrderHandler(IApplicationDbContext dbContext)
         //save to database
         //return result
 
-        var orderId = OrderId.Of(command.OrderId);
+        var orderId = (command.OrderId);
         var order = await dbContext.Orders
             .FindAsync([orderId], cancellationToken: cancellationToken);
 

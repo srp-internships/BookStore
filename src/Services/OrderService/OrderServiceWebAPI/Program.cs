@@ -1,3 +1,5 @@
+using OrderService.Application.Mappers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +13,7 @@ builder.Services
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices(builder.Configuration);
 
+builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration).Assembly);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -24,8 +27,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    await app.InitialiseDatabaseAsync();
 }
 
 app.UseHttpsRedirection();

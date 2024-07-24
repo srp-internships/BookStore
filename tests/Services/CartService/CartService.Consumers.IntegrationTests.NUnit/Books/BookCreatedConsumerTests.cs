@@ -51,5 +51,6 @@ namespace CartService.Consumers.IntegrationTests.NUnit.Books
             Assert.That(book.Title, Is.EqualTo(bookCreatedEvent.Title));
             Assert.That(book.Image, Is.EqualTo(bookCreatedEvent.Image));
         }
+        
     }
 }

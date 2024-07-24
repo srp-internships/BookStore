@@ -12,8 +12,8 @@ namespace CatalogService.Application.Dto
         public string Title { get; set; }
         public string Image { get; set; }
         public string ISBN { get; set; }
-        public Guid PublisherId { get; set; }
-        public ICollection<Guid> CategoryIds { get; set; }
-        public ICollection<Guid> AuthorIds { get; set; }
+        public PublisherDto Publisher { get; set; }
+        public ICollection<CategoryDto> Categories { get; set; }
+        public ICollection<AuthorDto> Authors { get; set; }
     }
 }

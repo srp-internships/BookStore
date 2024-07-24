@@ -15,18 +15,32 @@ namespace CatalogService.Infostructure.Repositories
         private CatalogDbContext _dbcontext = dbContext;
         public async Task<Guid> CreateAsync(BookSeller bookSeller, CancellationToken token = default)
         {
-            var existingBookSeller = await _dbcontext.BookSellers.FirstOrDefaultAsync(x => x.SellerId.Equals(bookSeller.SellerId), token);
+            Guid sellerId = bookSeller.SellerId;
+            var seller = await _dbcontext.Sellers
+                .FirstOrDefaultAsync(x => x.Id.Equals(sellerId), token);
+            var book = await _dbcontext.Books
+                .FirstOrDefaultAsync(x => x.Id.Equals(bookSeller.BookId), token);
 
-            if (existingBookSeller.Id.Equals(bookSeller.Id))
+            if (seller == null)
+                throw new NotFoundException(nameof(Seller), bookSeller.SellerId);
+            if (book == null)
+                throw new NotFoundException(nameof(Book), bookSeller.BookId);
+
+            var newBookSeller = new BookSeller
             {
-                throw new Exception("Already exists");
-            }
-            else
-            {
-                await _dbcontext.BookSellers.AddAsync(bookSeller, token);
-                await _dbcontext.SaveChangesAsync(token);
-                return bookSeller.Id;
-            }
+                Id = Guid.NewGuid(),
+                Book = book,
+                Amount = bookSeller.Amount,
+                Price = bookSeller.Price,
+                Description = bookSeller.Description
+            };
+
+            seller.BookSellers.Add(newBookSeller);
+
+            await _dbcontext.SaveChangesAsync(token);
+
+            return newBookSeller.Id;
+
         }
         public async Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default)
         {

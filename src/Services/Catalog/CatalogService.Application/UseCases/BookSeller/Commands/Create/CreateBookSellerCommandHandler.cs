@@ -25,7 +25,8 @@ namespace CatalogService.Application.UseCases
         {
             await _validator.ValidateAndThrowAsync(request, token);
             var bookSeller = _mapper.Map<BookSeller>(request);
-            return await _repository.CreateAsync(bookSeller, token);
+            var guid = await _repository.CreateAsync(bookSeller, token);
+            return guid;
         }
     }
 }

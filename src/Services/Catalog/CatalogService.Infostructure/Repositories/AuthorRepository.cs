@@ -15,7 +15,8 @@ namespace CatalogService.Infostructure.Repositories
         private CatalogDbContext _dbcontext = dbContext;
         public async Task<Guid> CreateAsync(Author author, CancellationToken token = default)
         {
-            var existingAuthor = await _dbcontext.Authors.FirstOrDefaultAsync(x => x.Name.Equals(author.Name), token);
+            var existingAuthor = await _dbcontext.Authors
+                .FirstOrDefaultAsync(x => x.Name.Equals(author.Name), token);
 
             if(existingAuthor is null)
             {
@@ -23,10 +24,7 @@ namespace CatalogService.Infostructure.Repositories
                 await _dbcontext.SaveChangesAsync();
                 return author.Id;
             }
-            else
-            {
-                return existingAuthor.Id;
-            }
+            return existingAuthor.Id;
         }
         public async Task<Author> GetByIdAsync(Guid id, CancellationToken token = default)
         {

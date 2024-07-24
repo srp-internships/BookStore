@@ -1,5 +1,7 @@
-﻿using CatalogService.Domain.Entities;
+﻿using CatalogService.Contracts;
+using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,41 +12,38 @@ using System.Threading.Tasks;
 namespace CatalogService.Infostructure.Repositories
 {
     public class BookSellerRepository
-        (CatalogDbContext dbContext) : IBookSellerRepository
+        (CatalogDbContext dbContext,
+        IBus bus) : IBookSellerRepository
     {
-        private CatalogDbContext _dbcontext = dbContext;
+        private readonly CatalogDbContext _dbcontext = dbContext;
+        private readonly IBus _bus = bus;
         public async Task<Guid> CreateAsync(BookSeller bookSeller, CancellationToken token = default)
         {
-            Guid sellerId = bookSeller.SellerId;
-            var seller = await _dbcontext.Sellers
-                .FirstOrDefaultAsync(x => x.Id.Equals(sellerId), token);
-            var book = await _dbcontext.Books
-                .FirstOrDefaultAsync(x => x.Id.Equals(bookSeller.BookId), token);
+            var existingBookSeller = await _dbcontext.BookSellers
+                .FirstOrDefaultAsync(p => p.SellerId.Equals(bookSeller.SellerId), token);
+            if (existingBookSeller.BookId.Equals(bookSeller.BookId))
+            {
+                return existingBookSeller.Id;
+            }
 
-            if (seller == null)
-                throw new NotFoundException(nameof(Seller), bookSeller.SellerId);
-            if (book == null)
-                throw new NotFoundException(nameof(Book), bookSeller.BookId);
-
-            var newBookSeller = new BookSeller
+            await _dbcontext.BookSellers.AddAsync(bookSeller, token);
+            await _dbcontext.SaveChangesAsync(token);
+            await _bus.Publish(new BookSellerCreatedEvent
             {
                 Id = Guid.NewGuid(),
-                Book = book,
-                Amount = bookSeller.Amount,
+                BookId = bookSeller.BookId,
+                SellerId = bookSeller.SellerId,
                 Price = bookSeller.Price,
-                Description = bookSeller.Description
-            };
-
-            seller.BookSellers.Add(newBookSeller);
-
-            await _dbcontext.SaveChangesAsync(token);
-
-            return newBookSeller.Id;
+                Amount = bookSeller.Amount
+            });
+            var guid = bookSeller.Id;
+            return guid;
 
         }
         public async Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            var bookSeller = await _dbcontext.BookSellers.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
+            var bookSeller = await _dbcontext.BookSellers
+                .FirstOrDefaultAsync(x => x.Id.Equals(id), token);
             return bookSeller;
         }
 
@@ -61,11 +60,21 @@ namespace CatalogService.Infostructure.Repositories
             entity.Description = bookSeller.Description;
 
             await _dbcontext.SaveChangesAsync(token);
+
+            await _bus.Publish(new BookSellerUpdatedEvent
+            {
+                Id = Guid.NewGuid(),
+                BookId = bookSeller.BookId,
+                SellerId = bookSeller.SellerId,
+                Price = bookSeller.Price,
+                Amount = bookSeller.Amount
+            });
         }
-        
+
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
-            Author entity = await _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
+            Author entity = await _dbcontext.Authors
+                .FirstOrDefaultAsync(x => x.Id.Equals(id), token);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Book), entity.Id);

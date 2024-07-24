@@ -21,12 +21,9 @@ namespace CatalogService.Infostructure.Repositories
             {
                 return existingCategory.Id;
             }
-            else
-            {
-                await _dbcontext.Categories.AddAsync(category, token);
-                await _dbcontext.SaveChangesAsync();
-                return category.Id;
-            }
+            await _dbcontext.Categories.AddAsync(category, token);
+            await _dbcontext.SaveChangesAsync();
+            return category.Id;
         }
         public async Task<Category> GetByIdAsync(Guid id, CancellationToken token = default)
         {

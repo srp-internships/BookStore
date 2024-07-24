@@ -22,14 +22,12 @@ namespace CatalogService.Infostructure.Repositories
             {
                 return existingPublisher.Id;
             }
-            else
-            {
-                await _dbcontext.Publishers.AddAsync(publisher, token);
-                await _dbcontext.SaveChangesAsync(token);
-                return publisher.Id;
-            }
+            await _dbcontext.Publishers.AddAsync(publisher, token);
+            await _dbcontext.SaveChangesAsync(token);
+            return publisher.Id;
         }
-        public async Task<Publisher> GetByIdAsync(Guid id, CancellationToken token = default)
+
+            public async Task<Publisher> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             var author = await _dbcontext.Publishers.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
             return author;

@@ -13,7 +13,6 @@ namespace CartService.Consumers.BookSellers
             _logger = logger;
             _context = context;
         }
-
         public async Task Consume(ConsumeContext<PriceCreatedEvent> context)
         {
             _logger.LogInformation("Price Created: BookId: {BookId}, SellerId: {SellerId}, Price: {Price}",

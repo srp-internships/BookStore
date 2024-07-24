@@ -1,6 +1,9 @@
 ﻿using CartService.Api.UnitTests.NUnit.IntegrationTests.CommonData;
 using CartService.Domain.Entities;
 using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,132 +14,160 @@ using System.Threading.Tasks;
 
 namespace CartService.Api.UnitTests.NUnit.IntegrationTests.Test
 {
-    public class CartControllerTests : BaseTestEntity
+    public class CartControllerTests 
     {
-        [Test]
-        public async Task GetCart_ShouldReturnCartForValidUserId()
+        private WebApplicationFactory<Program> _factory;
+        private HttpClient _client;
+
+        [SetUp]
+        public void SetUp()
         {
-            // Arrange
-            var userId = await GetFirstUserId();
-            var _client = Server.CreateClient();
+            _factory = new ServerApiFactory();
+            _client = _factory.CreateClient();
+        }
 
-            // Act
-            var response = await _client.GetAsync($"api/Cart/{userId}");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            var cart = await response.Content.ReadFromJsonAsync<Cart>();
-            Assert.That(cart, Is.Not.Null);
-            Assert.That(cart.UserId, Is.EqualTo(userId));
+        [TearDown]
+        public void TearDown()
+        {
+            _client.Dispose();
+            _factory.Dispose();
         }
 
         [Test]
-        public async Task GetCart_ShouldNotReturnCartForInvalidUserId()
+        public async Task GetCart_ReturnsNotFound_WhenCartDoesNotExist()
         {
             // Arrange
             var userId = Guid.NewGuid();
-            var _client = Server.CreateClient();
 
             // Act
-            var response = await _client.GetAsync($"api/Cart/{userId}");
+            var response = await _client.GetAsync($"/api/cart/{userId}");
 
             // Assert
-            Assert.That(response.IsSuccessStatusCode, Is.False);
+            Assert.AreEqual(System.Net.HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Test]
-        public async Task AddItemToCart_ShouldAddItemSuccessfully()
+        public async Task AddCart_AddsCartSuccessfully()
         {
             // Arrange
-            var userId = await GetFirstUserId();
-            var _client = Server.CreateClient();
-            var item = new CartItem
+            var cart = new Cart
             {
-                BookId = Guid.NewGuid(),
-                Quantity = 1
+                Id = Guid.NewGuid(),
+                UserId = Guid.NewGuid()
             };
-            var content = new StringContent(JsonSerializer.Serialize(item), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _client.PostAsync($"api/Cart/{userId}/items", content);
+            var response = await _client.PostAsJsonAsync("/api/cart", cart);
 
             // Assert
             response.EnsureSuccessStatusCode();
+            var createdCart = await response.Content.ReadFromJsonAsync<Cart>();
+            Assert.NotNull(createdCart);
+            Assert.AreEqual(cart.UserId, createdCart.UserId);
         }
 
         [Test]
-        public async Task UpdateItemQuantity_ShouldUpdateSuccessfully()
+        public async Task AddOrUpdateCartItem_AddsItemSuccessfully()
         {
             // Arrange
-            var userId = await GetFirstUserId();
-            var itemId = await GetFirstCartItemId(userId);
-            var _client = Server.CreateClient();
-            var quantity = 3;
+            var cart = new Cart
+            {
+                Id = Guid.NewGuid(),
+                UserId = Guid.NewGuid()
+            };
+
+            await _client.PostAsJsonAsync("/api/cart", cart);
+
+            var cartItem = new CartItem
+            {
+                Id = Guid.NewGuid(),
+                CartId = cart.Id,
+                BookId = Guid.NewGuid(),
+                BookName = "Test Book",
+                Price = 10.0m,
+                Quantity = 1,
+                SellerId = Guid.NewGuid()
+            };
 
             // Act
-            var response = await _client.PutAsJsonAsync($"api/Cart/{userId}/items/{itemId}?quantity={quantity}", new { });
+            var response = await _client.PostAsJsonAsync("/api/cart/addOrUpdateItem", cartItem);
 
             // Assert
             response.EnsureSuccessStatusCode();
+            var updatedCart = await _client.GetFromJsonAsync<Cart>($"/api/cart/{cart.UserId}");
+            Assert.NotNull(updatedCart);
+            Assert.AreEqual(1, updatedCart.Items.Count);
+            Assert.AreEqual(cartItem.BookName, updatedCart.Items[0].BookName);
         }
 
         [Test]
-        public async Task UpdateItemQuantity_ShouldNotUpdateWithInvalidItemId()
+        public async Task RemoveItemFromCart_RemovesItemSuccessfully()
         {
             // Arrange
-            var userId = await GetFirstUserId();
-            var itemId = Guid.NewGuid();
-            var _client = Server.CreateClient();
-            var quantity = 3;
+            var cart = new Cart
+            {
+                Id = Guid.NewGuid(),
+                UserId = Guid.NewGuid()
+            };
+
+            await _client.PostAsJsonAsync("/api/cart", cart);
+
+            var cartItem = new CartItem
+            {
+                Id = Guid.NewGuid(),
+                CartId = cart.Id,
+                BookId = Guid.NewGuid(),
+                BookName = "Test Book",
+                Price = 10.0m,
+                Quantity = 1,
+                SellerId = Guid.NewGuid()
+            };
+
+            await _client.PostAsJsonAsync("/api/cart/addOrUpdateItem", cartItem);
 
             // Act
-            var response = await _client.PutAsJsonAsync($"api/Cart/{userId}/items/{itemId}?quantity={quantity}", new { });
+            var response = await _client.DeleteAsync($"/api/cart/removeItem/{cartItem.Id}");
 
             // Assert
-            Assert.That(response.IsSuccessStatusCode, Is.False);
+            response.EnsureSuccessStatusCode();
+            var updatedCart = await _client.GetFromJsonAsync<Cart>($"/api/cart/{cart.UserId}");
+            Assert.NotNull(updatedCart);
+            Assert.AreEqual(0, updatedCart.Items.Count);
         }
 
         [Test]
-        public async Task RemoveItemFromCart_ShouldRemoveItemSuccessfully()
+        public async Task ClearCart_ClearsItemsSuccessfully()
         {
             // Arrange
-            var userId = await GetFirstUserId();
-            var itemId = await GetFirstCartItemId(userId);
-            var _client = Server.CreateClient();
+            var cart = new Cart
+            {
+                Id = Guid.NewGuid(),
+                UserId = Guid.NewGuid()
+            };
+
+            await _client.PostAsJsonAsync("/api/cart", cart);
+
+            var cartItem = new CartItem
+            {
+                Id = Guid.NewGuid(),
+                CartId = cart.Id,
+                BookId = Guid.NewGuid(),
+                BookName = "Test Book",
+                Price = 10.0m,
+                Quantity = 1,
+                SellerId = Guid.NewGuid()
+            };
+
+            await _client.PostAsJsonAsync("/api/cart/addOrUpdateItem", cartItem);
 
             // Act
-            var response = await _client.DeleteAsync($"api/Cart/{userId}/items/{itemId}");
+            var response = await _client.DeleteAsync($"/api/cart/clearCart/{cart.Id}");
 
             // Assert
             response.EnsureSuccessStatusCode();
-        }
-
-        [Test]
-        public async Task ClearCart_ShouldClearCartSuccessfully()
-        {
-            // Arrange
-            var userId = await GetFirstUserId();
-            var _client = Server.CreateClient();
-
-            // Act
-            var response = await _client.DeleteAsync($"api/Cart/{userId}");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-        }
-
-        private async Task<Guid> GetFirstUserId()
-        {
-            return Guid.NewGuid();
-        }
-
-        private async Task<Guid> GetFirstCartItemId(Guid userId)
-        {
-            var _client = Server.CreateClient();
-            var response = await _client.GetAsync($"api/Cart/{userId}");
-            response.EnsureSuccessStatusCode();
-            var cart = await response.Content.ReadFromJsonAsync<Cart>();
-            return cart.Items.First().Id;
+            var updatedCart = await _client.GetFromJsonAsync<Cart>($"/api/cart/{cart.UserId}");
+            Assert.NotNull(updatedCart);
+            Assert.AreEqual(0, updatedCart.Items.Count);
         }
     }
 }

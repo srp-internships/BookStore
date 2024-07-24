@@ -38,7 +38,6 @@ namespace CartService.Consumers.BookSellers
             {
                 cartItem.Price = context.Message.Price;
             }
-
             await _context.SaveChangesAsync();
         }
     }

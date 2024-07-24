@@ -17,7 +17,6 @@ namespace CartService.Consumers.IntegrationTests.NUnit
                 .Options;
 
             _context = new CartDbContext(options);
-
             _loggerMock = new Mock<ILogger<BookUpdatedConsumer>>();
             _consumer = new BookUpdatedConsumer(_loggerMock.Object, _context);
         }
@@ -61,6 +60,54 @@ namespace CartService.Consumers.IntegrationTests.NUnit
             Assert.That(book, Is.Not.Null);
             Assert.That(book.Title, Is.EqualTo(bookUpdatedEvent.Title));
             Assert.That(book.Image, Is.EqualTo(bookUpdatedEvent.Image));
+        }
+
+        [Test]
+        public async Task Consume_BookUpdatedEvent_ShouldUpdateCartItems()
+        {
+            // Arrange
+            var bookId = Guid.NewGuid();
+            var book = new Book
+            {
+                Id = bookId,
+                Title = "Original Title",
+                Image = "OriginalImage.png"
+            };
+
+            _context.Books.Add(book);
+
+            var cartItem = new CartItem
+            {
+                Id = Guid.NewGuid(),
+                BookId = bookId,
+                BookName = "Original Title",
+                ImageUrl = "OriginalImage.png",
+                Price = 10.0m,
+                Quantity = 1,
+                SellerId = Guid.NewGuid()
+            };
+
+            _context.Items.Add(cartItem);
+            await _context.SaveChangesAsync();
+
+            var bookUpdatedEvent = new BookUpdatedEvent
+            {
+                Id = bookId,
+                Title = "Updated Title",
+                Image = "UpdatedImage.png"
+            };
+
+            var consumeContextMock = new Mock<ConsumeContext<BookUpdatedEvent>>();
+            consumeContextMock.Setup(x => x.Message).Returns(bookUpdatedEvent);
+
+            // Act
+            await _consumer.Consume(consumeContextMock.Object);
+
+            // Assert
+            var updatedCartItem = await _context.Items.FindAsync(cartItem.Id);
+            Assert.That(updatedCartItem, Is.Not.Null);
+            Assert.That(updatedCartItem.BookName, Is.EqualTo(bookUpdatedEvent.Title));
+            Assert.That(updatedCartItem.ImageUrl, Is.EqualTo(bookUpdatedEvent.Image));
         }
     }
 }

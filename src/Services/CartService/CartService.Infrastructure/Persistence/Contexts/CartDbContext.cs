@@ -10,14 +10,14 @@ namespace CartService.Infrastructure.Persistence.Contexts
         public DbSet<CartItem> Items { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<BookSeller> BookSellers { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new CartConfiguration());
-            modelBuilder.ApplyConfiguration(new CartItemConfiguration());
-            modelBuilder.ApplyConfiguration(new  BookConfiguration());
-            modelBuilder.ApplyConfiguration(new BookSellerConfiguration());
+            protected override void OnModelCreating(ModelBuilder modelBuilder)
+            {
+                modelBuilder.ApplyConfiguration(new CartConfiguration());
+                modelBuilder.ApplyConfiguration(new CartItemConfiguration());
+                modelBuilder.ApplyConfiguration(new  BookConfiguration());
+                modelBuilder.ApplyConfiguration(new BookSellerConfiguration());
 
-            base.OnModelCreating(modelBuilder);
-        }
+                base.OnModelCreating(modelBuilder);
+            }
     }
 }

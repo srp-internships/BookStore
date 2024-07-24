@@ -92,7 +92,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Infrastructure.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Consumers", "src\Services\CartService\CartService.Consumers\CartService.Consumers.csproj", "{592A8727-7F61-4FAC-8C9F-B9E47F75EF9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Consumers.IntegrationTests.NUnit", "tests\Services\CartService\CartService.Consumers.IntegrationTests.NUnit\CartService.Consumers.IntegrationTests.NUnit.csproj", "{BA44F682-F336-4A94-9471-27D50C94DBFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Consumers.IntegrationTests.NUnit", "tests\Services\CartService\CartService.Consumers.IntegrationTests.NUnit\CartService.Consumers.IntegrationTests.NUnit.csproj", "{BA44F682-F336-4A94-9471-27D50C94DBFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Api.UnitTests.NUnit.IntegrationTests", "tests\Services\CartService\CartService.Api.UnitTests.NUnit.IntegrationTests\CartService.Api.UnitTests.NUnit.IntegrationTests.csproj", "{3DCDCCA2-EAD0-48E2-BF82-92E81F8A8C24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -220,6 +222,10 @@ Global
 		{BA44F682-F336-4A94-9471-27D50C94DBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA44F682-F336-4A94-9471-27D50C94DBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA44F682-F336-4A94-9471-27D50C94DBFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DCDCCA2-EAD0-48E2-BF82-92E81F8A8C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DCDCCA2-EAD0-48E2-BF82-92E81F8A8C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DCDCCA2-EAD0-48E2-BF82-92E81F8A8C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DCDCCA2-EAD0-48E2-BF82-92E81F8A8C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -269,6 +275,7 @@ Global
 		{98710482-3DFC-4D08-92C7-B47E48BDB7AE} = {F3674980-185C-4D52-98DB-01BDE961F205}
 		{592A8727-7F61-4FAC-8C9F-B9E47F75EF9F} = {4391AB8B-3648-47C0-91E5-F3CDAE96E0A0}
 		{BA44F682-F336-4A94-9471-27D50C94DBFA} = {F3674980-185C-4D52-98DB-01BDE961F205}
+		{3DCDCCA2-EAD0-48E2-BF82-92E81F8A8C24} = {F3674980-185C-4D52-98DB-01BDE961F205}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

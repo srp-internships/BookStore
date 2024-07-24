@@ -1,8 +1,4 @@
-﻿using CartService.Infrastructure.Persistence.Contexts;
-using CatalogService.Contracts;
-using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CartService.Consumers.BookSellers
 {
@@ -19,20 +15,31 @@ namespace CartService.Consumers.BookSellers
 
         public async Task Consume(ConsumeContext<PriceUpdatedEvent> context)
         {
-            _logger.LogInformation("Price Updated: {BookId}, {SellerId}, {Price}", 
+            _logger.LogInformation("Price Updated: {BookId}, {SellerId}, {Price}",
                 context.Message.BookId, context.Message.SellerId, context.Message.Price);
 
+            // Обновление цены книги
             var price = await _context.BookSellers.FirstOrDefaultAsync(
-                p => p.BookId == context.Message.BookId && 
+                p => p.BookId == context.Message.BookId &&
                 p.SellerId == context.Message.SellerId);
 
             if (price != null)
             {
                 price.Price = context.Message.Price;
-
                 _context.BookSellers.Update(price);
-                await _context.SaveChangesAsync();
             }
+
+            // Обновление элементов корзины с новой ценой
+            var cartItems = await _context.Items
+                .Where(ci => ci.BookId == context.Message.BookId && ci.SellerId == context.Message.SellerId)
+                .ToListAsync();
+
+            foreach (var cartItem in cartItems)
+            {
+                cartItem.Price = context.Message.Price;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,6 +1,12 @@
-﻿namespace CartService.Aplication.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CartService.Aplication.Interfaces
 {
-    public interface ICartRepository
+    public interface ICartService
     {
         Task<Cart> GetCartAsync(Guid userId);
         Task AddCartAsync(Cart cart);
@@ -10,4 +16,3 @@
         Task ClearCartAsync(Guid cartId);
     }
 }
-

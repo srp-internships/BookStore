@@ -14,78 +14,66 @@ namespace CartService.Infrastructure.Repositories
 
         public async Task<Cart> GetCartAsync(Guid userId)
         {
-            return await _context.Carts
+            return await _context.Set<Cart>()
                 .Include(c => c.Items)
-                .SingleOrDefaultAsync(c => c.UserId == userId);
+                .FirstOrDefaultAsync(c => c.UserId == userId);
         }
 
         public async Task AddCartAsync(Cart cart)
         {
-            await _context.Carts.AddAsync(cart);
+            await _context.Set<Cart>().AddAsync(cart);
+            await _context.SaveChangesAsync();
         }
 
         public async Task AddOrUpdateCartItemAsync(CartItem cartItem)
         {
-            var existingCartItem = await _context.Items
-                .SingleOrDefaultAsync(ci => ci.Id == cartItem.Id);
+            var existingItem = await _context.Set<CartItem>()
+                .FirstOrDefaultAsync(ci => ci.CartId == cartItem.CartId && ci.BookId == cartItem.BookId);
 
-            if (existingCartItem == null)
+            if (existingItem != null)
             {
-                _context.Items.Add(cartItem);
+                existingItem.Quantity += cartItem.Quantity;
+                _context.Set<CartItem>().Update(existingItem);
             }
             else
             {
-                // Обновление существующего элемента
-                existingCartItem.Price = cartItem.Price;
-                existingCartItem.BookName = cartItem.BookName;
-                existingCartItem.ImageUrl = cartItem.ImageUrl;
-                existingCartItem.Quantity = cartItem.Quantity; // Убедитесь, что Quantity обновляется
-                _context.Entry(existingCartItem).State = EntityState.Modified;
+                await _context.Set<CartItem>().AddAsync(cartItem);
             }
 
-            // Не вызываем здесь SaveChangesAsync
-        }
-
-        public async Task<CartItem> GetCartItemAsync(Guid cartItemId)
-        {
-            return await _context.Items.FindAsync(cartItemId);
-        }
-
-        public async Task RemoveCartItemAsync(Guid cartItemId)
-        {
-            var cartItem = await _context.Items.FindAsync(cartItemId);
-
-            if (cartItem != null)
-            {
-                _context.Items.Remove(cartItem);
-            }
-
-            // Не вызываем здесь SaveChangesAsync
-        }
-
-        public async Task SaveChangesAsync()
-        {
             await _context.SaveChangesAsync();
         }
 
-        public void UpdateQuantity(Guid userId, Guid bookId, int newQuantity)
+        public async Task UpdateItemQuantityAsync(Guid cartItemId, int quantity)
         {
-            // Изменено, чтобы использовать метод SaveChangesAsync в конце
-            var cart = _context.Carts
-                .Include(c => c.Items)
-                .SingleOrDefault(c => c.UserId == userId);
-
-            if (cart != null)
+            var cartItem = await _context.Set<CartItem>().FindAsync(cartItemId);
+            if (cartItem != null)
             {
-                var cartItem = cart.Items.SingleOrDefault(i => i.BookId == bookId);
-                if (cartItem != null)
-                {
-                    cartItem.Quantity = newQuantity;
-                    _context.Entry(cartItem).State = EntityState.Modified;
-                }
+                cartItem.Quantity = quantity;
+                _context.Set<CartItem>().Update(cartItem);
+                await _context.SaveChangesAsync();
+            }
+        }
 
-                // Вызываем SaveChangesAsync в конце
-                _context.SaveChangesAsync().Wait(); // Используйте await при вызове метода в асинхронной среде
+        public async Task RemoveItemFromCartAsync(Guid cartItemId)
+        {
+            var cartItem = await _context.Set<CartItem>().FindAsync(cartItemId);
+            if (cartItem != null)
+            {
+                _context.Set<CartItem>().Remove(cartItem);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task ClearCartAsync(Guid cartId)
+        {
+            var cartItems = await _context.Set<CartItem>()
+                .Where(ci => ci.CartId == cartId)
+                .ToListAsync();
+
+            if (cartItems.Any())
+            {
+                _context.Set<CartItem>().RemoveRange(cartItems);
+                await _context.SaveChangesAsync();
             }
         }
     }

@@ -1,11 +1,6 @@
 ﻿using CartService.Aplication.Interfaces;
 using CartService.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CartService.Infrastructure.Services
 {
@@ -15,6 +10,8 @@ namespace CartService.Infrastructure.Services
         {
             service.AddScoped<IBookService, BookService>();
             service.AddScoped<IBookRepository, BookRepository>();
+            service.AddScoped<ICartService, CartServices>();
+            service.AddScoped<ICartRepository, CartRepository>();
         }
     }
 }

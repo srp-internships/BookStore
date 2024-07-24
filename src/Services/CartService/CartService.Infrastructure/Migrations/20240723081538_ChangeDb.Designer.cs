@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CartService.Infrastructure.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20240718055451_ChangeDbSet")]
-    partial class ChangeDbSet
+    [Migration("20240723081538_ChangeDb")]
+    partial class ChangeDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,13 +121,11 @@ namespace CartService.Infrastructure.Migrations
 
             modelBuilder.Entity("CartService.Domain.Entities.CartItem", b =>
                 {
-                    b.HasOne("CartService.Domain.Entities.Cart", "Cart")
+                    b.HasOne("CartService.Domain.Entities.Cart", null)
                         .WithMany("Items")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("CartService.Domain.Entities.Cart", b =>

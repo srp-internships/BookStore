@@ -1,8 +1,4 @@
-﻿using CartService.Domain.Entities;
-using CartService.Infrastructure.Persistence.Contexts;
-using CatalogService.Contracts;
-using MassTransit;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CartService.Consumers.Books
 {
@@ -22,15 +18,17 @@ namespace CartService.Consumers.Books
             _logger.LogInformation("Book Updated: {Id}, {Title}, {Image}",
                 context.Message.Id, context.Message.Title, context.Message.Image);
 
-            var book = await _context.Books.FindAsync(context.Message.Id);
-            if (book != null)
-            {
-                book.Title = context.Message.Title;
-                book.Image = context.Message.Image;
+            var cartItems = await _context.Items
+                .Where(ci => ci.BookId == context.Message.Id)
+                .ToListAsync();
 
-                _context.Books.Update(book);
-                await _context.SaveChangesAsync();
+            foreach (var item in cartItems)
+            {
+                item.BookName = context.Message.Title;
             }
+
+            _context.Items.UpdateRange(cartItems);
+            await _context.SaveChangesAsync();
         }
     }
 }

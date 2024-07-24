@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MassTransit;
-using CartService.Domain.Entities;
-using System.Threading.Tasks;
-using CartService.Infrastructure.Persistence.Contexts;
-using Microsoft.Extensions.Logging;
-using CatalogService.Contracts;
+﻿using CartService.Domain.Entities;
 
 namespace CartService.Consumers.Books
 {
@@ -38,5 +28,4 @@ namespace CartService.Consumers.Books
             await _context.SaveChangesAsync();
         }
     }
-
 }

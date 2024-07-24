@@ -6,6 +6,7 @@ public static class OrderExtensions
     {
         return orders.Select(order => new OrderDto(
             CustomerId: order.CustomerId,
+            CartId: order.CartId,
             ShippingAddress: new AddressDto(order.ShippingAddress.FirstName, order.ShippingAddress.LastName, order.ShippingAddress.EmailAddress!, order.ShippingAddress.Country, order.ShippingAddress.State, order.ShippingAddress.ZipCode),
             Status: order.Status,
             Items: order.Items.Select(oi => new OrderItemDto(oi.BookId, oi.Quantity, oi.Price)).ToList()
@@ -22,6 +23,7 @@ public static class OrderExtensions
         return new OrderDto(
            
                     CustomerId: order.CustomerId,
+                    CartId: order.CartId,
                     ShippingAddress: new AddressDto(order.ShippingAddress.FirstName, order.ShippingAddress.LastName, order.ShippingAddress.EmailAddress!, order.ShippingAddress.Country, order.ShippingAddress.State, order.ShippingAddress.ZipCode),
                     Status: order.Status,
                     Items: order.Items.Select(oi => new OrderItemDto(oi.BookId, oi.Quantity, oi.Price)).ToList()

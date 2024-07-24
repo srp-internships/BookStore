@@ -29,11 +29,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return await _dbContext.SaveChangesAsync(token) > 0;
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(PaginationRequest paginationRequest, CancellationToken token = default)
-    {
-       throw new NotImplementedException();
-    }
-
     public async Task<TEntity> GetAsync(Guid id, CancellationToken token = default)
     {
         var entity = await _dbSet.FindAsync(id, token);

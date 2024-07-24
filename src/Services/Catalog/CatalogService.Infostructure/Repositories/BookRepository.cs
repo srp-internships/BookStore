@@ -60,7 +60,7 @@ namespace CatalogService.Infostructure.Repositories
                 .Include(s => s.Authors)
                 .Include(s => s.Publisher)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-                
+
             if (book == null)
             {
                 throw new NotFoundException(nameof(Book), book.Id);
@@ -100,6 +100,7 @@ namespace CatalogService.Infostructure.Repositories
         public async Task UpdateCategoriesAsync(Guid id, IEnumerable<Category> newCategories, CancellationToken token = default)
         {
             var book = await GetByIdAsync(id, token);
+            book.Categories.Clear();
             foreach (var category in newCategories)
             {
                 book.Categories.Add(category);
@@ -110,11 +111,11 @@ namespace CatalogService.Infostructure.Repositories
         public async Task UpdateAuthorsAsync(Guid id, IEnumerable<Author> newAuthors, CancellationToken token = default)
         {
             var book = await GetByIdAsync(id, token);
-            book.Authors = newAuthors.ToArray();
-            /*foreach(var author in newAuthors)
+            book.Authors.Clear();
+            foreach(var author in newAuthors)
             {
                 book.Authors.Add(author);
-            }*/
+            }
             await _dbcontext.SaveChangesAsync(token);
         }
 

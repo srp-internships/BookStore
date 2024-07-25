@@ -15,18 +15,17 @@ namespace CatalogService.Application.UseCases
     public class CreateBookSellerCommandHandler(
         IBookSellerRepository sellerRepository,
         IMapper mapper,
-        IValidator<CreateBookSellerCommand> validator ) : IRequestHandler<CreateBookSellerCommand, Guid>
+        IValidator<CreateBookSellerCommand> validator ) : IRequestHandler<CreateBookSellerCommand>
     {
         private readonly IBookSellerRepository _repository = sellerRepository;
         private readonly IMapper _mapper = mapper;
         private readonly IValidator<CreateBookSellerCommand> _validator = validator;
 
-        public async Task<Guid> Handle(CreateBookSellerCommand request, CancellationToken token)
+        public async Task Handle(CreateBookSellerCommand request, CancellationToken token)
         {
             await _validator.ValidateAndThrowAsync(request, token);
             var bookSeller = _mapper.Map<BookSeller>(request);
-            var guid = await _repository.CreateAsync(bookSeller, token);
-            return guid;
+            await _repository.CreateAsync(bookSeller, token);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
-    public class CreateBookSellerCommand : IRequest<Guid>
+    public class CreateBookSellerCommand : IRequest
     {
         public Guid BookId { get; set; }
         public Guid SellerId { get; set; }

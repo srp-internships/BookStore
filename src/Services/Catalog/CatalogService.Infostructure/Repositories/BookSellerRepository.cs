@@ -17,16 +17,37 @@ namespace CatalogService.Infostructure.Repositories
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
         private readonly IBus _bus = bus;
-        public async Task<Guid> CreateAsync(BookSeller bookSeller, CancellationToken token = default)
-        {
+        public async Task CreateAsync(BookSeller bookSeller, CancellationToken token = default)
+        {/*
+            var seller = await _dbcontext.Sellers
+                .FirstOrDefaultAsync(p => p.Id.Equals(bookSeller.SellerId), token);
+            if(seller is null)
+            {
+                throw new NullReferenceException("seller does not exists");
+            }
+            else
+            {
+                if(seller.Books is not null)
+                {
+                    foreach (var item in seller.Books)
+                    {
+                        if (item.Id.Equals(bookSeller.BookId))
+                            throw new Exception("Bookseller already exists");
+                    }
+                }
+            }*/
             var existingBookSeller = await _dbcontext.BookSellers
                 .FirstOrDefaultAsync(p => p.SellerId.Equals(bookSeller.SellerId), token);
-            if (existingBookSeller.BookId.Equals(bookSeller.BookId))
+            if(existingBookSeller is not null)
             {
-                return existingBookSeller.Id;
+                if (existingBookSeller.BookId.Equals(bookSeller.BookId))
+                {
+                    throw new Exception("Bookseller already exists");
+                }
             }
 
             await _dbcontext.BookSellers.AddAsync(bookSeller, token);
+
             await _dbcontext.SaveChangesAsync(token);
             await _bus.Publish(new BookSellerCreatedEvent
             {
@@ -36,21 +57,21 @@ namespace CatalogService.Infostructure.Repositories
                 Price = bookSeller.Price,
                 Amount = bookSeller.Amount
             });
-            var guid = bookSeller.Id;
-            return guid;
 
         }
         public async Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             var bookSeller = await _dbcontext.BookSellers
-                .FirstOrDefaultAsync(x => x.Id.Equals(id), token);
+                .Include(bs => bs.Book)
+                .Include(bs => bs.Seller)
+                .FirstOrDefaultAsync(bs => bs.Id.Equals(id), token);
             return bookSeller;
         }
 
         public async Task UpdateAsync(BookSeller bookSeller, CancellationToken token = default)
         {
-            BookSeller entity = await _dbcontext.BookSellers.FirstOrDefaultAsync(bookSeller
-                => bookSeller.Id.Equals(bookSeller), token);
+            var entity = await _dbcontext.BookSellers.FirstOrDefaultAsync(x
+                => x.Id.Equals(bookSeller.Id), token);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(BookSeller), bookSeller.Id);
@@ -73,13 +94,13 @@ namespace CatalogService.Infostructure.Repositories
 
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
-            Author entity = await _dbcontext.Authors
+            var entity = await _dbcontext.BookSellers
                 .FirstOrDefaultAsync(x => x.Id.Equals(id), token);
             if (entity == null)
             {
-                throw new NotFoundException(nameof(Book), entity.Id);
+                throw new NotFoundException(nameof(BookSeller), entity.Id);
             }
-            _dbcontext.Authors.Remove(entity);
+            _dbcontext.BookSellers.Remove(entity);
             await _dbcontext.SaveChangesAsync(token);
         }
 

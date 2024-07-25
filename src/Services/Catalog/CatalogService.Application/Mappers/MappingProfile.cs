@@ -44,7 +44,9 @@ namespace CatalogService.Application.Mappers
             CreateMap<Author, AuthorDto>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Publisher, PublisherDto>();
-            
+            CreateMap<BookSeller, BookSellerDto>();
+
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace CatalogService.Domain.Interfaces
 {
     public interface IBookSellerRepository
     {
-        Task<Guid> CreateAsync(BookSeller bookSeller, CancellationToken token = default);
+        Task CreateAsync(BookSeller bookSeller, CancellationToken token = default);
         Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default);
         Task UpdateAsync(BookSeller bookSeller, CancellationToken token = default);
         Task DeleteAsync(Guid id, CancellationToken token = default);

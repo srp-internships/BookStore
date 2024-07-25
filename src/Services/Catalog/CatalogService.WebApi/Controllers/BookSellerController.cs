@@ -14,8 +14,8 @@ namespace CatalogService.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]CreateBookSellerCommand request, CancellationToken token = default)
         {
-            var id = _mediator.Send(request, token);
-            return Ok(id);
+            await _mediator.Send(request, token);
+            return Ok();
         }
 
         [HttpGet]

@@ -26,14 +26,7 @@ builder.Services.AddDbContext<CatalogDbContext>(options =>
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
-builder.Services.AddMassTransit(x =>
-{
-    // Configure RabbitMQ
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host("rabbitmq://localhost");
-    });
-});
+
 
 builder.Services.AddMassTransitHostedService();
 /*

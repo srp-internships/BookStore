@@ -1,0 +1,51 @@
+﻿@page "/shipment/{Id:guid}"
+@using ShipmentService.Web.Services;
+@using ShipmentService.Web.Models;
+@inject IShipmentService ShipmentService
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    private ShipmentDto shipment;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != Guid.Empty)
+        {
+            shipment = await ShipmentService.GetShipmentByIdAsync(Id);
+        }
+    }
+}
+
+<h3>Shipment Details</h3>
+
+@if (shipment != null)
+{
+    <div>
+        <p><strong>Shipment ID:</strong> @shipment.ShipmentId</p>
+        <p><strong>Order ID:</strong> @shipment.OrderId</p>
+        <p><strong>Customer ID:</strong> @shipment.CustomerId</p>
+        <p><strong>Shipping Address:</strong></p>
+        <ul>
+            <li><strong>Street:</strong> @shipment.ShippingAddress.Street</li>
+            <li><strong>City:</strong> @shipment.ShippingAddress.City</li>
+            <li><strong>Country:</strong> @shipment.ShippingAddress.Country</li>
+        </ul>
+        <p><strong>Status:</strong> @(shipment.Status == 1 ? "Shipped" : "Pending")</p>
+        <p><strong>Estimated Delivery Date:</strong> @shipment.EstimatedDeliveryDate.ToString("yyyy-MM-dd")</p>
+
+        <h4>Items</h4>
+        <ul>
+            @foreach (var item in shipment.Items)
+            {
+                <li>
+                    <strong>Book Name:</strong> @item.BookName,
+                    <strong>Quantity:</strong> @item.Quantity
+                </li>
+            }
+        </ul>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}

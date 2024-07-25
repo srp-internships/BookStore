@@ -19,24 +19,30 @@ namespace ShipmentService.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Shipment> GetShipmentByIdAsync(Guid shipmentId)
+        public async Task<IEnumerable<Shipment>> GetAllShipmentsAsync()
         {
             return await _context.Shipments
-                .Include(s => s.ShippingAddress)
                 .Include(s => s.Items)
+                .Include(s => s.ShippingAddress)
+                .ToListAsync();
+        }
+
+        public async Task<Shipment?> GetShipmentByIdAsync(Guid shipmentId)
+        {
+            return await _context.Shipments
+                .Include(s => s.Items)
+                .Include(s => s.ShippingAddress)
                 .FirstOrDefaultAsync(s => s.ShipmentId == shipmentId);
         }
 
-        public async Task CreateShipmentAsync(Shipment shipment)
+        public async Task AddShipmentAsync(Shipment shipment)
         {
             await _context.Shipments.AddAsync(shipment);
-            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateShipmentAsync(Shipment shipment)
         {
             _context.Shipments.Update(shipment);
-            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteShipmentAsync(Guid shipmentId)
@@ -45,8 +51,12 @@ namespace ShipmentService.Infrastructure.Repositories
             if (shipment != null)
             {
                 _context.Shipments.Remove(shipment);
-                await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -7,8 +7,5 @@ using System.Threading.Tasks;
 
 namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Delete
 {
-    public class DeleteShipmentCommand: IRequest<string>
-    {
-        public Guid ShipmentId { get; set; }
-    }
+    public record DeleteShipmentCommand(Guid ShipmentId) : IRequest<Unit>;
 }

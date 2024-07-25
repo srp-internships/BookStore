@@ -1,0 +1,25 @@
+﻿@page "/shipment-input"
+@inject NavigationManager Navigation
+
+<h3>Enter Shipment ID</h3>
+
+<p>
+    <input type="text" @bind="shipmentId" placeholder="Enter Shipment ID (GUID)" />
+    <button @onclick="GoToShipmentDetails">Submit</button>
+</p>
+
+@code {
+    private string shipmentId;
+
+    private void GoToShipmentDetails()
+    {
+        if (Guid.TryParse(shipmentId, out var id))
+        {
+            Navigation.NavigateTo($"/shipment/{id}");
+        }
+        else
+        {
+            // Handle invalid GUID
+        }
+    }
+}

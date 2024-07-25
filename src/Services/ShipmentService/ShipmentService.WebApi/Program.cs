@@ -8,7 +8,6 @@ using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
 using ShipmentService.Aplication.Interfaces;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
 using ShipmentService.Infrastructure.Repositories;
-using ShipmentService.Infrastructure.Services;
 using ShipmentService.IntegrationEvent;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,9 +21,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
-builder.Services.AddScoped<IShipmentService, ShipmentServices>();
 builder.Services.AddAutoMapper(typeof(ShipmentMappings));
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
@@ -71,9 +77,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowAll");
 app.UseAuthorization();
-
+app.UseRouting();
 app.MapControllers();
 
 app.Run();

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Create
 {
-    public class CreateShipmentCommand: IRequest<Guid>
-    {
-        public Guid OrderId { get; set; }
-        public Guid CustomerId { get; set; }
-        public ShippingAddress ShippingAddress { get; set; }
-        public List<ShipmentItem> Items { get; set; }
-    }
+    public record CreateShipmentCommand
+   (
+       Guid OrderId,
+       Guid CustomerId,
+       ShippingAddress ShippingAddress,
+       List<ShipmentItem> Items
+   ) : IRequest<Guid>;
 }

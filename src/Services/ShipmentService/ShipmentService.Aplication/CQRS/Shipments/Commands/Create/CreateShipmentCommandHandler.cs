@@ -12,27 +12,23 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Create
 {
     public class CreateShipmentCommandHandler : IRequestHandler<CreateShipmentCommand, Guid>
     {
-        private readonly IShipmentService _shipmentService;
+        private readonly IShipmentRepository _shipmentRepository;
+        private readonly IMapper _mapper;
 
-        public CreateShipmentCommandHandler(IShipmentService shipmentService)
+        public CreateShipmentCommandHandler(IShipmentRepository shipmentRepository, IMapper mapper)
         {
-            _shipmentService = shipmentService;
+            _shipmentRepository = shipmentRepository;
+            _mapper = mapper;
         }
 
         public async Task<Guid> Handle(CreateShipmentCommand request, CancellationToken cancellationToken)
         {
-            var shipment = new Shipment
-            {
-                ShipmentId = Guid.NewGuid(),
-                OrderId = request.OrderId,
-                CustomerId = request.CustomerId,
-                ShippingAddress = request.ShippingAddress,
-                Items = request.Items,
-                Status = Status.Pending,
-                EstimatedDeliveryDate = DateTime.UtcNow.AddDays(5)
-            };
+            // Преобразование команды в сущность
+            var shipment = _mapper.Map<Shipment>(request);
 
-            await _shipmentService.CreateShipmentAsync(shipment);
+            // Добавление сущности в репозиторий
+            await _shipmentRepository.AddShipmentAsync(shipment);
+            await _shipmentRepository.SaveChangesAsync();
 
             return shipment.ShipmentId;
         }

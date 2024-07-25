@@ -9,9 +9,11 @@ namespace ShipmentService.Aplication.Interfaces
 {
     public interface IShipmentRepository
     {
-        Task<Shipment> GetShipmentByIdAsync(Guid shipmentId);
-        Task CreateShipmentAsync(Shipment shipment);
+        Task<IEnumerable<Shipment>> GetAllShipmentsAsync();
+        Task<Shipment?> GetShipmentByIdAsync(Guid shipmentId);
+        Task AddShipmentAsync(Shipment shipment);
         Task UpdateShipmentAsync(Shipment shipment);
         Task DeleteShipmentAsync(Guid shipmentId);
+        Task SaveChangesAsync();
     }
 }

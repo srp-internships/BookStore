@@ -94,9 +94,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Consumers.Integ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Api.UnitTests.NUnit.IntegrationTests", "tests\Services\CartService\CartService.Api.UnitTests.NUnit.IntegrationTests\CartService.Api.UnitTests.NUnit.IntegrationTests.csproj", "{3DCDCCA2-EAD0-48E2-BF82-92E81F8A8C24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Domain.UnitTests.xUnit", "tests\Services\CartService\CartService.Domain.UnitTests.xUnit\CartService.Domain.UnitTests.xUnit.csproj", "{07914C45-5B18-4B9C-A931-61FCCC872FC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Domain.UnitTests.xUnit", "tests\Services\CartService\CartService.Domain.UnitTests.xUnit\CartService.Domain.UnitTests.xUnit.csproj", "{07914C45-5B18-4B9C-A931-61FCCC872FC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Infrastructure.UnitTests.xUnit", "tests\Services\CartService\CartService.Infrastructure.UnitTests.xUnit\CartService.Infrastructure.UnitTests.xUnit.csproj", "{B1F50645-EFD2-43FE-B296-CC6F97A379AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Infrastructure.UnitTests.xUnit", "tests\Services\CartService\CartService.Infrastructure.UnitTests.xUnit\CartService.Infrastructure.UnitTests.xUnit.csproj", "{B1F50645-EFD2-43FE-B296-CC6F97A379AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

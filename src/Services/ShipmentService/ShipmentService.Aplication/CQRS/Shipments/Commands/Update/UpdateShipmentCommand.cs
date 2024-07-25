@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Update
 {
-    public class UpdateShipmentCommand : IRequest<(bool, string)>
-    {
-        [JsonIgnore]
-        public Guid ShipmentId { get; set; }
-        public Status Status { get; set; }
-    }
+    public record UpdateShipmentCommand
+   (
+       Guid ShipmentId,
+       Status Status,
+       DateTime UpdatedStatusDateTime
+   ) : IRequest<Unit>;
 }

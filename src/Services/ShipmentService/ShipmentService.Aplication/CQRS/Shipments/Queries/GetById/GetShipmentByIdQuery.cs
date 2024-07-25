@@ -6,10 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipmentService.Aplication.CQRS.Shipments.Queries
+namespace ShipmentService.Aplication.CQRS.Shipments.Queries.GetById
 {
-    public class GetShipmentByIdQuery : IRequest<Shipment>
-    {
-        public Guid ShipmentId { get; set; }
-    }
+    public record GetShipmentByIdQuery(Guid ShipmentId) : IRequest<Shipment>;
 }

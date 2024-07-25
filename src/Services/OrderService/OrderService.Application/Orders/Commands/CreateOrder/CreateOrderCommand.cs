@@ -1,6 +1,4 @@
-﻿using OrderService.Domain.Enums;
-
-namespace OrderService.Application.Orders.Commands.CreateOrder;
+﻿namespace OrderService.Application.Orders.Commands.CreateOrder;
 
 public record CreateOrderCommand(
     Guid CustomerId,

@@ -41,7 +41,7 @@ public class CustomExceptionHandler
                 exception.GetType().Name,
                 context.Response.StatusCode = StatusCodes.Status404NotFound
             ),
-            _ =>
+                            _ =>
             (
                 exception.Message,
                 exception.GetType().Name,

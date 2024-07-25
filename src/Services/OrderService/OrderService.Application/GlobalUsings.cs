@@ -14,3 +14,5 @@ global using MassTransit;
 global using Microsoft.Extensions.Logging;
 global using OrderService.Application.Common.Pagination;
 global using OrderService.Application.Data;
+global using OrderService.Domain.Enums;
+

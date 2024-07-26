@@ -14,7 +14,7 @@ namespace CatalogService.Infostructure.Configurations
         public void Configure(EntityTypeBuilder<BookSeller> builder)
         {
             builder
-                .ToTable("bookseller");
+                .ToTable("book_seller");
 
             builder
                 .Property(p => p.Id)
@@ -29,12 +29,6 @@ namespace CatalogService.Infostructure.Configurations
                 .Property(p => p.Price)
                 .HasColumnName("price")
                 .HasColumnType("MONEY")
-                .IsRequired();
-
-            builder
-                .Property(p => p.Amount)
-                .HasColumnName("amount")
-                .HasColumnType("INTEGER")
                 .IsRequired();
 
             builder

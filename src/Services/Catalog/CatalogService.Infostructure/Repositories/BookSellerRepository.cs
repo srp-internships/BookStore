@@ -18,24 +18,7 @@ namespace CatalogService.Infostructure.Repositories
         private readonly CatalogDbContext _dbcontext = dbContext;
         private readonly IBus _bus = bus;
         public async Task CreateAsync(BookSeller bookSeller, CancellationToken token = default)
-        {/*
-            var seller = await _dbcontext.Sellers
-                .FirstOrDefaultAsync(p => p.Id.Equals(bookSeller.SellerId), token);
-            if(seller is null)
-            {
-                throw new NullReferenceException("seller does not exists");
-            }
-            else
-            {
-                if(seller.Books is not null)
-                {
-                    foreach (var item in seller.Books)
-                    {
-                        if (item.Id.Equals(bookSeller.BookId))
-                            throw new Exception("Bookseller already exists");
-                    }
-                }
-            }*/
+        {
             var existingBookSeller = await _dbcontext.BookSellers
                 .FirstOrDefaultAsync(p => p.SellerId.Equals(bookSeller.SellerId), token);
             if(existingBookSeller is not null)
@@ -49,13 +32,11 @@ namespace CatalogService.Infostructure.Repositories
             await _dbcontext.BookSellers.AddAsync(bookSeller, token);
 
             await _dbcontext.SaveChangesAsync(token);
-            await _bus.Publish(new BookSellerCreatedEvent
+            await _bus.Publish(new PriceCreatedEvent
             {
-                Id = Guid.NewGuid(),
                 BookId = bookSeller.BookId,
                 SellerId = bookSeller.SellerId,
                 Price = bookSeller.Price,
-                Amount = bookSeller.Amount
             });
 
         }
@@ -77,18 +58,15 @@ namespace CatalogService.Infostructure.Repositories
                 throw new NotFoundException(nameof(BookSeller), bookSeller.Id);
             }
             entity.Price = bookSeller.Price;
-            entity.Amount = bookSeller.Amount;
             entity.Description = bookSeller.Description;
 
             await _dbcontext.SaveChangesAsync(token);
 
-            await _bus.Publish(new BookSellerUpdatedEvent
+            await _bus.Publish(new PriceUpdatedEvent
             {
-                Id = Guid.NewGuid(),
                 BookId = bookSeller.BookId,
                 SellerId = bookSeller.SellerId,
                 Price = bookSeller.Price,
-                Amount = bookSeller.Amount
             });
         }
 

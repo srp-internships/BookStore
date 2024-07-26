@@ -13,8 +13,7 @@ namespace CatalogService.Domain.Entities
         public Guid BookId { get; set; }
         public Seller? Seller { get; set; }
         public Guid SellerId { get; set; }
-        public decimal Price { get; set; }
-        public int Amount { get; set; }
-        public string Description { get; set; }
+        public required decimal Price { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }

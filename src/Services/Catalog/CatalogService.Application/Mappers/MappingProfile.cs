@@ -15,8 +15,8 @@ namespace CatalogService.Application.Mappers
         public MappingProfile()
         {
             CreateMap<CreateBookCommand, Book>()
-                .ForMember(dest => dest.BookCategories, opt => opt.Ignore())
-                .ForMember(dest => dest.BookAuthors, opt => opt.Ignore())
+                .ForMember(dest => dest.Authors, opt => opt.Ignore())
+                .ForMember(dest => dest.Categories, opt => opt.Ignore())
                 .ForMember(dest => dest.BookSellers, opt => opt.Ignore())
                 .ForMember(dest => dest.Publisher, opt => opt.Ignore())
                 .ForMember(dest => dest.Authors, opt => opt.Ignore())

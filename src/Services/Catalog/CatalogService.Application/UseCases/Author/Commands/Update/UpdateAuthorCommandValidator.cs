@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatalogService.Application.Validators.Author
+namespace CatalogService.Application.UseCases
 {
     public class UpdateAuthorCommandValidator : AbstractValidator<UpdateAuthorCommand>
     {
@@ -17,8 +17,9 @@ namespace CatalogService.Application.Validators.Author
                 .MinimumLength(3).WithMessage("Name's length can not be less than 3")
                 .MaximumLength(50).WithMessage("Name's length can not be more than 50");
             RuleFor(prop => prop.Description)
-                .MinimumLength(15).WithMessage("Name's length can not be less than 15")
-                .MaximumLength(500).WithMessage("Name's length can not be more than 500");
+                .MinimumLength(15).WithMessage("Descriptions's length can not be less than 15")
+                .MaximumLength(500).WithMessage("Descriptions's length can not be more than 500")
+                .When(prop => !string.IsNullOrEmpty(prop.Description));
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CatalogService.Application.Validators.Book
+namespace CatalogService.Application.UseCases
 {
     public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
     {
@@ -20,7 +20,7 @@ namespace CatalogService.Application.Validators.Book
                 .NotEmpty().WithMessage("Name can not be empty")
                 .MinimumLength(3).WithMessage("Name's length can not be less than 3")
                 .MaximumLength(50).WithMessage("Name's length can not be more than 50");
-   
+
 
         }
         private bool BeAValidUrl(string url)

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CatalogService.Infostructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialMigaration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,7 +45,7 @@ namespace CatalogService.Infostructure.Migrations
                     name = table.Column<string>(type: "VARCHAR(50)", nullable: false),
                     email = table.Column<string>(type: "VARCHAR(100)", nullable: false),
                     address = table.Column<string>(type: "VARCHAR(500)", nullable: false),
-                    Logo = table.Column<string>(type: "text", nullable: false)
+                    logo = table.Column<string>(type: "VARCHAR(500)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,10 +69,10 @@ namespace CatalogService.Infostructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "UUID", nullable: false),
-                    publisher_id = table.Column<Guid>(type: "UUID", nullable: false),
                     name = table.Column<string>(type: "VARCHAR(200)", nullable: false),
                     image = table.Column<string>(type: "VARCHAR(500)", nullable: false),
-                    ISBN = table.Column<string>(type: "text", nullable: false)
+                    isbn = table.Column<string>(type: "VARCHAR(17)", nullable: false),
+                    publisher_id = table.Column<Guid>(type: "UUID", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +86,7 @@ namespace CatalogService.Infostructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookAuthors",
+                name: "book_author",
                 columns: table => new
                 {
                     book_id = table.Column<Guid>(type: "UUID", nullable: false),
@@ -94,15 +94,15 @@ namespace CatalogService.Infostructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookAuthors", x => new { x.author_id, x.book_id });
+                    table.PrimaryKey("PK_book_author", x => new { x.author_id, x.book_id });
                     table.ForeignKey(
-                        name: "FK_BookAuthors_author_author_id",
+                        name: "FK_book_author_author_author_id",
                         column: x => x.author_id,
                         principalTable: "author",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookAuthors_book_book_id",
+                        name: "FK_book_author_book_book_id",
                         column: x => x.book_id,
                         principalTable: "book",
                         principalColumn: "id",
@@ -110,7 +110,7 @@ namespace CatalogService.Infostructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookCategories",
+                name: "book_category",
                 columns: table => new
                 {
                     book_id = table.Column<Guid>(type: "UUID", nullable: false),
@@ -118,15 +118,15 @@ namespace CatalogService.Infostructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookCategories", x => new { x.category_id, x.book_id });
+                    table.PrimaryKey("PK_book_category", x => new { x.book_id, x.category_id });
                     table.ForeignKey(
-                        name: "FK_BookCategories_book_book_id",
+                        name: "FK_book_category_book_book_id",
                         column: x => x.book_id,
                         principalTable: "book",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookCategories_category_category_id",
+                        name: "FK_book_category_category_category_id",
                         column: x => x.category_id,
                         principalTable: "category",
                         principalColumn: "id",
@@ -134,27 +134,26 @@ namespace CatalogService.Infostructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "bookseller",
+                name: "book_seller",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "UUID", nullable: false),
                     book_id = table.Column<Guid>(type: "UUID", nullable: false),
                     seller_id = table.Column<Guid>(type: "UUID", nullable: false),
                     price = table.Column<decimal>(type: "MONEY", nullable: false),
-                    amount = table.Column<int>(type: "INTEGER", nullable: false),
                     description = table.Column<string>(type: "VARCHAR(500)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_bookseller", x => x.id);
+                    table.PrimaryKey("PK_book_seller", x => x.id);
                     table.ForeignKey(
-                        name: "FK_bookseller_book_book_id",
+                        name: "FK_book_seller_book_book_id",
                         column: x => x.book_id,
                         principalTable: "book",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_bookseller_seller_seller_id",
+                        name: "FK_book_seller_seller_seller_id",
                         column: x => x.seller_id,
                         principalTable: "seller",
                         principalColumn: "id",
@@ -167,23 +166,23 @@ namespace CatalogService.Infostructure.Migrations
                 column: "publisher_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookAuthors_book_id",
-                table: "BookAuthors",
+                name: "IX_book_author_book_id",
+                table: "book_author",
                 column: "book_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookCategories_book_id",
-                table: "BookCategories",
+                name: "IX_book_category_category_id",
+                table: "book_category",
+                column: "category_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_book_seller_book_id",
+                table: "book_seller",
                 column: "book_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_bookseller_book_id",
-                table: "bookseller",
-                column: "book_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_bookseller_seller_id",
-                table: "bookseller",
+                name: "IX_book_seller_seller_id",
+                table: "book_seller",
                 column: "seller_id");
         }
 
@@ -191,13 +190,13 @@ namespace CatalogService.Infostructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookAuthors");
+                name: "book_author");
 
             migrationBuilder.DropTable(
-                name: "BookCategories");
+                name: "book_category");
 
             migrationBuilder.DropTable(
-                name: "bookseller");
+                name: "book_seller");
 
             migrationBuilder.DropTable(
                 name: "author");

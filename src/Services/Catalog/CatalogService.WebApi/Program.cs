@@ -2,7 +2,6 @@ using AutoMapper.Configuration;
 using CatalogService.Application;
 using CatalogService.Application.Mappers;
 using CatalogService.Application.UseCases;
-using CatalogService.Application.Validators.Book;
 using CatalogService.Domain.Interfaces;
 using CatalogService.Infostructure;
 using CatalogService.Infostructure.Repositories;

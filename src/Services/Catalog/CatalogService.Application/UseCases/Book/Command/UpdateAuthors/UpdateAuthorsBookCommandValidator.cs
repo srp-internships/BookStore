@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatalogService.Application.Validators.Book
+namespace CatalogService.Application.UseCases
 {
     public class UpdateAuthorsBookCommandValidator : AbstractValidator<UpdateAuthorsBookCommand>
     {

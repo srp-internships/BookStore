@@ -32,6 +32,12 @@ namespace CatalogService.Infostructure.Configurations
                 .IsRequired();
 
             builder
+                .Property(p => p.ISBN)
+                .HasColumnName("isbn")
+                .HasColumnType("VARCHAR(17)")
+                .IsRequired();
+
+            builder
                 .Property(p => p.Image)
                 .HasColumnName("image")
                 .HasColumnType("VARCHAR(500)")
@@ -48,38 +54,12 @@ namespace CatalogService.Infostructure.Configurations
             builder
             .HasMany(c => c.Categories)
             .WithMany(s => s.Books)
-            .UsingEntity<BookCategory>(
-               j => j
-                .HasOne(pt => pt.Category)
-                .WithMany(t => t.BookCategories)
-                .HasForeignKey(pt => pt.CategoryId),
-               j => j
-                .HasOne(pt => pt.Book)
-                .WithMany(p => p.BookCategories)
-                .HasForeignKey(pt => pt.BookId),
-               j =>
-               {
-                   j.HasKey(t => new { t.CategoryId, t.BookId });
-               }
-            );
+            .UsingEntity<BookCategory>();
 
             builder
             .HasMany(c => c.Authors)
             .WithMany(s => s.Books)
-            .UsingEntity<BookAuthor>(
-               j => j
-                .HasOne(pt => pt.Author)
-                .WithMany(t => t.BookAuthors)
-                .HasForeignKey(pt => pt.AuthorId),
-               j => j
-                .HasOne(pt => pt.Book)
-                .WithMany(p => p.BookAuthors)
-                .HasForeignKey(pt => pt.BookId),
-              j =>
-              {
-                  j.HasKey(t => new { t.AuthorId, t.BookId });
-              }
-            );
+            .UsingEntity<BookAuthor>();
             builder
             .HasMany(c => c.Sellers)
             .WithMany(s => s.Books)

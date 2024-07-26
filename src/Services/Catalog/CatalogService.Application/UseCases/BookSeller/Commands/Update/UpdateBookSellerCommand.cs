@@ -10,7 +10,6 @@ namespace CatalogService.Application.UseCases
     public class UpdateBookSellerCommand : IRequest
     {
         public Guid Id { get; set; }
-        public int Amount { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
     }

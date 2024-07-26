@@ -42,6 +42,12 @@ namespace CatalogService.Infostructure.Configurations
                 .HasColumnName("address")
                 .HasColumnType("VARCHAR(500)")
                 .IsRequired();
+
+            builder
+                .Property(p => p.Logo)
+                .HasColumnName("logo")
+                .HasColumnType("VARCHAR(500)")
+                .IsRequired(false);
         }
     }
 }

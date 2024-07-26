@@ -24,6 +24,7 @@ namespace CatalogService.WebApi.Controllers
         {
             var vm = await _mediator.Send(new GetAllAuthorQuery(), token);
             return Ok(vm);
+            
         }
 
 

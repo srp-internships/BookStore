@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CatalogService.Application.Validators.Book
+namespace CatalogService.Application.UseCases
 {
     public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
     {
@@ -61,13 +61,13 @@ namespace CatalogService.Application.Validators.Book
                 {
                     return false;
                 }
-                sum += (digit * (10 - i));
+                sum += digit * (10 - i);
             }
 
             char lastChar = isbn[9];
-            sum += (lastChar == 'X') ? 10 : (int)char.GetNumericValue(lastChar);
+            sum += lastChar == 'X' ? 10 : (int)char.GetNumericValue(lastChar);
 
-            return (sum % 11 == 0);
+            return sum % 11 == 0;
         }
 
         private bool IsValidIsbn13(string isbn)
@@ -89,10 +89,10 @@ namespace CatalogService.Application.Validators.Book
                 {
                     return false;
                 }
-                sum += (i % 2 == 0) ? digit : (digit * 3);
+                sum += i % 2 == 0 ? digit : digit * 3;
             }
 
-            return (sum % 10 == 0);
+            return sum % 10 == 0;
         }
     }
 }

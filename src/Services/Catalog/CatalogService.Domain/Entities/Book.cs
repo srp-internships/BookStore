@@ -15,8 +15,6 @@ namespace CatalogService.Domain.Entities
         public ICollection<Category> Categories { get; set; }
         public ICollection<Author> Authors { get; set; }
         public ICollection<Seller> Sellers { get; set; }
-        public ICollection<BookAuthor> BookAuthors { get; set; }
-        public ICollection<BookCategory> BookCategories { get; set; }
         public ICollection<BookSeller> BookSellers { get; set; }
         public Guid PublisherId { get; set; }
         public Publisher? Publisher { get; set; }

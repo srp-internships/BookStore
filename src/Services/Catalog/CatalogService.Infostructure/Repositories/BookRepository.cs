@@ -103,8 +103,7 @@ namespace CatalogService.Infostructure.Repositories
             }
             await _bus.Publish(new BookUpdatedEvent
             {
-                Id = Guid.NewGuid(),
-                BookId = bookToUpdate.Id,
+                Id = bookToUpdate.Id,
                 Title = bookToUpdate.Title,
                 Image = bookToUpdate.Image,
                 CategoryIds = categoryIds,
@@ -134,8 +133,7 @@ namespace CatalogService.Infostructure.Repositories
             }
             await _bus.Publish(new BookUpdatedEvent
             {
-                Id = Guid.NewGuid(),
-                BookId = book.Id,
+                Id = book.Id,
                 Title = book.Title,
                 Image = book.Image,
                 CategoryIds = categoryIds,
@@ -165,8 +163,7 @@ namespace CatalogService.Infostructure.Repositories
             }
             await _bus.Publish(new BookUpdatedEvent
             {
-                Id = Guid.NewGuid(),
-                BookId = book.Id,
+                Id = book.Id,
                 Title = book.Title,
                 Image = book.Image,
                 CategoryIds = categoryIds,

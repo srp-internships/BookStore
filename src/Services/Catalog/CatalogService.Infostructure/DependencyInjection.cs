@@ -35,30 +35,7 @@ namespace CatalogService.Infostructure
                 {
                     cfg.Host("rabbitmq://localhost");
                 });
-            });/*
-            services.AddMassTransit(busConfigurator =>
-            {
-                busConfigurator.SetKebabCaseEndpointNameFormatter();
-                busConfigurator.UsingRabbitMq((context, configurator) =>
-                {
-                    var host = "http://localhost:15672";
-                    var username = "guest";
-                    var password = "guest";
-
-                    if (string.IsNullOrEmpty(host))
-                    {
-                        throw new ArgumentNullException(nameof(host), "RabbitMQ host cannot be null or empty.");
-                    }
-
-                    configurator.Host(new Uri(host), h =>
-                    {
-                        h.Username(username);
-                        h.Password(password);
-                    });
-
-                    configurator.ConfigureEndpoints(context);
-                });
-            });*/
+            });
 
             return services;
         }

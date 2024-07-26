@@ -12,6 +12,5 @@ namespace CatalogService.Domain.Entities
         public required string Name { get; set; }
         public string Description { get; set; } = string.Empty;
         public ICollection<Book> Books { get; set; }
-        public ICollection<BookCategory> BookCategories { get; set; }
     }
 }

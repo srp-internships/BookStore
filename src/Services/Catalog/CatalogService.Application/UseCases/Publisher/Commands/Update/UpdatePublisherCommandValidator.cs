@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CatalogService.Application.Validators.Publisher
+namespace CatalogService.Application.UseCases
 {
     public class UpdatePublisherCommandValidator : AbstractValidator<UpdatePublisherCommand>
     {
@@ -19,8 +19,8 @@ namespace CatalogService.Application.Validators.Publisher
                 .MaximumLength(50).WithMessage("Name's length can not be more than 50");
 
             RuleFor(prop => prop.Logo)
-                .NotEmpty().WithMessage("Logo can not be empty")
-                .Must(BeAValidUrl).WithMessage("Incorrect URL");
+                .Must(BeAValidUrl).WithMessage("Incorrect URL")
+                .When(prop => !string.IsNullOrEmpty(prop.Logo));
 
             RuleFor(prop => prop.Address)
                 .NotEmpty().WithMessage("Address can not be empty")
@@ -36,5 +36,5 @@ namespace CatalogService.Application.Validators.Publisher
             return Regex.IsMatch(url, pattern);
         }
     }
-    
+
 }

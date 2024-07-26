@@ -52,7 +52,8 @@ namespace CatalogService.Infostructure.Migrations
 
                     b.Property<string>("ISBN")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("VARCHAR(17)")
+                        .HasColumnName("isbn");
 
                     b.Property<string>("Image")
                         .IsRequired()
@@ -89,24 +90,24 @@ namespace CatalogService.Infostructure.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookAuthors");
+                    b.ToTable("book_author", (string)null);
                 });
 
             modelBuilder.Entity("CatalogService.Domain.Entities.BookCategory", b =>
                 {
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("UUID")
-                        .HasColumnName("category_id");
-
                     b.Property<Guid>("BookId")
                         .HasColumnType("UUID")
                         .HasColumnName("book_id");
 
-                    b.HasKey("CategoryId", "BookId");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("UUID")
+                        .HasColumnName("category_id");
 
-                    b.HasIndex("BookId");
+                    b.HasKey("BookId", "CategoryId");
 
-                    b.ToTable("BookCategories");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("book_category", (string)null);
                 });
 
             modelBuilder.Entity("CatalogService.Domain.Entities.BookSeller", b =>
@@ -115,10 +116,6 @@ namespace CatalogService.Infostructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("UUID")
                         .HasColumnName("id");
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("amount");
 
                     b.Property<Guid>("BookId")
                         .HasColumnType("UUID")
@@ -142,7 +139,7 @@ namespace CatalogService.Infostructure.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("bookseller", (string)null);
+                    b.ToTable("book_seller", (string)null);
                 });
 
             modelBuilder.Entity("CatalogService.Domain.Entities.Category", b =>
@@ -184,8 +181,8 @@ namespace CatalogService.Infostructure.Migrations
                         .HasColumnName("email");
 
                     b.Property<string>("Logo")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("VARCHAR(500)")
+                        .HasColumnName("logo");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -228,13 +225,13 @@ namespace CatalogService.Infostructure.Migrations
             modelBuilder.Entity("CatalogService.Domain.Entities.BookAuthor", b =>
                 {
                     b.HasOne("CatalogService.Domain.Entities.Author", "Author")
-                        .WithMany("BookAuthors")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CatalogService.Domain.Entities.Book", "Book")
-                        .WithMany("BookAuthors")
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -247,13 +244,13 @@ namespace CatalogService.Infostructure.Migrations
             modelBuilder.Entity("CatalogService.Domain.Entities.BookCategory", b =>
                 {
                     b.HasOne("CatalogService.Domain.Entities.Book", "Book")
-                        .WithMany("BookCategories")
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CatalogService.Domain.Entities.Category", "Category")
-                        .WithMany("BookCategories")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -282,23 +279,9 @@ namespace CatalogService.Infostructure.Migrations
                     b.Navigation("Seller");
                 });
 
-            modelBuilder.Entity("CatalogService.Domain.Entities.Author", b =>
-                {
-                    b.Navigation("BookAuthors");
-                });
-
             modelBuilder.Entity("CatalogService.Domain.Entities.Book", b =>
                 {
-                    b.Navigation("BookAuthors");
-
-                    b.Navigation("BookCategories");
-
                     b.Navigation("BookSellers");
-                });
-
-            modelBuilder.Entity("CatalogService.Domain.Entities.Category", b =>
-                {
-                    b.Navigation("BookCategories");
                 });
 
             modelBuilder.Entity("CatalogService.Domain.Entities.Publisher", b =>

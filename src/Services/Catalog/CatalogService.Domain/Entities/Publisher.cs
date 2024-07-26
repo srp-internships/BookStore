@@ -12,7 +12,7 @@ namespace CatalogService.Domain.Entities
         public required string Name { get; set; }
         public required string Email { get; set; }
         public required string Address { get; set; }
-        public string Logo { get; set; }
+        public string Logo { get; set; } = string.Empty;
         public ICollection<Book> Books { get; set; }
     }
 }

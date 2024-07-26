@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using OrderService.Application.Common.Interfaces.Data;
 using OrderService.Domain.Entities;
 
 namespace OrderService.Application.Orders.Queries.GetOrdersByCustomer;

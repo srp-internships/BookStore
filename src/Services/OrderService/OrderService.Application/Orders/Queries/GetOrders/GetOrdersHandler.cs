@@ -1,4 +1,6 @@
-﻿namespace OrderService.Application.Orders.Queries.GetOrders;
+﻿using OrderService.Application.Common.Interfaces.Data;
+
+namespace OrderService.Application.Orders.Queries.GetOrders;
 
 public class GetOrdersHandler(IApplicationDbContext dbContext)
     : IQueryHandler<GetOrdersQuery, GetOrdersResult>

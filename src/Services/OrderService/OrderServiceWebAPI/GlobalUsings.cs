@@ -10,5 +10,6 @@ global using OrderService.Infrastructure;
 global using OrderService.Infrastructure.Persistence.DataBases;
 global using OrderService.Application.Common.Pagination;
 global using OrderService.Application.Orders.Queries.GetOrders;
+global using OrderService.Application.Orders.Commands.DeleteOrder;
 
 

@@ -1,9 +1,8 @@
-﻿using AutoMapper;
+﻿
 using OrderService.Application.Orders.Commands.CreateOrder;
-using OrderService.Application.Orders.Queries.GetOrders;
+
 
 namespace OrderService.Application.Mappers;
-
 
 public class AutoMapperConfiguration : Profile
 {

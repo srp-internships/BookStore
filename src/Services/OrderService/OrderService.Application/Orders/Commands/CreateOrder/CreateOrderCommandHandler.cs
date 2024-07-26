@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using OrderService.Application.Common.Interfaces.Repositories;
-using OrderService.Application.Data;
+
 
 namespace OrderService.Application.Orders.Commands.CreateOrder;
 
-public class CreateOrderHandler(IMapper mapper, IOrderRepository orderRepository)
+public class CreateOrderCommandHandler(IMapper mapper, IOrderRepository orderRepository)
     : ICommandHandler<CreateOrderCommand, CreateOrderResult>
 {
     private readonly IMapper _mapper = mapper;

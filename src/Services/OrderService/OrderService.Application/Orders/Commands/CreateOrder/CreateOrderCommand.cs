@@ -2,7 +2,7 @@
 
 public record CreateOrderCommand(
     Guid CustomerId,
-    Guid CartId,
+    //Guid CartId,
     AddressDto ShippingAddress,
     OrderStatus Status,
     List<OrderItemDto> Items)

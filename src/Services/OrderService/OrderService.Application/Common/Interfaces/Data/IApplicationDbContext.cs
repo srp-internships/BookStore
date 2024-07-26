@@ -1,4 +1,4 @@
-﻿namespace OrderService.Application.Data;
+﻿namespace OrderService.Application.Common.Interfaces.Data;
 
 public interface IApplicationDbContext
 {

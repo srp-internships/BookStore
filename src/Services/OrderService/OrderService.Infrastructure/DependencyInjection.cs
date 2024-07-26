@@ -1,5 +1,5 @@
-﻿using OrderService.Application.Common.Interfaces.Repositories;
-using OrderService.Application.Data;
+﻿using OrderService.Application.Common.Interfaces.Data;
+using OrderService.Application.Common.Interfaces.Repositories;
 using OrderService.Infrastructure.Persistence.Repositories;
 
 namespace OrderService.Infrastructure;

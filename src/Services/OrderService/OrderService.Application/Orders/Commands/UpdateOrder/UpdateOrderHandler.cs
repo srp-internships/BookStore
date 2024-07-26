@@ -1,5 +1,4 @@
-﻿using OrderService.Application.Data;
-using OrderService.Application.Orders.Exceptions;
+﻿using OrderService.Application.Orders.Exceptions;
 
 namespace OrderService.Application.Orders.Commands.UpdateOrder;
 

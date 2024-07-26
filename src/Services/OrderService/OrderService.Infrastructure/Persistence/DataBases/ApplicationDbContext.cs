@@ -3,7 +3,7 @@ using OrderService.Domain.Entities;
 using OrderService.Domain;
 using OrderService.Infrastructure.Persistence.Configurations;
 using System.Reflection;
-using OrderService.Application.Data;
+using OrderService.Application.Common.Interfaces.Data;
 
 namespace OrderService.Infrastructure.Persistence.DataBases;
 

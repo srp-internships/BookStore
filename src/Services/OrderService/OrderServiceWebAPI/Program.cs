@@ -1,4 +1,7 @@
+using MassTransit;
+using Microsoft.Extensions.Configuration;
 using OrderService.Application.Mappers;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
 
+// Add MassTransit
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(new Uri(builder.Configuration["RabbitMq:Host"]), h =>
+        {
+            h.Username(builder.Configuration["RabbitMq:Username"]);
+            h.Password(builder.Configuration["RabbitMq:Password"]);
+        });
+    });
+});
+builder.Services.AddHostedService<MassTransitHostedService>();
 builder.Services
     .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)

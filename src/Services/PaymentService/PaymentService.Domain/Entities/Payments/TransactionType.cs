@@ -1,4 +1,4 @@
-﻿namespace PaymentService.Domain.Entities
+﻿namespace PaymentService.Domain.Entities.Payments
 {
 	public enum TransactionType
 	{

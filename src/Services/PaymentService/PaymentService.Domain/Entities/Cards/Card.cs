@@ -1,4 +1,6 @@
-﻿namespace PaymentService.Domain.Entities
+﻿using PaymentService.Domain.Entities.Payments;
+
+namespace PaymentService.Domain.Entities.Cards
 {
 	public class Card
 	{
@@ -11,7 +13,7 @@
 		public string CardCvc { get; set; }
 		public string CardHolderName { get; set; }
 		public DateOnly CardExpirationDate { get; set; }
-		
+
 		public List<Transaction> Transactions { get; set; }
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShipmentService.Domain.Entities;
 using ShipmentService.Aplication.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
+using ShipmentService.Domain.Entities.Shipments;
 
 namespace ShipmentService.Infrastructure.Repositories
 {
@@ -45,14 +45,6 @@ namespace ShipmentService.Infrastructure.Repositories
             _context.Shipments.Update(shipment);
         }
 
-        public async Task DeleteShipmentAsync(Guid shipmentId)
-        {
-            var shipment = await GetShipmentByIdAsync(shipmentId);
-            if (shipment != null)
-            {
-                _context.Shipments.Remove(shipment);
-            }
-        }
 
         public async Task SaveChangesAsync()
         {

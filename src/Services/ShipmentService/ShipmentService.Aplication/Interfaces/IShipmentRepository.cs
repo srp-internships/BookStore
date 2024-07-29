@@ -1,4 +1,4 @@
-﻿using ShipmentService.Domain.Entities;
+﻿using ShipmentService.Domain.Entities.Shipments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,6 @@ namespace ShipmentService.Aplication.Interfaces
         Task<Shipment?> GetShipmentByIdAsync(Guid shipmentId);
         Task AddShipmentAsync(Shipment shipment);
         Task UpdateShipmentAsync(Shipment shipment);
-        Task DeleteShipmentAsync(Guid shipmentId);
         Task SaveChangesAsync();
     }
 }

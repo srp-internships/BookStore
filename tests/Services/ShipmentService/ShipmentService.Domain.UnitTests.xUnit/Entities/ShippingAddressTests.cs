@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipmentService.Domain.Entities
+namespace ShipmentService.Domain.UnitTests.xUnit.Entities
 {
-    public enum Status
+    internal class ShippingAddressTests
     {
-        Pending = 0,
-        Shipped = 1,
-        Delivered = 2
     }
 }

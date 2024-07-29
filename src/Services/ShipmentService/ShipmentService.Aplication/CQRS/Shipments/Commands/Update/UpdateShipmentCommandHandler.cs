@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
+using MassTransit;
 using MediatR;
 using ShipmentService.Aplication.Interfaces;
-using ShipmentService.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ShipmentService.Aplication.Common.Extentions;
+using ShipmentService.IntegrationEvent;
+using ShipmentService.Domain.Enums;
 
 namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Update
 {
@@ -14,11 +12,13 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Update
     {
         private readonly IShipmentRepository _shipmentRepository;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public UpdateShipmentCommandHandler(IShipmentRepository shipmentRepository, IMapper mapper)
+        public UpdateShipmentCommandHandler(IShipmentRepository shipmentRepository, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _shipmentRepository = shipmentRepository;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<Unit> Handle(UpdateShipmentCommand request, CancellationToken cancellationToken)
@@ -33,8 +33,20 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Update
             await _shipmentRepository.UpdateShipmentAsync(shipment);
             await _shipmentRepository.SaveChangesAsync();
 
+            // Преобразуйте статус к правильному типу перед вызовом метода расширения
+            var integrationStatus = shipment.Status.ToIntegrationEnum();
+
+            var shipmentUpdatedEvent = new ShipmentUpdatedEvent(
+                ShipmentId: shipment.ShipmentId,
+                OrderId: shipment.OrderId,
+                Status: integrationStatus,
+                StatusChangedDateTime: DateTime.Now,
+                Message: "Shipment status updated"
+            );
+
+            await _publishEndpoint.Publish(shipmentUpdatedEvent);
+
             return Unit.Value;
         }
     }
-
 }

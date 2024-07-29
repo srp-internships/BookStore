@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
-using ShipmentService.Aplication.CQRS.Shipments.Commands.Delete;
 using ShipmentService.Aplication.CQRS.Shipments.Commands.Update;
 using ShipmentService.Aplication.CQRS.Shipments.Queries;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetAll;
@@ -26,7 +25,7 @@ namespace ShipmentService.WebApi.Controllers
         public async Task<IActionResult> CreateShipment([FromBody] CreateShipmentCommand command)
         {
             var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetShipmentById), new { id = result }, result);
+            return CreatedAtAction(nameof(GetShipmentById), new { id = result }, result);  
         }
 
         // PUT api/shipments/{id}
@@ -38,16 +37,7 @@ namespace ShipmentService.WebApi.Controllers
                 return BadRequest("ID mismatch");
             }
             await _mediator.Send(command);
-            return NoContent();
-        }
-
-        // DELETE api/shipments/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteShipment(Guid id)
-        {
-            var command = new DeleteShipmentCommand(id);
-            await _mediator.Send(command);
-            return NoContent();
+            return Ok("Updated successfully");
         }
 
         // GET api/shipments/{id}
@@ -66,6 +56,7 @@ namespace ShipmentService.WebApi.Controllers
             var query = new GetShipmentsQuery();
             var shipments = await _mediator.Send(query);
             return Ok(shipments);
+            
         }
     }
 }

@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShipmentService.Domain.Enums;
 
-namespace ShipmentService.Domain.Entities
+namespace ShipmentService.Domain.Entities.Shipments
 {
     public class Shipment
     {
@@ -16,7 +17,7 @@ namespace ShipmentService.Domain.Entities
         public ShippingAddress? ShippingAddress { get; set; }
         public List<ShipmentItem>? Items { get; set; }
         public Status Status { get; set; }
-        public DateTime EstimatedDeliveryDate { get; set; } = DateTime.Now;
+        public DateTime UpdateShipmentStatus { get; set; } = DateTime.Now;
         public Shipment()
         {
             Items = new List<ShipmentItem>();

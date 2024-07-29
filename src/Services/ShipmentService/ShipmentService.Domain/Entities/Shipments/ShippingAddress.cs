@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShipmentService.Domain.Entities
+namespace ShipmentService.Domain.Entities.Shipments
 {
     public class ShippingAddress
     {

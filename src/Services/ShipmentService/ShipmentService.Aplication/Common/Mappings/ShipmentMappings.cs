@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
-using System.Text;
-using AutoMapper;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
-using ShipmentService.Domain.Entities;
 using ShipmentService.Aplication.CQRS.Shipments.Commands.Update;
-using ShipmentService.Aplication.CQRS.Shipments.Commands.Delete;
-using ShipmentService.Aplication.CQRS.Shipments.Queries.GetById;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetAll;
+using ShipmentService.Aplication.CQRS.Shipments.Queries.GetById;
+using ShipmentService.Domain.Entities.Shipments;
 
 namespace ShipmentService.Aplication.Common.Mappings
 {
@@ -20,11 +13,10 @@ namespace ShipmentService.Aplication.Common.Mappings
         {
             CreateMap<Shipment, CreateShipmentCommand>()
                     .ReverseMap();
-            CreateMap<Shipment, UpdateShipmentCommand>()
-                .ReverseMap();
-            CreateMap<Shipment, DeleteShipmentCommand>()
-                .ForMember(dest => dest.ShipmentId, opt => opt.MapFrom(src => src.ShipmentId))
-                .ReverseMap();
+            CreateMap<UpdateShipmentCommand, Shipment>()
+            .ForMember(dest => dest.ShipmentId, opt => opt.MapFrom(src => src.ShipmentId))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+            .ForMember(dest => dest.UpdateShipmentStatus, opt => opt.MapFrom(src => src.UpdatedStatusDateTime));
             CreateMap<Shipment, GetShipmentByIdQuery>()
                 .ReverseMap();
             CreateMap<Shipment, GetShipmentsQuery>()

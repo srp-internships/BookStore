@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using ShipmentService.Aplication.Interfaces;
-using ShipmentService.Domain.Entities;
+using ShipmentService.Domain.Entities.Shipments;
 using System;
 using System.Collections.Generic;
 using System.Linq;

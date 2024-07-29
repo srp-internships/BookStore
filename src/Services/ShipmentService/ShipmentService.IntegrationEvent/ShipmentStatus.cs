@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace ShipmentService.IntegrationEvent
 {
     public enum ShipmentStatus
-    { 
-        Pending,
-        Shipped,
-        Delivered
+    {
+        Pending = 0,
+        Shipped = 1,
+        Delivered = 2
     }
 }

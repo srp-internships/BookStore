@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using CartService.Infrastructure.Services;
 using MassTransit;
 using System.Text.Json.Serialization;
-using CartService.Infrastructure.Repositories;
 using CartService.Consumers.Books;
 using CartService.Consumers.BookSellers;
 using CartService.Api.Middlewares;

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using ShipmentService.Domain.Entities;
+using ShipmentService.Domain.Entities.Shipments;
 using System;
 using System.Collections.Generic;
 using System.Linq;

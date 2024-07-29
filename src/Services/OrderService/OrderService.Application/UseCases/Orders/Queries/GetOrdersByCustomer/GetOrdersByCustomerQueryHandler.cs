@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using OrderService.Application.Common.Interfaces.Data;
+using OrderService.Application.UseCases.Orders;
 using OrderService.Domain.Entities;
 
-namespace OrderService.Application.Orders.Queries.GetOrdersByCustomer;
+namespace OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
 
 public class GetOrdersByCustomerHandler : IQueryHandler<GetOrdersByCustomerQuery, GetOrdersByCustomerResult>
 {
@@ -32,7 +33,7 @@ public class GetOrdersByCustomerHandler : IQueryHandler<GetOrdersByCustomerQuery
                         .ToListAsync(cancellationToken);
 
             var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromDays(1)); 
+                .SetAbsoluteExpiration(TimeSpan.FromDays(1));
             _cache.Set(cacheKey, orders, cacheEntryOptions);
         }
 

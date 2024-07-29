@@ -1,8 +1,9 @@
 ﻿using OrderService.Application.Common.Interfaces.Data;
+using OrderService.Application.UseCases.Orders;
 
-namespace OrderService.Application.Orders.Queries.GetOrders;
+namespace OrderService.Application.UseCases.Orders.Queries.GetOrders;
 
-public class GetOrdersHandler(IApplicationDbContext dbContext)
+public class GetOrdersQueryHandler(IApplicationDbContext dbContext)
     : IQueryHandler<GetOrdersQuery, GetOrdersResult>
 {
     public async Task<GetOrdersResult> Handle(GetOrdersQuery query, CancellationToken cancellationToken)

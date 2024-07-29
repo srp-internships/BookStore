@@ -1,4 +1,4 @@
-﻿namespace OrderService.Application.Orders.Queries.GetOrdersByCustomer;
+﻿namespace OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
 public record GetOrdersByCustomerQuery(Guid CustomerId)
     : IQuery<GetOrdersByCustomerResult>;
 

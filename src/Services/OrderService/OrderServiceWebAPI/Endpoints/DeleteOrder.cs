@@ -1,4 +1,6 @@
-﻿namespace OrderServiceWebAPI.Endpoints;
+﻿using OrderService.Application.UseCases.Orders.Commands.DeleteOrder;
+
+namespace OrderServiceWebAPI.Endpoints;
 
 public record DeleteOrderResponse(bool isSuccess);
 

@@ -13,7 +13,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.CartId);
 
         builder.HasOne<Customer>(i => i.Customer)
-          .WithMany(o=>o.Orders)
+          .WithMany(o => o.Orders)
           .HasForeignKey(o => o.CustomerId)
           .IsRequired();
 
@@ -39,13 +39,13 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
                addressBuilder.Property(a => a.State)
                    .HasMaxLength(50);
 
-               addressBuilder.Property(a => a.ZipCode)
-                   .HasMaxLength(5);
-                   
+               addressBuilder.Property(a => a.Street)
+                   .HasMaxLength(50);
+
            });
 
         builder.Property(o => o.Status)
-            .HasDefaultValue(OrderStatus.Draft)
+            .HasDefaultValue(OrderStatus.PaymentProcessing)
             .HasConversion(
                 s => s.ToString(),
                 dbStatus => (OrderStatus)Enum.Parse(typeof(OrderStatus), dbStatus));

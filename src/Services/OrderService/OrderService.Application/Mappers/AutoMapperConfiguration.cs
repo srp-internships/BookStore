@@ -1,5 +1,4 @@
-﻿
-using OrderService.Application.Orders.Commands.CreateOrder;
+﻿using OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 
 
 namespace OrderService.Application.Mappers;

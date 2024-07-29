@@ -5,7 +5,6 @@ global using FluentValidation;
 global using OrderService.Application.Common.Interfaces.CQRC;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
-global using Microsoft.FeatureManagement;
 global using OrderService.Application.Behaviors;
 global using System.Reflection;
 global using OrderService.Application.Dtos;
@@ -15,4 +14,4 @@ global using OrderService.Application.Common.Pagination;
 global using OrderService.Domain.Enums;
 global using AutoMapper;
 global using OrderService.Application.Common.Interfaces.Repositories;
-global using OrderService.Application.Orders.Exceptions;
+

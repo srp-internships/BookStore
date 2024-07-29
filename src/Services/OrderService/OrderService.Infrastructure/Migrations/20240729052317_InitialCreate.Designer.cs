@@ -13,7 +13,7 @@ using OrderService.Infrastructure.Persistence.DataBases;
 namespace OrderService.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240724064601_InitialCreate")]
+    [Migration("20240729052317_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,7 +52,6 @@ namespace OrderService.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
@@ -75,7 +74,7 @@ namespace OrderService.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CartId")
+                    b.Property<Guid?>("CartId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CustomerId")
@@ -85,7 +84,7 @@ namespace OrderService.Infrastructure.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
-                        .HasDefaultValue("Draft");
+                        .HasDefaultValue("PaymentProcessing");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("numeric");
@@ -114,9 +113,9 @@ namespace OrderService.Infrastructure.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
-                            b1.Property<string>("ZipCode")
-                                .HasMaxLength(5)
-                                .HasColumnType("character varying(5)");
+                            b1.Property<string>("Street")
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)");
                         });
 
                     b.HasKey("Id");
@@ -144,6 +143,13 @@ namespace OrderService.Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("SellerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
@@ -151,6 +157,42 @@ namespace OrderService.Infrastructure.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("OrderService.Domain.Entities.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PaymentStatus")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("OrderService.Domain.Entities.Shipment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShipmentStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shipments");
                 });
 
             modelBuilder.Entity("OrderService.Domain.Entities.Order", b =>

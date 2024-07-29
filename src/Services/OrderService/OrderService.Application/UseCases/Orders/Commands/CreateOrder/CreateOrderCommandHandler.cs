@@ -2,7 +2,7 @@
 using OrderService.Application.Common.Interfaces.Repositories;
 
 
-namespace OrderService.Application.Orders.Commands.CreateOrder;
+namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 
 public class CreateOrderCommandHandler(IMapper mapper, IOrderRepository orderRepository)
     : ICommandHandler<CreateOrderCommand, CreateOrderResult>
@@ -12,7 +12,7 @@ public class CreateOrderCommandHandler(IMapper mapper, IOrderRepository orderRep
 
     public async Task<CreateOrderResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
-            var order = await _orderRepository.CreateAsync(_mapper.Map<Order>(command), cancellationToken);
-            return _mapper.Map<CreateOrderResult>(order);
+        var order = await _orderRepository.CreateAsync(_mapper.Map<Order>(command), cancellationToken);
+        return _mapper.Map<CreateOrderResult>(order);
     }
-}   
+}

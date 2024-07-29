@@ -2,7 +2,8 @@
 
 public record OrderDto(
     Guid CustomerId,
-    Guid CartId,
+    Guid? CartId,
     AddressDto ShippingAddress,
     OrderStatus Status,
-    List<OrderItemDto> Items);
+    List<OrderItemDto> Items,
+    decimal TotalPrice);

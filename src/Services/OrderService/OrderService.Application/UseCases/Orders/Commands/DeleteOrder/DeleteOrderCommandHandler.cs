@@ -1,6 +1,8 @@
-﻿namespace OrderService.Application.Orders.Commands.DeleteOrder;
+﻿using OrderService.Application.UseCases.Orders.Exceptions;
 
-public class DeleteOrderCommandHandler(IOrderRepository orderRepository) 
+namespace OrderService.Application.UseCases.Orders.Commands.DeleteOrder;
+
+public class DeleteOrderCommandHandler(IOrderRepository orderRepository)
     : ICommandHandler<DeleteOrderCommand, DeleteOrderResult>
 {
     private readonly IOrderRepository _orderRepository = orderRepository;

@@ -1,6 +1,6 @@
 ﻿using OrderService.Application.Common.Exceptions;
 
-namespace OrderService.Application.Orders.Exceptions;
+namespace OrderService.Application.UseCases.Orders.Exceptions;
 
 public class OrderNotFoundException : NotFoundException
 {

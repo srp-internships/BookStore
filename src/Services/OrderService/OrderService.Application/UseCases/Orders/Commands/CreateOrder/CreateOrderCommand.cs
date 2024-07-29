@@ -1,10 +1,10 @@
-﻿namespace OrderService.Application.Orders.Commands.CreateOrder;
+﻿namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 
 public record CreateOrderCommand(
     Guid CustomerId,
-    //Guid CartId,
-    AddressDto ShippingAddress,
+    Guid CartId,
     OrderStatus Status,
+    AddressDto ShippingAddress,
     List<OrderItemDto> Items)
     : ICommand<CreateOrderResult>;
 

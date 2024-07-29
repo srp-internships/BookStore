@@ -1,4 +1,6 @@
-﻿namespace OrderServiceWebAPI.Endpoints;
+﻿using OrderService.Application.UseCases.Orders.Queries.GetOrders;
+
+namespace OrderServiceWebAPI.Endpoints;
 
 public record GetOrdersResponse(PaginatedResult<OrderDto> Orders);
 

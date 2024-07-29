@@ -23,23 +23,27 @@ namespace ShipmentService.Infrastructure.Consumers
             _logger = logger;
             _context = context;
         }
+
         public async Task Consume(ConsumeContext<OrderProcessedIntegrationEvent> context)
         {
             try
             {
-                _logger.LogInformation("Order Created: {OrderId}, {CustomerId}",
-                    context.Message.OrderId, context.Message.CustomerId);
+                var message = context.Message;
 
-                var shipment = CreateShipmentFromOrder(context.Message);
+                _logger.LogInformation("Order Created: {OrderId}, {CustomerId}",
+                    message.OrderId, message.CustomerId);
+
+                var shipment = CreateShipmentFromOrder(message);
 
                 _context.Shipments.Add(shipment);
                 await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Shipment created and saved: {ShipmentId}", shipment.ShipmentId);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while processing OrderCreatedEvent for OrderId: {OrderId}",
                     context.Message.OrderId);
-               
             }
         }
 
@@ -52,7 +56,7 @@ namespace ShipmentService.Infrastructure.Consumers
                 CustomerId = orderEvent.CustomerId,
                 ShippingAddress = new ShippingAddress
                 {
-                    Id=Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     Street = orderEvent.ShippingAddress.Street,
                     City = orderEvent.ShippingAddress.State,
                     Country = orderEvent.ShippingAddress.Country
@@ -61,10 +65,9 @@ namespace ShipmentService.Infrastructure.Consumers
                 {
                     ItemId = item.BookId,
                     BookName = item.Title,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
                 }).ToList(),
-                Status = Status.Pending
-                
+                Status = Status.Shipped
             };
         }
     }

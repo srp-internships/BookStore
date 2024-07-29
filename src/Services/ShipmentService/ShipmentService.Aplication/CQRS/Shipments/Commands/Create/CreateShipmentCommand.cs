@@ -10,6 +10,7 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Create
 {
     public record CreateShipmentCommand
    (
+       Guid ShipmentId,
        Guid OrderId,
        Guid CustomerId,
        ShippingAddress ShippingAddress,

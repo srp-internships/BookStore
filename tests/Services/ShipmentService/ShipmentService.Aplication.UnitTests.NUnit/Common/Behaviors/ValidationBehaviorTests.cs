@@ -31,8 +31,10 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.Common.Behaviors
             var command = new CreateShipmentCommand(
                 Guid.NewGuid(),
                 Guid.NewGuid(),
+                Guid.NewGuid(),
                 new ShippingAddress
                 {
+                    Id = Guid.NewGuid(),
                     City = "Khujand",
                     Country = "Tajikistan",
                     Street = "R.Jalil"
@@ -71,8 +73,10 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.Common.Behaviors
             var command = new CreateShipmentCommand(
                  Guid.NewGuid(),
                  Guid.NewGuid(),
+                 Guid.NewGuid(),
                  new ShippingAddress
                  {
+                     Id = Guid.NewGuid(),
                      City = "Khujand",
                      Country = "Tajikistan",
                      Street = "R.Jalil"

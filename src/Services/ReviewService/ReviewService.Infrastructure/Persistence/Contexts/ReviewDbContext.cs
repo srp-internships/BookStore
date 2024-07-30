@@ -13,7 +13,10 @@ namespace ReviewService.Infrastructure.Persistence.Contexts
         public DbSet<Book> Books { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Конфигурация модели, если необходимо
+            modelBuilder.Entity<Review>()
+                        .HasOne(r => r.Book)
+                        .WithMany(b => b.Reviews)
+                        .HasForeignKey(r => r.BookId);
         }
     }
 

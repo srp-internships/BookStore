@@ -36,6 +36,9 @@ builder.Services.AddAPIVersioning();
 // Adding authentication and authorization by JWT token
 builder.Services.AddAuthenticationByJwtToken();
 
+// Adding MassTransit & RabbitMq
+builder.Services.AddMassTransitWithRabbitMq();
+
 var app = builder.Build();
 
 var webApiSettings = app.Services.GetRequiredService<IOptions<WebApiSettings>>().Value;

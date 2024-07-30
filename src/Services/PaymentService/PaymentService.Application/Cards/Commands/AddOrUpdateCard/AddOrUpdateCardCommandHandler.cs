@@ -1,5 +1,7 @@
 ﻿using PaymentService.Domain.Entities.Cards;
 using PaymentService.Domain;
+using PaymentService.Domain.Shared.Helpers;
+using PaymentService.Application.Common.Helpers;
 
 namespace PaymentService.Application.Cards.Commands.AddOrUpdateCard
 {
@@ -19,9 +21,9 @@ namespace PaymentService.Application.Cards.Commands.AddOrUpdateCard
 				IsDeleted = false,
 				UserId = request.UserId,
 				CardHolderRole = request.CardHolderRole,
-				CardNumber = request.CardNumber,
-				CardCvc = request.CardCvc,
-				CardHolderName = request.CardHolderName,
+				CardNumber = AesCbcEncryptor.Encrypt(request.CardNumber, Constants.AesCbcKey),
+				CardCvc = AesCbcEncryptor.Encrypt(request.CardCvc, Constants.AesCbcKey),
+				CardHolderName = AesCbcEncryptor.Encrypt(request.CardHolderName, Constants.AesCbcKey),
 				CardExpirationDate = request.CardExpirationDate,
 			};
 

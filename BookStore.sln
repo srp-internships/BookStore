@@ -32,8 +32,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Domain", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderService", "OrderService", "{0BBA49D1-3682-416C-834C-3843FAEA5E24}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.IntegrationEvents", "src\Services\OrderService\Orders.IntegrationEvents\Orders.IntegrationEvents.csproj", "{46259BF4-CC1C-4884-9FEB-2C7BE3354D86}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Application", "src\Services\OrderService\OrderService.Application\OrderService.Application.csproj", "{3F874720-BAE8-4C31-8A2A-A6375224C4DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Infrastructure", "src\Services\OrderService\OrderService.Infrastructure\OrderService.Infrastructure.csproj", "{988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC}"
@@ -94,13 +92,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Domain.UnitTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.Infrastructure.UnitTests.xUnit", "tests\Services\CartService\CartService.Infrastructure.UnitTests.xUnit\CartService.Infrastructure.UnitTests.xUnit.csproj", "{B1F50645-EFD2-43FE-B296-CC6F97A379AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.Domain", "src\Services\PaymentService\PaymentService.Domain\PaymentService.Domain.csproj", "{68BCAAE3-8DB2-490F-8C65-A54AEAB80F45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.Domain", "src\Services\PaymentService\PaymentService.Domain\PaymentService.Domain.csproj", "{68BCAAE3-8DB2-490F-8C65-A54AEAB80F45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.Application", "src\Services\PaymentService\PaymentService.Application\PaymentService.Application.csproj", "{80C17708-111C-478F-853F-B69ACFAD7C0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.Application", "src\Services\PaymentService\PaymentService.Application\PaymentService.Application.csproj", "{80C17708-111C-478F-853F-B69ACFAD7C0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.Infrastructure", "src\Services\PaymentService\PaymentService.Infrastructure\PaymentService.Infrastructure.csproj", "{492811EF-6DE2-4646-ABD2-03E918D8FDE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.Infrastructure", "src\Services\PaymentService\PaymentService.Infrastructure\PaymentService.Infrastructure.csproj", "{492811EF-6DE2-4646-ABD2-03E918D8FDE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.WebApi", "src\Services\PaymentService\PaymentService.WebApi\PaymentService.WebApi.csproj", "{73AD9A9C-BD71-4C0F-B311-43BD413B7DAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.WebApi", "src\Services\PaymentService\PaymentService.WebApi\PaymentService.WebApi.csproj", "{73AD9A9C-BD71-4C0F-B311-43BD413B7DAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.IntegrationEvents", "src\Services\OrderService\OrderService.IntegrationEvents\OrderService.IntegrationEvents.csproj", "{EF44F6BA-6800-47C9-AEA4-16316F23C9AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -132,10 +132,6 @@ Global
 		{71E27116-9E6B-46D1-9298-36B4998F8C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71E27116-9E6B-46D1-9298-36B4998F8C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71E27116-9E6B-46D1-9298-36B4998F8C76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46259BF4-CC1C-4884-9FEB-2C7BE3354D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46259BF4-CC1C-4884-9FEB-2C7BE3354D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46259BF4-CC1C-4884-9FEB-2C7BE3354D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46259BF4-CC1C-4884-9FEB-2C7BE3354D86}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F874720-BAE8-4C31-8A2A-A6375224C4DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F874720-BAE8-4C31-8A2A-A6375224C4DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F874720-BAE8-4C31-8A2A-A6375224C4DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -248,6 +244,10 @@ Global
 		{73AD9A9C-BD71-4C0F-B311-43BD413B7DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73AD9A9C-BD71-4C0F-B311-43BD413B7DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73AD9A9C-BD71-4C0F-B311-43BD413B7DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF44F6BA-6800-47C9-AEA4-16316F23C9AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF44F6BA-6800-47C9-AEA4-16316F23C9AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF44F6BA-6800-47C9-AEA4-16316F23C9AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF44F6BA-6800-47C9-AEA4-16316F23C9AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -266,7 +266,6 @@ Global
 		{229C9135-907F-4CB4-A3D6-3D9921A2E1A9} = {E8E0206C-7FD7-45D6-97EE-A6AD987CFDA7}
 		{71E27116-9E6B-46D1-9298-36B4998F8C76} = {0BBA49D1-3682-416C-834C-3843FAEA5E24}
 		{0BBA49D1-3682-416C-834C-3843FAEA5E24} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
-		{46259BF4-CC1C-4884-9FEB-2C7BE3354D86} = {0BBA49D1-3682-416C-834C-3843FAEA5E24}
 		{3F874720-BAE8-4C31-8A2A-A6375224C4DF} = {0BBA49D1-3682-416C-834C-3843FAEA5E24}
 		{988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC} = {0BBA49D1-3682-416C-834C-3843FAEA5E24}
 		{6F0690CD-3547-4E0B-9665-7BFFF1587FDF} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
@@ -301,6 +300,7 @@ Global
 		{80C17708-111C-478F-853F-B69ACFAD7C0D} = {FF97376A-14E5-4586-8252-DFE8C5F904D2}
 		{492811EF-6DE2-4646-ABD2-03E918D8FDE0} = {FF97376A-14E5-4586-8252-DFE8C5F904D2}
 		{73AD9A9C-BD71-4C0F-B311-43BD413B7DAC} = {FF97376A-14E5-4586-8252-DFE8C5F904D2}
+		{EF44F6BA-6800-47C9-AEA4-16316F23C9AD} = {0BBA49D1-3682-416C-834C-3843FAEA5E24}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

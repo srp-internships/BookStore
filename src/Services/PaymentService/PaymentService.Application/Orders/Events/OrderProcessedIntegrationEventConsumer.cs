@@ -42,7 +42,10 @@ namespace PaymentService.Application.Orders.Events
 
 				await db.SaveChangesAsync();
 
-				await bus.Publish(CreatePaymentEvent(context.Message.OrderId, PaymentStatus.Succeeded));
+				await bus.Publish(CreatePaymentEvent(
+									context.Message.OrderId,
+									PaymentStatus.Succeeded,
+									new("Order.Succeeded", "Payment successfully processed.")));
 			}
 			else
 			{
@@ -74,7 +77,7 @@ namespace PaymentService.Application.Orders.Events
 
 			var customerCard = await cardRepository.GetByUserIdAsync(_event.CustomerId);
 			if (customerCard is null)
-				return Result.Failure<Result<Payment>>(OrderErrors.CustomerDoesNotHaveCard());
+				return Result.Failure<Payment>(OrderErrors.CustomerDoesNotHaveCard());
 
 			var customerTransaction = new Transaction
 			{
@@ -89,7 +92,7 @@ namespace PaymentService.Application.Orders.Events
 			var sellersIds = _event.Items.Select(i => i.SellerId).Distinct();
 			var sellersCards = await cardRepository.GetByUserIdsAsync(sellersIds);
 			if (sellersCards?.Distinct().Count() != sellersIds.Count())
-				return Result.Failure<Result<Payment>>(OrderErrors.SellerDoesNotHaveCard());
+				return Result.Failure<Payment>(OrderErrors.SellerDoesNotHaveCard());
 
 			payment.Transaction.AddRange(
 				_event.Items.GroupBy(i => i.SellerId).Select(g => new

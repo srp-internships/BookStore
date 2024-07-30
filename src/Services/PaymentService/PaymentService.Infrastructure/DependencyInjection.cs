@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PaymentService.Application.Common.Inbox;
 using PaymentService.Domain;
 using PaymentService.Domain.Entities.Cards;
 using PaymentService.Domain.Entities.Payments;
@@ -25,6 +26,7 @@ namespace PaymentService.Infrastructure
 			services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 			services.AddScoped<ICardRepository, CardRepository>();
 			services.AddScoped<IPaymentRepository, PaymentRepository>();
+			services.AddScoped<IInboxRepository, InboxRepository>();
 
 			return services;
 		}

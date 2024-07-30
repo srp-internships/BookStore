@@ -2,5 +2,6 @@
 {
 	public interface IPaymentRepository
 	{
+		Payment Create(Payment payment);
 	}
 }

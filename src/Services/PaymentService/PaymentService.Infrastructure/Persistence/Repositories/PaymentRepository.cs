@@ -5,6 +5,12 @@ namespace PaymentService.Infrastructure.Persistence.Repositories
 {
 	internal class PaymentRepository(AppDbContext context) : IPaymentRepository
 	{
-		private readonly DbSet<Payment> cards = context.Set<Payment>();
+		private readonly DbSet<Payment> payments = context.Set<Payment>();
+
+		public Payment Create(Payment payment)
+		{
+			payments.Add(payment);
+			return payment;
+		}
 	}
 }

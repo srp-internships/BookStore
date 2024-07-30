@@ -18,6 +18,11 @@ namespace PaymentService.Infrastructure.Persistence.Repositories
 			return cards.FirstOrDefaultAsync(i => i.UserId == userId, cancellationToken);
 		}
 
+		public Task<List<Card>> GetByUserIdsAsync(IEnumerable<Guid> userIds, CancellationToken cancellationToken = default)
+		{
+			return cards.Where(i => userIds.Contains(i.UserId)).ToListAsync();
+		}
+
 		public void MarkDeleted(Card card)
 		{
 			card.IsDeleted = true;

@@ -7,5 +7,7 @@
 		void MarkDeleted(Card card);
 
 		Task<Card?> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+
+		Task<List<Card>> GetByUserIdsAsync(IEnumerable<Guid> userIds, CancellationToken cancellationToken = default);
 	}
 }

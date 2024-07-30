@@ -23,13 +23,24 @@ namespace RecommendationService.Application.Consumers
         {
             var bookCreatedEvent = context.Message;
 
-            foreach (var book in bookCreatedEvent.AuthorIds)
+            foreach (var authorId in bookCreatedEvent.AuthorIds)
             {
                 var newBook = new Book
                 {
                     Id = Guid.NewGuid(),
-                    Categories = book.Categories
+                    Title = bookCreatedEvent.Title,
+                    AuthorId = authorId,
                 };
+
+                foreach (var categoryId in bookCreatedEvent.CategoryIds)
+                {
+                    var bookCategory = new BookCategory
+                    {
+                        BookId = newBook.Id,
+                        CategoryId = categoryId
+                    };
+                    newBook.CategoriesIds.Add(bookCategory.CategoryId);
+                }
 
                 await _dbContext.Books.AddAsync(newBook);
             }

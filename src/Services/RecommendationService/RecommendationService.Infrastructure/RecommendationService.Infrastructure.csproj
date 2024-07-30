@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RecommendationService.Aplication\RecommendationService.Application.csproj" />
-    <ProjectReference Include="..\src\Services\RecommendationService\RecommendationService.Domain\RecommendationService.Domain.csproj" />
+    <ProjectReference Include="..\RecommendationService.Domain\RecommendationService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

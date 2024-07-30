@@ -9,7 +9,7 @@ namespace RecommendationService.Domain.Entities
     public class Category
     {
         public Guid Id { get; set; }
-        public string Title { get; set; }=string.Empty;
-        public List<Book> Books { get; set; }
+        public string Name { get; set; }
+        public ICollection<BookCategory> BookCategories { get; set; }
     }
 }

@@ -18,4 +18,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RecommendationService.Infrastructure\RecommendationService.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

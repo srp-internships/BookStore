@@ -13,6 +13,11 @@ namespace PaymentService.Infrastructure.Persistence.Repositories
 			return card;
 		}
 
+		public Task<Card?> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+		{
+			return cards.FirstOrDefaultAsync(i => i.UserId == userId, cancellationToken);
+		}
+
 		public void MarkDeleted(Card card)
 		{
 			card.IsDeleted = true;

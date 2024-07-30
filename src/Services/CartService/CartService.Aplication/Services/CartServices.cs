@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CartService.Infrastructure.Services
+namespace CartService.Aplication.Services
 {
     public class CartServices : ICartService
     {

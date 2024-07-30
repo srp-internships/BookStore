@@ -1,14 +1,13 @@
 ﻿using CartService.Aplication.Interfaces;
-using CartService.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CartService.Infrastructure.Services
+namespace CartService.Aplication.Services
 {
-    public class BookService: IBookService
+    public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
 
@@ -28,4 +27,3 @@ namespace CartService.Infrastructure.Services
         }
     }
 }
-

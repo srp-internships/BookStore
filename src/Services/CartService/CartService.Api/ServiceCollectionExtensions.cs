@@ -1,8 +1,8 @@
 ﻿using CartService.Aplication.Interfaces;
+using CartService.Aplication.Services;
 using CartService.Infrastructure.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace CartService.Infrastructure.Services
+namespace CartService.Api
 {
     public static class ServiceCollectionExtensions
     {

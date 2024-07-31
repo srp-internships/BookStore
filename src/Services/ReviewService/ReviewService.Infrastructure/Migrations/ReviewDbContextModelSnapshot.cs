@@ -43,6 +43,7 @@ namespace ReviewService.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -63,18 +64,11 @@ namespace ReviewService.Infrastructure.Migrations
 
             modelBuilder.Entity("ReviewService.Domain.Entities.Review", b =>
                 {
-                    b.HasOne("ReviewService.Domain.Entities.Book", "Book")
-                        .WithMany("Reviews")
+                    b.HasOne("ReviewService.Domain.Entities.Book", null)
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("ReviewService.Domain.Entities.Book", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using ReviewService.Domain.Entities;
+﻿using ReviewService.Domain.DTOs;
+using ReviewService.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace ReviewService.Infrastructure.Services
 {
     public interface IReviewService
     {
-        Task<Review> GetReviewByIdAsync(Guid id);
-        Task<IEnumerable<Review>> GetReviewsByBookIdAsync(Guid bookId);
-        Task<IEnumerable<Review>> GetReviewsByUserIdAsync(Guid userId);
-        Task AddReviewAsync(Review review);
-        Task UpdateReviewAsync(Review review);
-        Task DeleteReviewAsync(Guid id);
+        Task<ReviewDto> GetByIdAsync(Guid id);
+        Task<double> GetAverageRatingByBookIdAsync(Guid bookId);
+        Task<IEnumerable<ReviewDto>> GetByBookIdAsync(Guid bookId);
+        Task<IEnumerable<ReviewDto>> GetByUserIdAsync(Guid userId);
+        Task<ReviewDto> AddAsync(CreateReviewDto reviewDto);
+        Task DeleteAsync(Guid id);
     }
 }

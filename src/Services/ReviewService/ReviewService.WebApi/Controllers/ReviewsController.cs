@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ReviewService.Infrastructure.Services;
 using ReviewService.Domain.Entities;
+using ReviewService.Domain.DTOs;
 
 namespace ReviewService.WebApi.Controllers
 {
@@ -17,54 +18,81 @@ namespace ReviewService.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Review>> GetReviewById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var review = await _reviewService.GetReviewByIdAsync(id);
+            var review = await _reviewService.GetByIdAsync(id);
             if (review == null)
             {
                 return NotFound();
             }
             return Ok(review);
         }
-
-        [HttpGet("book/{bookId}")]
-        public async Task<ActionResult<IEnumerable<Review>>> GetReviewsByBookId(Guid bookId)
+        [HttpGet("book/{bookId}/average-rating")]
+        public async Task<IActionResult> GetAverageRatingByBookId(Guid bookId)
         {
-            var reviews = await _reviewService.GetReviewsByBookIdAsync(bookId);
-            return Ok(reviews);
+            try
+            {
+                var averageRating = await _reviewService.GetAverageRatingByBookIdAsync(bookId);
+                return Ok(new { BookId = bookId, AverageRating = averageRating });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
+        }
+        [HttpGet("book/{bookId}")]
+        public async Task<IActionResult> GetByBookId(Guid bookId)
+        {
+            try
+            {
+                var reviews = await _reviewService.GetByBookIdAsync(bookId);
+                return Ok(reviews);
+            }
+            catch (Exception ex) 
+            {
+                return NotFound("Book not found in database");
+            }
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Review>>> GetReviewsByUserId(Guid userId)
+        public async Task<IActionResult> GetByUserId(Guid userId)
         {
-            var reviews = await _reviewService.GetReviewsByUserIdAsync(userId);
-            return Ok(reviews);
+            try
+            {
+                var reviews = await _reviewService.GetByUserIdAsync(userId);
+                return Ok(reviews);
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddReview([FromBody] Review review)
+        public async Task<IActionResult> Post([FromBody] CreateReviewDto reviewDto)
         {
-            await _reviewService.AddReviewAsync(review);
-            return CreatedAtAction(nameof(GetReviewById), new { id = review.Id }, review);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateReview(Guid id, [FromBody] Review review)
-        {
-            if (id != review.Id)
+            try
             {
-                return BadRequest();
+                var createdReview = await _reviewService.AddAsync(reviewDto);
+                var content = CreatedAtAction(nameof(GetById), new { id = createdReview.Id }, createdReview);
+                return Ok($" Created Review by {reviewDto.UserId} to {reviewDto.BookId} ");
             }
-
-            await _reviewService.UpdateReviewAsync(review);
-            return NoContent();
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message +"Book Not Found" });
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteReview(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            await _reviewService.DeleteReviewAsync(id);
-            return NoContent();
+            var review = await _reviewService.GetByIdAsync(id);
+            if (review == null)
+            {
+                return NotFound("Review not found!");
+            }
+            await _reviewService.DeleteAsync(id);
+            return Ok("Successfully deleted");
         }
     }
-}
+}   

@@ -12,8 +12,8 @@ using ReviewService.Infrastructure.Persistence.Contexts;
 namespace ReviewService.Infrastructure.Migrations
 {
     [DbContext(typeof(ReviewDbContext))]
-    [Migration("20240730042834_UpdateBookReviewRelationship")]
-    partial class UpdateBookReviewRelationship
+    [Migration("20240730105654_CreateBD")]
+    partial class CreateBD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,7 @@ namespace ReviewService.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -66,18 +67,11 @@ namespace ReviewService.Infrastructure.Migrations
 
             modelBuilder.Entity("ReviewService.Domain.Entities.Review", b =>
                 {
-                    b.HasOne("ReviewService.Domain.Entities.Book", "Book")
-                        .WithMany("Reviews")
+                    b.HasOne("ReviewService.Domain.Entities.Book", null)
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("ReviewService.Domain.Entities.Book", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

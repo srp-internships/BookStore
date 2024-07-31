@@ -1,91 +1,96 @@
-﻿using Microsoft.Extensions.Logging;
-using ReviewService.Application.IRepositories;
+﻿using ReviewService.Application.IRepositories;
+using ReviewService.Domain.DTOs;
 using ReviewService.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReviewService.Infrastructure.Services
 {
     public class ReviewServices : IReviewService
     {
         private readonly IReviewRepository _reviewRepository;
-        private readonly IBookService _bookService;
-        private readonly ILogger<ReviewServices> _logger;
 
-        public ReviewServices(IReviewRepository reviewRepository, IBookService bookService, ILogger<ReviewServices> logger)
+        public ReviewServices(IReviewRepository reviewRepository)
         {
             _reviewRepository = reviewRepository;
-            _bookService = bookService;
-            _logger = logger;
         }
 
-        public async Task<Review> GetReviewByIdAsync(Guid id)
+        public async Task<ReviewDto> GetByIdAsync(Guid id)
         {
-            _logger.LogInformation("Fetching review by ID: {Id}", id);
-            return await _reviewRepository.GetByIdAsync(id);
-        }
-
-        public async Task<IEnumerable<Review>> GetReviewsByBookIdAsync(Guid bookId)
-        {
-            _logger.LogInformation("Fetching reviews for book ID: {BookId}", bookId);
-            return await _reviewRepository.GetByBookIdAsync(bookId);
-        }
-
-        public async Task<IEnumerable<Review>> GetReviewsByUserIdAsync(Guid userId)
-        {
-            _logger.LogInformation("Fetching reviews by user ID: {UserId}", userId);
-            return await _reviewRepository.GetByUserIdAsync(userId);
-        }
-
-        public async Task AddReviewAsync(Review review)
-        {
-            _logger.LogInformation("Adding review for book ID: {BookId}", review.BookId);
-
-            // Validate review rating
-            if (review.Rating < 1 || review.Rating > 5)
+            var review = await _reviewRepository.GetByIdAsync(id);
+            if (review == null)
             {
-                _logger.LogWarning("Invalid rating: {Rating}", review.Rating);
-                throw new ArgumentException("Rating must be between 1 and 5");
+                return null;
             }
 
-            // Check if the book exists
-            var bookExists = await _bookService.BookExistsAsync(review.BookId);
-            if (!bookExists)
+            return new ReviewDto
             {
-                _logger.LogWarning("Book does not exist: {BookId}", review.BookId);
-                throw new ArgumentException("The book does not exist.");
-            }
-
-            review.Id = Guid.NewGuid();
-            review.CreatedDate = DateTime.UtcNow;
-
-            await _reviewRepository.AddAsync(review);
-            _logger.LogInformation("Review added with ID: {Id}", review.Id);
+                Id = review.Id,
+                BookId = review.BookId,
+                UserId = review.UserId,
+                Comment = review.Comment,
+                Rating = review.Rating,
+                CreatedDate = review.CreatedDate
+            };
+        }
+        public async Task<double> GetAverageRatingByBookIdAsync(Guid bookId)
+        {
+            return await _reviewRepository.GetAverageRatingByBookIdAsync(bookId);
+        }
+        public async Task<IEnumerable<ReviewDto>> GetByBookIdAsync(Guid bookId)
+        {
+            var reviews = await _reviewRepository.GetByBookIdAsync(bookId);
+            return reviews.Select(r => new ReviewDto
+            {
+                Id = r.Id,
+                BookId = r.BookId,
+                UserId = r.UserId,
+                Comment= r.Comment,
+                Rating = r.Rating,
+                CreatedDate = r.CreatedDate
+            });
         }
 
-        public async Task UpdateReviewAsync(Review review)
+        public async Task<IEnumerable<ReviewDto>> GetByUserIdAsync(Guid userId)
         {
-            _logger.LogInformation("Updating review ID: {Id}", review.Id);
-
-            // Validate review rating
-            if (review.Rating < 1 || review.Rating > 5)
+            var reviews = await _reviewRepository.GetByUserIdAsync(userId);
+            return reviews.Select(r => new ReviewDto
             {
-                _logger.LogWarning("Invalid rating: {Rating}", review.Rating);
-                throw new ArgumentException("Rating must be between 1 and 5");
-            }
-
-            await _reviewRepository.UpdateAsync(review);
-            _logger.LogInformation("Review updated: {Id}", review.Id);
+                Id = r.Id,
+                BookId = r.BookId,
+                UserId = r.UserId,
+                Comment = r.Comment,
+                Rating = r.Rating,
+                CreatedDate = r.CreatedDate
+            });
         }
 
-        public async Task DeleteReviewAsync(Guid id)
+        public async Task<ReviewDto> AddAsync(CreateReviewDto reviewDto)
         {
-            _logger.LogInformation("Deleting review ID: {Id}", id);
+            var review = new Review
+            {
+                Id = Guid.NewGuid(),  // Генерация нового идентификатора
+                BookId = reviewDto.BookId,
+                UserId = reviewDto.UserId,
+                Comment = reviewDto.Comment,
+                Rating = reviewDto.Rating,
+                CreatedDate = DateTime.UtcNow
+            };
+
+            var createdReview = await _reviewRepository.AddAsync(review);
+
+            return new ReviewDto
+            {
+                Id = createdReview.Id,
+                BookId = createdReview.BookId,
+                UserId = createdReview.UserId,
+                Comment = createdReview.Comment,
+                Rating = createdReview.Rating,
+                CreatedDate = createdReview.CreatedDate
+            };
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
             await _reviewRepository.DeleteAsync(id);
-            _logger.LogInformation("Review deleted: {Id}", id);
         }
     }
 }

@@ -9,11 +9,11 @@ namespace ReviewService.Application.IRepositories
 {
     public interface IReviewRepository
     {
-        Task<Review> GetByIdAsync(Guid id); // Получить отзыв по идентификатору
-        Task<IEnumerable<Review>> GetByBookIdAsync(Guid bookId); // Получить все отзывы для книги
-        Task<IEnumerable<Review>> GetByUserIdAsync(Guid userId); // Получить все отзывы пользователя
-        Task AddAsync(Review review); // Добавить новый отзыв
-        Task UpdateAsync(Review review); // Обновить существующий отзыв
+        Task<Review> GetByIdAsync(Guid id);
+        Task<double> GetAverageRatingByBookIdAsync(Guid bookId);
+        Task<IEnumerable<Review>> GetByBookIdAsync(Guid bookId);
+        Task<IEnumerable<Review>> GetByUserIdAsync(Guid userId);
+        Task<Review> AddAsync(Review review);
         Task DeleteAsync(Guid id);
     }
 }

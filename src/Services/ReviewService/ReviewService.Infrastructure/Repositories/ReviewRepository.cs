@@ -23,7 +23,14 @@ namespace ReviewService.Infrastructure.Repositories
         {
             return await _context.Reviews.FindAsync(id);
         }
+        public async Task<double> GetAverageRatingByBookIdAsync(Guid bookId)
+        {
+            var averageRating = await _context.Reviews
+                .Where(r => r.BookId == bookId)
+                .AverageAsync(r => r.Rating);
 
+            return averageRating;
+        }
         public async Task<IEnumerable<Review>> GetByBookIdAsync(Guid bookId)
         {
             return await _context.Reviews
@@ -38,16 +45,11 @@ namespace ReviewService.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task AddAsync(Review review)
+        public async Task<Review> AddAsync(Review review)
         {
-            await _context.Reviews.AddAsync(review);
+            _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Review review)
-        {
-            _context.Reviews.Update(review);
-            await _context.SaveChangesAsync();
+            return review;
         }
 
         public async Task DeleteAsync(Guid id)

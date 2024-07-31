@@ -33,7 +33,7 @@ namespace ReviewService.Infrastructure.Consumers
             if (bookExists)
             {
                 _logger.LogWarning("Book with ID {Id} already exists", context.Message.Id);
-                return; // If the book already exists, we do nothing
+                return; 
             }
 
             var book = new Book

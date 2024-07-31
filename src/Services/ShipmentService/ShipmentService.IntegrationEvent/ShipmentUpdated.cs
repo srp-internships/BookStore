@@ -13,9 +13,9 @@ namespace ShipmentService.IntegrationEvent
         [Key]
         public Guid ShipmentId { get; set; }
         public Guid OrderId { get; set; }
-        public ShipmentStatus Stats { get; set; }
+        public ShipmentStatus Status { get; set; }
         public DateTime estimatedDeliveryDate { get; set; }
-        public string currentLocation { get; set; }
+        public string? currentLocation { get; set; }
         public string? Message { get; set; }
     }
 }

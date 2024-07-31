@@ -1,5 +1,5 @@
 ﻿using OrderService.Application.Common.Interfaces.Data;
-using OrderService.Application.UseCases.Orders;
+using OrderService.Application.UseCases.DTOs;
 
 namespace OrderService.Application.UseCases.Orders.Queries.GetOrders;
 

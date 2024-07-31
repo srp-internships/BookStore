@@ -1,7 +1,6 @@
-using MassTransit;
-using Microsoft.Extensions.Configuration;
 using OrderService.Application.Mappers;
-using System.Reflection;
+using OrderService.Infrastructure.Consumers;
+using ExchangeType = RabbitMQ.Client.ExchangeType;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +15,20 @@ builder.Services.AddMemoryCache();
 // Add MassTransit
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<ShipmentStatusUpdatedConsumer>()
+        .Endpoint(e => e.Name = builder.Configuration["EventBus:Queues:ShipmentStatusUpdateQueue"]!);
+    x.AddConsumer<PaymentStatusUpdatedConsumer>()
+        .Endpoint(e => e.Name = builder.Configuration["EventBus: Queues:PaymentStatusUpdateQueue"]!);
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(new Uri(builder.Configuration["RabbitMq:Host"]), h =>
+        cfg.Host(new Uri(builder.Configuration["RabbitMq:Host"]!), h =>
         {
-            h.Username(builder.Configuration["RabbitMq:Username"]);
-            h.Password(builder.Configuration["RabbitMq:Password"]);
+            h.Username(builder.Configuration["RabbitMq:Username"]!);
+            h.Password(builder.Configuration["RabbitMq:Password"]!);
         });
+
+        cfg.ExchangeType = ExchangeType.Fanout;
+        cfg.ConfigureEndpoints(context);
     });
 });
 builder.Services.AddHostedService<MassTransitHostedService>();

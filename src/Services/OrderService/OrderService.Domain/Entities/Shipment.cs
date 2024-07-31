@@ -2,6 +2,8 @@
 
 public class Shipment : BaseEntity
 {
-    public string ShipmentStatus { get; set; }
-    public string Message { get; set; }
+    public Order? Order { get; set; }
+    public Guid OrderId { get; set; }
+    public ShipmentStatus ShipmentStatus { get; set; }
+    public string? Message { get; set; }
 }

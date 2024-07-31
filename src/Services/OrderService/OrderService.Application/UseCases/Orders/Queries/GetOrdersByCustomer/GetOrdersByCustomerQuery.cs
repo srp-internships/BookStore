@@ -1,4 +1,6 @@
-﻿namespace OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
+﻿using OrderService.Application.UseCases.DTOs;
+
+namespace OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
 public record GetOrdersByCustomerQuery(Guid CustomerId)
     : IQuery<GetOrdersByCustomerResult>;
 

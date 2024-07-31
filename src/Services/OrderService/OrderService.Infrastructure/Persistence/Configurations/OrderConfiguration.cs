@@ -19,7 +19,16 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasMany(o => o.Items)
             .WithOne(o => o.Order)
-            .HasForeignKey(oi => oi.OrderId);
+        .HasForeignKey(oi => oi.OrderId);
+
+
+        builder.HasOne(o => o.Payment)
+           .WithOne(p => p.Order)
+           .HasForeignKey<Payment>(p => p.OrderId);
+
+        builder.HasOne(o => o.Shipment)
+            .WithOne(p => p.Order)
+            .HasForeignKey<Shipment>(p => p.OrderId);
 
         builder.ComplexProperty(
            o => o.ShippingAddress, addressBuilder =>

@@ -1,4 +1,6 @@
-﻿namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
+﻿using OrderService.Application.UseCases.DTOs;
+
+namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 
 public record CreateOrderCommand(
     Guid CustomerId,

@@ -1,8 +1,4 @@
-﻿using MassTransit;
-using OrderService.Application.UseCases.Orders.Commands.CreateOrder;
-using OrderService.IntegrationEvents;
-
-namespace OrderServiceWebAPI.Endpoints;
+﻿namespace OrderServiceWebAPI.Endpoints;
 
 public record CreateOrderResponse(Guid Id);
 
@@ -34,6 +30,7 @@ public class CreateOrder : ICarterModule
                 Status: command.Status.ToIntegrationEnum(),
                 Items: command.Items.Select(i => new OrderItem(
                     BookId: i.BookId,
+                    Title: i.Title,
                     SellerId: i.SellerId,
                     Quantity: i.Quantity,
                     Price: i.Price

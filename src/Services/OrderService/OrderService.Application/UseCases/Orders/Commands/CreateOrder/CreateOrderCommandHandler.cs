@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using OrderService.Application.Common.Interfaces.Repositories;
-
-
-namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
+﻿namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 
 public class CreateOrderCommandHandler(IMapper mapper, IOrderRepository orderRepository)
     : ICommandHandler<CreateOrderCommand, CreateOrderResult>

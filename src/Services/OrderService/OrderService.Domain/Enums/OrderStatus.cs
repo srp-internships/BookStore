@@ -2,8 +2,8 @@
 
 public enum OrderStatus
 {
-    Completed,
-    Failed,
-    PaymentProcessing,
-    ShipmentProcessing
+    PaymentProcessing = 1,
+    ShipmentProcessing = 2,
+    Completed = 3,
+    Failed = 4,
 }

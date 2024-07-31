@@ -1,4 +1,4 @@
-﻿namespace OrderService.Application.Dtos;
+﻿namespace OrderService.Application.UseCases.DTOs;
 
 public record OrderDto(
     Guid CustomerId,

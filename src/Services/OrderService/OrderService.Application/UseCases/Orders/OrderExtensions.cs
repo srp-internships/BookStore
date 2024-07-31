@@ -1,4 +1,6 @@
-﻿namespace OrderService.Application.UseCases.Orders;
+﻿using OrderService.Application.UseCases.DTOs;
+
+namespace OrderService.Application.UseCases.Orders;
 
 public static class OrderExtensions
 {

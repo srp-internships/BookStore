@@ -1,4 +1,5 @@
-﻿using OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
+﻿using OrderService.Application.UseCases.DTOs;
+using OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
 
 namespace OrderServiceWebAPI.Endpoints;
 

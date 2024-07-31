@@ -13,7 +13,7 @@ using OrderService.Infrastructure.Persistence.DataBases;
 namespace OrderService.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240729052317_InitialCreate")]
+    [Migration("20240731041044_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -162,16 +162,24 @@ namespace OrderService.Infrastructure.Migrations
             modelBuilder.Entity("OrderService.Domain.Entities.Payment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("PaymentStatus")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Payments");
                 });
@@ -179,18 +187,24 @@ namespace OrderService.Infrastructure.Migrations
             modelBuilder.Entity("OrderService.Domain.Entities.Shipment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("ShipmentStatus")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Shipments");
                 });
@@ -225,6 +239,28 @@ namespace OrderService.Infrastructure.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("OrderService.Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("OrderService.Domain.Entities.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("OrderService.Domain.Entities.Payment", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("OrderService.Domain.Entities.Shipment", b =>
+                {
+                    b.HasOne("OrderService.Domain.Entities.Order", "Order")
+                        .WithOne("Shipment")
+                        .HasForeignKey("OrderService.Domain.Entities.Shipment", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("OrderService.Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Orders");
@@ -233,6 +269,12 @@ namespace OrderService.Infrastructure.Migrations
             modelBuilder.Entity("OrderService.Domain.Entities.Order", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("Payment")
+                        .IsRequired();
+
+                    b.Navigation("Shipment")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

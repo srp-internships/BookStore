@@ -4,6 +4,8 @@ public class Order : BaseEntity
 {
     public OrderStatus Status { get; private set; } = OrderStatus.PaymentProcessing;
     public Customer Customer { get; private set; } = default!;
+    public Shipment? Shipment { get; private set; }
+    public Payment? Payment { get; private set; }
     public Guid CustomerId { get; private set; } = default!;
     public Guid? CartId { get; private set; } = default!;
     public Address ShippingAddress { get; private set; } = default!;

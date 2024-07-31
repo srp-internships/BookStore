@@ -1,11 +1,5 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using OrderService.Application.Common.Interfaces.Data;
-using OrderService.Application.UseCases.Orders;
-using OrderService.Domain.Entities;
 
 namespace OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
 

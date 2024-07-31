@@ -1,4 +1,5 @@
-﻿using OrderService.Application.UseCases.Orders.Commands.CreateOrder;
+﻿using OrderService.Application.UseCases.DTOs;
+using OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 
 
 namespace OrderService.Application.Mappers;
@@ -6,7 +7,7 @@ namespace OrderService.Application.Mappers;
 public class AutoMapperConfiguration : Profile
 {
     public AutoMapperConfiguration()
-{
+    {
         CreateMap<CreateOrderCommand, Order>();
         CreateMap<Order, CreateOrderResult>();
         CreateMap<AddressDto, Address>();

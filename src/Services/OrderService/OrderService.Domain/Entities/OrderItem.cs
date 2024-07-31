@@ -7,9 +7,9 @@ public class OrderItem : BaseEntity
 
     public Order Order { get; set; }
     public Guid OrderId { get; set; }
-    public Book Book { get; set; }
+    public Book? Book { get; set; }
     public Guid BookId { get; set; }
     public Guid SellerId { get; set; }
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
 }

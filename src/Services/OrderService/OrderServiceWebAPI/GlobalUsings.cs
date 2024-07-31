@@ -1,12 +1,12 @@
 ﻿global using Carter;
-global using MediatR;
-global using OrderService.Application.Dtos;
 global using Mapster;
+global using MassTransit;
+global using MediatR;
 global using Microsoft.EntityFrameworkCore;
-global using OrderServiceWebAPI;
 global using OrderService.Application;
+global using OrderService.Application.Common.Pagination;
+global using OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 global using OrderService.Infrastructure;
 global using OrderService.Infrastructure.Persistence.DataBases;
-global using OrderService.Application.Common.Pagination;
-
-
+global using OrderService.IntegrationEvents;
+global using OrderServiceWebAPI;

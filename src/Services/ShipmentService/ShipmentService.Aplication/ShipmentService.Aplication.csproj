@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\OrderService\OrderService.IntegrationEvents\OrderService.IntegrationEvents.csproj" />
     <ProjectReference Include="..\ShipmentService.Domain\ShipmentService.Domain.csproj" />
     <ProjectReference Include="..\ShipmentService.IntegrationEvent\ShipmentService.IntegrationEvent.csproj" />
   </ItemGroup>

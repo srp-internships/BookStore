@@ -1,15 +1,11 @@
 ﻿using MassTransit;
+using MassTransit.SagaStateMachine;
 using Microsoft.Extensions.Logging;
 using OrderService.IntegrationEvents;
-using ShipmentService.Domain.Entities;
+using ShipmentService.Aplication.Common.Extentions;
 using ShipmentService.Domain.Entities.Shipments;
 using ShipmentService.Domain.Enums;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShipmentService.Infrastructure.Consumers
 {
@@ -28,47 +24,48 @@ namespace ShipmentService.Infrastructure.Consumers
         {
             try
             {
-                var message = context.Message;
+                var orderEvent = context.Message;
 
-                _logger.LogInformation("Order Created: {OrderId}, {CustomerId}",
-                    message.OrderId, message.CustomerId);
+                if (orderEvent.Status == OrderService.IntegrationEvents.OrderStatus.ShipmentProcessing
+                    && orderEvent.ShippingAddress!=null)
+                {
+                    var shipment = new Shipment
+                    {
+                        ShipmentId = Guid.NewGuid(),
+                        OrderId = orderEvent.OrderId,
+                        CustomerId = orderEvent.CustomerId,
+                        ShippingAddress = new ShippingAddress
+                        {
+                            Id = Guid.NewGuid(),
+                            Street = orderEvent.ShippingAddress.Street,
+                            City = orderEvent.ShippingAddress.State,
+                            Country = orderEvent.ShippingAddress.Country
+                        },
+                        Status = Status.Pending,
+                        OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status),
+                        Items = orderEvent.OrderItems.Select(item => new ShipmentItem
+                        {
+                            ItemId = item.BookId,
+                            BookName = item.Title,
+                            Quantity = item.Quantity
+                        }).ToList()
+                    };
 
-                var shipment = CreateShipmentFromOrder(message);
+                    _context.Shipments.Add(shipment);
+                    await _context.SaveChangesAsync();
 
-                _context.Shipments.Add(shipment);
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation("Shipment created and saved: {ShipmentId}", shipment.ShipmentId);
+                    _logger.LogInformation($"Created shipment for OrderId {orderEvent.OrderId}");
+                }
+                else
+                {
+                    _logger.LogWarning($"Invalid OrderProcessedIntegrationEvent: {orderEvent.OrderId}");
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while processing OrderCreatedEvent for OrderId: {OrderId}",
-                    context.Message.OrderId);
+                _logger.LogError(ex, "Failed to process OrderProcessedIntegrationEvent");
             }
-        }
 
-        private Shipment CreateShipmentFromOrder(OrderProcessedIntegrationEvent orderEvent)
-        {
-            return new Shipment
-            {
-                ShipmentId = Guid.NewGuid(),
-                OrderId = orderEvent.OrderId,
-                CustomerId = orderEvent.CustomerId,
-                ShippingAddress = new ShippingAddress
-                {
-                    Id = Guid.NewGuid(),
-                    Street = orderEvent.ShippingAddress.Street,
-                    City = orderEvent.ShippingAddress.State,
-                    Country = orderEvent.ShippingAddress.Country
-                },
-                Items = orderEvent.OrderItems.Select(item => new ShipmentItem
-                {
-                    ItemId = item.BookId,
-                    BookName = item.Title,
-                    Quantity = item.Quantity,
-                }).ToList(),
-                Status = Status.Shipped
-            };
         }
     }
 }

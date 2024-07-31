@@ -14,6 +14,6 @@ namespace ShipmentService.Domain.Entities.Shipments
 
         [Required(ErrorMessage = "Title is required")]
         public string? BookName { get; set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 1;
     }
 }

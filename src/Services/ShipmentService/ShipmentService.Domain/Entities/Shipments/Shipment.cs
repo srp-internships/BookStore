@@ -18,6 +18,7 @@ namespace ShipmentService.Domain.Entities.Shipments
         public List<ShipmentItem>? Items { get; set; }
         public Status Status { get; set; }
         public DateTime UpdateShipmentStatus { get; set; } = DateTime.Now;
+        public OrderStatus OrderStatus { get; set; }
         public Shipment()
         {
             Items = new List<ShipmentItem>();

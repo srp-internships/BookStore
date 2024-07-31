@@ -11,7 +11,6 @@ namespace ShipmentService.Aplication.Interfaces
     {
         Task<IEnumerable<Shipment>> GetAllShipmentsAsync();
         Task<Shipment?> GetShipmentByIdAsync(Guid shipmentId);
-        Task AddShipmentAsync(Shipment shipment);
         Task UpdateShipmentAsync(Shipment shipment);
         Task SaveChangesAsync();
     }

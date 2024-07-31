@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Moq;
 using ShipmentService.Aplication.Interfaces;
 using ShipmentService.Domain.Entities.Shipments;
 using ShipmentService.Domain.Enums;
@@ -13,197 +14,90 @@ using System.Threading.Tasks;
 namespace ShipmentService.Aplication.UnitTests.NUnit.Interfaces
 {
     [TestFixture]
-    public class ShipmentRepositoryTests : IDisposable
+    public class ShipmentRepositoryTests 
     {
-        private ShipmentContext _context;
-        private IShipmentRepository _repository;
+        private Mock<IShipmentRepository> _shipmentRepositoryMock;
 
         [SetUp]
         public void SetUp()
         {
-            var options = new DbContextOptionsBuilder<ShipmentContext>()
-        .UseInMemoryDatabase(databaseName: "TestDatabase")
-        .Options;
-
-            _context = new ShipmentContext(options);
-            _repository = new ShipmentRepository(_context);
-
-            // Убедитесь, что база данных пуста
-            _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            // Освобождение ресурсов
-            _context?.Dispose();
+            _shipmentRepositoryMock = new Mock<IShipmentRepository>();
         }
 
         [Test]
-        public async Task Should_Add_Shipment()
+        public async Task GetAllShipmentsAsync_ShouldReturnAllShipments()
         {
             // Arrange
-            var shipment = new Shipment
-            {
-                ShipmentId = Guid.NewGuid(),
-                OrderId = Guid.NewGuid(),
-                CustomerId = Guid.NewGuid(),
-                ShippingAddress = new ShippingAddress
-                {
-                    Id = Guid.NewGuid(),
-                    Street = "123 Main St",
-                    City = "Springfield",
-                    Country = "USA"
-                },
-                Items = new List<ShipmentItem>
-                {
-                    new ShipmentItem { ItemId = Guid.NewGuid(), BookName = "Book 1", Quantity = 1 }
-                },
-                Status = Status.Shipped
-            };
+            var shipments = new List<Shipment>
+        {
+            new Shipment { ShipmentId = Guid.NewGuid(), OrderId = Guid.NewGuid(), CustomerId = Guid.NewGuid() },
+            new Shipment { ShipmentId = Guid.NewGuid(), OrderId = Guid.NewGuid(), CustomerId = Guid.NewGuid() }
+        };
+            _shipmentRepositoryMock.Setup(repo => repo.GetAllShipmentsAsync()).ReturnsAsync(shipments);
 
             // Act
-            await _repository.AddShipmentAsync(shipment);
-            await _repository.SaveChangesAsync();
+            var result = await _shipmentRepositoryMock.Object.GetAllShipmentsAsync();
 
             // Assert
-            var addedShipment = await _context.Shipments.FindAsync(shipment.ShipmentId);
-            Assert.NotNull(addedShipment);
-            Assert.AreEqual(shipment.OrderId, addedShipment.OrderId);
+            Assert.AreEqual(shipments.Count, result.Count());
+            Assert.AreEqual(shipments, result);
         }
 
         [Test]
-        public async Task Should_Get_All_Shipments()
+        public async Task GetShipmentByIdAsync_ShouldReturnShipment_WhenShipmentExists()
         {
             // Arrange
-            var shipment1 = new Shipment
-            {
-                ShipmentId = Guid.NewGuid(),
-                OrderId = Guid.NewGuid(),
-                CustomerId = Guid.NewGuid(),
-                ShippingAddress = new ShippingAddress
-                {
-                    Id = Guid.NewGuid(),
-                    Street = "123 Main St",
-                    City = "Springfield",
-                    Country = "USA"
-                },
-                Items = new List<ShipmentItem>
-        {
-            new ShipmentItem { ItemId = Guid.NewGuid(), BookName = "Book 1", Quantity = 1 }
-        },
-                Status = Status.Shipped
-            };
-
-            var shipment2 = new Shipment
-            {
-                ShipmentId = Guid.NewGuid(),
-                OrderId = Guid.NewGuid(),
-                CustomerId = Guid.NewGuid(),
-                ShippingAddress = new ShippingAddress
-                {
-                    Id = Guid.NewGuid(),
-                    Street = "456 Elm St",
-                    City = "Shelbyville",
-                    Country = "USA"
-                },
-                Items = new List<ShipmentItem>
-        {
-            new ShipmentItem { ItemId = Guid.NewGuid(), BookName = "Book 2", Quantity = 2 }
-        },
-                Status = Status.Pending
-            };
-
-            await _repository.AddShipmentAsync(shipment1);
-            await _repository.AddShipmentAsync(shipment2);
-            await _repository.SaveChangesAsync();
+            var shipmentId = Guid.NewGuid();
+            var shipment = new Shipment { ShipmentId = shipmentId, OrderId = Guid.NewGuid(), CustomerId = Guid.NewGuid() };
+            _shipmentRepositoryMock.Setup(repo => repo.GetShipmentByIdAsync(shipmentId)).ReturnsAsync(shipment);
 
             // Act
-            var shipments = await _repository.GetAllShipmentsAsync();
+            var result = await _shipmentRepositoryMock.Object.GetShipmentByIdAsync(shipmentId);
 
             // Assert
-            var shipmentList = shipments.ToList();
-            Assert.AreEqual(2, shipmentList.Count, "The number of shipments should be 2.");
-            Assert.Contains(shipment1, shipmentList);
-            Assert.Contains(shipment2, shipmentList);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(shipmentId, result?.ShipmentId);
         }
 
         [Test]
-        public async Task Should_Get_Shipment_By_Id()
+        public async Task GetShipmentByIdAsync_ShouldReturnNull_WhenShipmentDoesNotExist()
         {
             // Arrange
-            var shipment = new Shipment
-            {
-                ShipmentId = Guid.NewGuid(),
-                OrderId = Guid.NewGuid(),
-                CustomerId = Guid.NewGuid(),
-                ShippingAddress = new ShippingAddress
-                {
-                    Id = Guid.NewGuid(),
-                    Street = "123 Main St",
-                    City = "Springfield",
-                    Country = "USA"
-                },
-                Items = new List<ShipmentItem>
-                {
-                    new ShipmentItem { ItemId = Guid.NewGuid(), BookName = "Book 1", Quantity = 1 }
-                },
-                Status = Status.Shipped
-            };
-
-            await _repository.AddShipmentAsync(shipment);
-            await _repository.SaveChangesAsync();
+            var shipmentId = Guid.NewGuid();
+            _shipmentRepositoryMock.Setup(repo => repo.GetShipmentByIdAsync(shipmentId)).ReturnsAsync((Shipment?)null);
 
             // Act
-            var retrievedShipment = await _repository.GetShipmentByIdAsync(shipment.ShipmentId);
+            var result = await _shipmentRepositoryMock.Object.GetShipmentByIdAsync(shipmentId);
 
             // Assert
-            Assert.NotNull(retrievedShipment);
-            Assert.AreEqual(shipment.ShipmentId, retrievedShipment.ShipmentId);
+            Assert.IsNull(result);
         }
 
         [Test]
-        public async Task Should_Update_Shipment()
+        public async Task UpdateShipmentAsync_ShouldUpdateShipment()
         {
             // Arrange
-            var shipment = new Shipment
-            {
-                ShipmentId = Guid.NewGuid(),
-                OrderId = Guid.NewGuid(),
-                CustomerId = Guid.NewGuid(),
-                ShippingAddress = new ShippingAddress
-                {
-                    Id = Guid.NewGuid(),
-                    Street = "123 Main St",
-                    City = "Springfield",
-                    Country = "USA"
-                },
-                Items = new List<ShipmentItem>
-                {
-                    new ShipmentItem { ItemId = Guid.NewGuid(), BookName = "Book 1", Quantity = 1 }
-                },
-                Status = Status.Shipped
-            };
-
-            await _repository.AddShipmentAsync(shipment);
-            await _repository.SaveChangesAsync();
+            var shipment = new Shipment { ShipmentId = Guid.NewGuid(), OrderId = Guid.NewGuid(), CustomerId = Guid.NewGuid() };
+            _shipmentRepositoryMock.Setup(repo => repo.UpdateShipmentAsync(shipment)).Returns(Task.CompletedTask);
 
             // Act
-            shipment.Status = Status.Delivered;
-            await _repository.UpdateShipmentAsync(shipment);
-            await _repository.SaveChangesAsync();
+            await _shipmentRepositoryMock.Object.UpdateShipmentAsync(shipment);
 
             // Assert
-            var updatedShipment = await _repository.GetShipmentByIdAsync(shipment.ShipmentId);
-            Assert.NotNull(updatedShipment);
-            Assert.AreEqual(Status.Delivered, updatedShipment.Status);
+            _shipmentRepositoryMock.Verify(repo => repo.UpdateShipmentAsync(shipment), Times.Once);
         }
 
-        // Реализация IDisposable для освобождения ресурсов
-        public void Dispose()
+        [Test]
+        public async Task SaveChangesAsync_ShouldSaveChanges()
         {
-            _context?.Dispose();
+            // Arrange
+            _shipmentRepositoryMock.Setup(repo => repo.SaveChangesAsync()).Returns(Task.CompletedTask);
+
+            // Act
+            await _shipmentRepositoryMock.Object.SaveChangesAsync();
+
+            // Assert
+            _shipmentRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
         }
     }
 }

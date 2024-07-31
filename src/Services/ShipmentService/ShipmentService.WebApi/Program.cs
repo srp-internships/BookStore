@@ -1,11 +1,7 @@
-using System.Numerics;
-using System.Reflection;
 using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using ShipmentService.Aplication.Common.Mappings;
-using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
 using ShipmentService.Aplication.CQRS.Shipments.Commands.Update;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetAll;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetById;
@@ -13,7 +9,6 @@ using ShipmentService.Aplication.Interfaces;
 using ShipmentService.Infrastructure.Consumers;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
 using ShipmentService.Infrastructure.Repositories;
-using ShipmentService.IntegrationEvent;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;

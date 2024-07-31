@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
 
@@ -11,9 +12,11 @@ using ShipmentService.Infrastructure.Persistence.DbContexts;
 namespace ShipmentService.Infrastructure.Migrations
 {
     [DbContext(typeof(ShipmentContext))]
-    partial class ShipmentContextModelSnapshot : ModelSnapshot
+    [Migration("20240731083539_AddedOrderStatus")]
+    partial class AddedOrderStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +37,8 @@ namespace ShipmentService.Infrastructure.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("OrderStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("ShippingAddressId")
                         .HasColumnType("uniqueidentifier");
@@ -65,9 +67,7 @@ namespace ShipmentService.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("ShipmentId")
                         .HasColumnType("uniqueidentifier");
@@ -86,15 +86,12 @@ namespace ShipmentService.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -106,8 +103,7 @@ namespace ShipmentService.Infrastructure.Migrations
                 {
                     b.HasOne("ShipmentService.Domain.Entities.Shipments.ShippingAddress", "ShippingAddress")
                         .WithMany()
-                        .HasForeignKey("ShippingAddressId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("ShippingAddressId");
 
                     b.Navigation("ShippingAddress");
                 });
@@ -116,8 +112,7 @@ namespace ShipmentService.Infrastructure.Migrations
                 {
                     b.HasOne("ShipmentService.Domain.Entities.Shipments.Shipment", null)
                         .WithMany("Items")
-                        .HasForeignKey("ShipmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ShipmentId");
                 });
 
             modelBuilder.Entity("ShipmentService.Domain.Entities.Shipments.Shipment", b =>

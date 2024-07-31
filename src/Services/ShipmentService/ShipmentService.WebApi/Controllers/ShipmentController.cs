@@ -1,11 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
+using ShipmentService.Aplication.Common.Extentions;
 using ShipmentService.Aplication.CQRS.Shipments.Commands.Update;
-using ShipmentService.Aplication.CQRS.Shipments.Queries;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetAll;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetById;
-using ShipmentService.Aplication.Interfaces;
 
 namespace ShipmentService.WebApi.Controllers
 {
@@ -20,24 +18,26 @@ namespace ShipmentService.WebApi.Controllers
             _mediator = mediator;
         }
 
-        // POST api/shipments
-        [HttpPost]
-        public async Task<IActionResult> CreateShipment([FromBody] CreateShipmentCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetShipmentById), new { id = result }, result);  
-        }
-
         // PUT api/shipments/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateShipment(Guid id, [FromBody] UpdateShipmentCommand command)
         {
-            if (id != command.ShipmentId)
+            try
             {
-                return BadRequest("ID mismatch");
+                await _mediator.Send(command);
+                return Ok("Updated successfully");
             }
-            await _mediator.Send(command);
-            return Ok("Updated successfully");
+            catch (Exception ex)
+            {
+                if (id != command.ShipmentId && !IsValidStatus(command.Status.ToDomainEnum()))
+                {
+                    return BadRequest("ID mismatch or Invalid status value");
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                };
+            }
         }
 
         // GET api/shipments/{id}
@@ -53,10 +53,21 @@ namespace ShipmentService.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllShipments()
         {
-            var query = new GetShipmentsQuery();
-            var shipments = await _mediator.Send(query);
-            return Ok(shipments);
+            try
+            {
+                var query = new GetShipmentsQuery();
+                var shipments = await _mediator.Send(query);
+                return Ok(shipments);
+            }
+            catch (Exception ex)
+            {
+                return NotFound("Shipments not found. ");
+            }
             
+        }
+        private bool IsValidStatus(ShipmentService.Domain.Enums.Status status)
+        {
+            return Enum.IsDefined(typeof(ShipmentService.Domain.Enums.Status), status);
         }
     }
 }

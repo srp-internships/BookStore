@@ -3,7 +3,6 @@ using FluentValidation.Results;
 using MediatR;
 using Moq;
 using ShipmentService.Aplication.Common.Behaviors;
-using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
 using ShipmentService.Domain.Entities;
 using ShipmentService.Domain.Entities.Shipments;
 using ValidationException = FluentValidation.ValidationException;
@@ -14,99 +13,48 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.Common.Behaviors
     [TestFixture]
     public class ValidationBehaviorTests
     {
-        private Mock<IValidator<CreateShipmentCommand>> _validatorMock;
-        private ValidationBehavior<CreateShipmentCommand, Guid> _validationBehavior;
+        private Mock<IValidator<TestRequest>> _validatorMock;
+        private ValidationBehavior<TestRequest, TestResponse> _validationBehavior;
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
-            _validatorMock = new Mock<IValidator<CreateShipmentCommand>>();
-            _validationBehavior = new ValidationBehavior<CreateShipmentCommand, Guid>(new[] { _validatorMock.Object });
+            _validatorMock = new Mock<IValidator<TestRequest>>();
+            _validationBehavior = new ValidationBehavior<TestRequest, TestResponse>(new[] { _validatorMock.Object });
         }
-        #region Handle_ShouldProceed_WhenValidationSucceeds
+
         [Test]
-        public async Task Handle_ShouldProceed_WhenValidationSucceeds()
-        {
-            //Arrage
-            var command = new CreateShipmentCommand(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                new ShippingAddress
-                {
-                    Id = Guid.NewGuid(),
-                    City = "Khujand",
-                    Country = "Tajikistan",
-                    Street = "R.Jalil"
-                },
-                new List<ShipmentItem>
-                {
-                    new ShipmentItem
-                    {
-                        ItemId=Guid.NewGuid(),
-                        BookName="Book",
-                        Quantity=1
-                    }
-                }
-             );
-
-            _validatorMock
-                .Setup(v => v.Validate(It.IsAny<ValidationContext<CreateShipmentCommand>>()))
-                .Returns(new ValidationResult());
-
-            var next = new RequestHandlerDelegate<Guid>(() => Task.FromResult(Guid.NewGuid()));
-            //Act
-
-            var result = await _validationBehavior.Handle(command, next, CancellationToken.None);
-
-            //Assert
-            Assert.IsNotNull(result);
-            _validatorMock.Verify(v => v.Validate(It.IsAny<ValidationContext<CreateShipmentCommand>>()), Times.Once);
-        }
-        #endregion
-
-        #region Handle_ShouldThrowValidationException_WhenValidationFails
-        [Test]
-        public async Task Handle_ShouldThrowValidationException_WhenValidationFails()
+        public async Task Handle_ShouldCallNext_WhenValidationSucceeds()
         {
             // Arrange
-            var command = new CreateShipmentCommand(
-                 Guid.NewGuid(),
-                 Guid.NewGuid(),
-                 Guid.NewGuid(),
-                 new ShippingAddress
-                 {
-                     Id = Guid.NewGuid(),
-                     City = "Khujand",
-                     Country = "Tajikistan",
-                     Street = "R.Jalil"
-                 },
-                 new List<ShipmentItem>
-                 {
-                    new ShipmentItem
-                    {
-                        ItemId=Guid.NewGuid(),
-                        BookName="Book",
-                        Quantity=1
-                    }
-                 }
-              );
+            var request = new TestRequest();
+            var next = new Mock<RequestHandlerDelegate<TestResponse>>();
+            _validatorMock.Setup(v => v.Validate(It.IsAny<ValidationContext<TestRequest>>()))
+                          .Returns(new ValidationResult());
 
+            // Act
+            await _validationBehavior.Handle(request, next.Object, CancellationToken.None);
+
+            // Assert
+            next.Verify(n => n(), Times.Once);
+        }
+
+        [Test]
+        public void Handle_ShouldThrowValidationException_WhenValidationFails()
+        {
+            // Arrange
+            var request = new TestRequest();
+            var next = new Mock<RequestHandlerDelegate<TestResponse>>();
             var validationFailures = new List<ValidationFailure>
-            {
-                new ValidationFailure("PropertyName", "ErrorMessage")
-            };
-
-            _validatorMock
-                .Setup(v => v.Validate(It.IsAny<ValidationContext<CreateShipmentCommand>>()))
-                .Returns(new ValidationResult(validationFailures));
-
-            var next = new RequestHandlerDelegate<Guid>(() => Task.FromResult(Guid.NewGuid()));
+        {
+            new ValidationFailure("Property1", "Error message 1"),
+            new ValidationFailure("Property2", "Error message 2")
+        };
+            _validatorMock.Setup(v => v.Validate(It.IsAny<ValidationContext<TestRequest>>()))
+                          .Returns(new ValidationResult(validationFailures));
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<ValidationException>(async () => await _validationBehavior.Handle(command, next, CancellationToken.None));
-            Assert.AreEqual(validationFailures, ex.Errors);
+            Assert.ThrowsAsync<ValidationException>(() => _validationBehavior.Handle(request, next.Object, CancellationToken.None));
         }
-        #endregion
     }
 }

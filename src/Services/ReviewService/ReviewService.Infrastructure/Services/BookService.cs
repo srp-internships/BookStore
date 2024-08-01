@@ -1,5 +1,6 @@
 ﻿using CatalogService.Contracts;
 using ReviewService.Application.IRepositories;
+using ReviewService.Application.Services;
 using ReviewService.Domain.Entities;
 using System;
 using System.Collections.Generic;

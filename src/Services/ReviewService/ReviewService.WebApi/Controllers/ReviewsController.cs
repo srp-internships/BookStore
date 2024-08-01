@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ReviewService.Infrastructure.Services;
 using ReviewService.Domain.Entities;
 using ReviewService.Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using ReviewService.Application.Services;
 
 namespace ReviewService.WebApi.Controllers
 {
@@ -11,10 +13,12 @@ namespace ReviewService.WebApi.Controllers
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewService _reviewService;
+        private readonly IBookService _bookService;
 
-        public ReviewsController(IReviewService reviewService)
+        public ReviewsController(IReviewService reviewService, IBookService bookService)
         {
             _reviewService = reviewService;
+            _bookService = bookService;
         }
 
         [HttpGet("{id}")]
@@ -27,12 +31,14 @@ namespace ReviewService.WebApi.Controllers
             }
             return Ok(review);
         }
+       
         [HttpGet("book/{bookId}/average-rating")]
         public async Task<IActionResult> GetAverageRatingByBookId(Guid bookId)
         {
             try
             {
                 var averageRating = await _reviewService.GetAverageRatingByBookIdAsync(bookId);
+                averageRating = Math.Round(averageRating, 2);
                 return Ok(new { BookId = bookId, AverageRating = averageRating });
             }
             catch (Exception ex)
@@ -40,17 +46,43 @@ namespace ReviewService.WebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
             }
         }
+        
         [HttpGet("book/{bookId}")]
         public async Task<IActionResult> GetByBookId(Guid bookId)
         {
             try
             {
+                var bookExists = await _bookService.BookExistsAsync(bookId);
+
+                if (!bookExists)
+                {
+                    return NotFound("Book not found in database.");
+                }
+
                 var reviews = await _reviewService.GetByBookIdAsync(bookId);
-                return Ok(reviews);
+
+                if (reviews == null || !reviews.Any())
+                {
+                    var averageRating = await _reviewService.GetAverageRatingByBookIdAsync(bookId);
+                    averageRating = Math.Round(averageRating, 2); 
+                    return Ok(new
+                    {
+                        Message = "No reviews found for this book.",
+                        AverageRating = averageRating
+                    });
+                }
+
+                var response = new
+                {
+                    Reviews = reviews,
+                    AverageRating = (await _reviewService.GetAverageRatingByBookIdAsync(bookId)).ToString("F2") 
+                };
+
+                return Ok(response);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                return NotFound("Book not found in database");
+                return BadRequest($"An error occurred: {ex.Message}");
             }
         }
 
@@ -60,9 +92,15 @@ namespace ReviewService.WebApi.Controllers
             try
             {
                 var reviews = await _reviewService.GetByUserIdAsync(userId);
+
+                if (reviews == null || !reviews.Any())
+                {
+                    return NotFound("User has not commented on any reviews.");
+                }
+
                 return Ok(reviews);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -74,12 +112,11 @@ namespace ReviewService.WebApi.Controllers
             try
             {
                 var createdReview = await _reviewService.AddAsync(reviewDto);
-                var content = CreatedAtAction(nameof(GetById), new { id = createdReview.Id }, createdReview);
-                return Ok($" Created Review by {reviewDto.UserId} to {reviewDto.BookId} ");
+                return CreatedAtAction(nameof(GetById), new { id = createdReview.Id }, createdReview);
             }
             catch (Exception ex)
             {
-                return NotFound(new { message = ex.Message +"Book Not Found" });
+                return NotFound(new { message = ex.Message + " Book Not Found" });
             }
         }
 
@@ -95,4 +132,5 @@ namespace ReviewService.WebApi.Controllers
             return Ok("Successfully deleted");
         }
     }
-}   
+
+}

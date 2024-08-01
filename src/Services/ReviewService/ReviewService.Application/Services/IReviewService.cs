@@ -1,12 +1,11 @@
 ﻿using ReviewService.Domain.DTOs;
-using ReviewService.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReviewService.Infrastructure.Services
+namespace ReviewService.Application.Services
 {
     public interface IReviewService
     {

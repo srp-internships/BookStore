@@ -1,6 +1,12 @@
 ﻿using ReviewService.Application.IRepositories;
+using ReviewService.Application.Services;
 using ReviewService.Domain.DTOs;
 using ReviewService.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ReviewService.Infrastructure.Services
 {
@@ -31,10 +37,13 @@ namespace ReviewService.Infrastructure.Services
                 CreatedDate = review.CreatedDate
             };
         }
+
         public async Task<double> GetAverageRatingByBookIdAsync(Guid bookId)
         {
-            return await _reviewRepository.GetAverageRatingByBookIdAsync(bookId);
+            var averageRating = await _reviewRepository.GetAverageRatingByBookIdAsync(bookId);
+            return Math.Round(averageRating, 2); 
         }
+
         public async Task<IEnumerable<ReviewDto>> GetByBookIdAsync(Guid bookId)
         {
             var reviews = await _reviewRepository.GetByBookIdAsync(bookId);
@@ -43,7 +52,7 @@ namespace ReviewService.Infrastructure.Services
                 Id = r.Id,
                 BookId = r.BookId,
                 UserId = r.UserId,
-                Comment= r.Comment,
+                Comment = r.Comment,
                 Rating = r.Rating,
                 CreatedDate = r.CreatedDate
             });
@@ -67,7 +76,7 @@ namespace ReviewService.Infrastructure.Services
         {
             var review = new Review
             {
-                Id = Guid.NewGuid(),  // Генерация нового идентификатора
+                Id = Guid.NewGuid(),
                 BookId = reviewDto.BookId,
                 UserId = reviewDto.UserId,
                 Comment = reviewDto.Comment,
@@ -87,7 +96,6 @@ namespace ReviewService.Infrastructure.Services
                 CreatedDate = createdReview.CreatedDate
             };
         }
-
         public async Task DeleteAsync(Guid id)
         {
             await _reviewRepository.DeleteAsync(id);

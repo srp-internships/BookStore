@@ -1,11 +1,16 @@
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using ReviewService.Application.IRepositories;
+using ReviewService.Application.Services;
 using ReviewService.Infrastructure.Consumers;
 using ReviewService.Infrastructure.Persistence.Contexts;
 using ReviewService.Infrastructure.Repositories;
 using ReviewService.Infrastructure.Services;
+using ReviewService.WebApi.Middlewares;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ReviewDbContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
                       .LogTo(Console.Write, LogLevel.Error)
           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+#region AddMassTransit
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<BookCreatedConsumer>();
@@ -32,11 +38,9 @@ builder.Services.AddMassTransit(x =>
         });
     });
 });
-
+#endregion
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -57,6 +61,7 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+#region DataConfigurations
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetService<ReviewDbContext>();
@@ -73,16 +78,17 @@ using (var scope = app.Services.CreateScope())
     }
 #endif
 }
+#endregion
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
+app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<RateLimitingMiddleware>();
+app.UseRouting();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

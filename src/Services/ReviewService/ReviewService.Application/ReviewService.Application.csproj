@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Catalog\CatalogService.Contracts\CatalogService.Contracts.csproj" />
     <ProjectReference Include="..\ReviewService.Domain\ReviewService.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\" />
   </ItemGroup>
 
 </Project>

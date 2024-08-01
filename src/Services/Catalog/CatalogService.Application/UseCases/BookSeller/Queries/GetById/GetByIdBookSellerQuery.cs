@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using CatalogService.Application.Dto;
+using CatalogService.Application.Mappers;
+
+using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using FluentValidation;
 using MediatR;

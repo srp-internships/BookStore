@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using CatalogService.Application.Dto;
 using CatalogService.Application.Exceptions;
 using CatalogService.Application.UseCases;
+using CatalogService.Application.UseCases.Queries;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MediatR;

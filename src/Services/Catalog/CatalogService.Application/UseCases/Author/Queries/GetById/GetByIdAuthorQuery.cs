@@ -1,4 +1,7 @@
-﻿using CatalogService.Application.Dto;
+﻿using AutoMapper;
+using CatalogService.Application.Mappers;
+
+using CatalogService.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,5 +14,7 @@ namespace CatalogService.Application.UseCases
     public class GetByIdAuthorQuery : IRequest<AuthorDto>
     {
         public Guid Id { get; set; }
+
+        
     }
 }

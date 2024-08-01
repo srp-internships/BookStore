@@ -1,4 +1,7 @@
-﻿using CatalogService.Application.Dto;
+﻿using AutoMapper;
+using CatalogService.Application.Mappers;
+using CatalogService.Application.UseCases.Queries;
+using CatalogService.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +13,6 @@ namespace CatalogService.Application.UseCases
     public class BookListVm
     {
         public List<BookDto> Books { get; set; }
+        
     }
 }

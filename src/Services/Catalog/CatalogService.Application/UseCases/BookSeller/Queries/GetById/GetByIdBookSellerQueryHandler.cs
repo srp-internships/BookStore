@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CatalogService.Application.Dto;
 using CatalogService.Application.Exceptions;
+
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MediatR;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
-{ 
+{
     public class GetByIdBookSellerQueryHandler(
         IBookSellerRepository sellerRepository,
         IMapper mapper) : IRequestHandler<GetByIdBookSellerQuery, BookSellerDto>

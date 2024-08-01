@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Dto\" />
     <Folder Include="UseCases\Author\Queries\GetByIds\" />
     <Folder Include="UseCases\Category\Queries\GetByIds\" />
   </ItemGroup>

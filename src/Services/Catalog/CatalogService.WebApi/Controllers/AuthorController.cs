@@ -1,5 +1,4 @@
-﻿using CatalogService.Application.Dto;
-using CatalogService.Application.UseCases;
+﻿using CatalogService.Application.UseCases;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

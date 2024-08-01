@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CatalogService.Application.Dto;
 
 using CatalogService.Domain.Interfaces;
 using MediatR;

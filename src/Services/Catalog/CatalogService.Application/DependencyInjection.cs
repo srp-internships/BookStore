@@ -7,8 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace CatalogService.Application
 {
@@ -17,7 +19,7 @@ namespace CatalogService.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             // Adding AutoMapper
-            services.AddAutoMapper(config => config.AddProfile(new MappingProfile()));
+            services.AddAutoMapper(config => config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly())));
 
             // Adding FluentValidation and validators from all loaded assemblies in the current AppDomain
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())

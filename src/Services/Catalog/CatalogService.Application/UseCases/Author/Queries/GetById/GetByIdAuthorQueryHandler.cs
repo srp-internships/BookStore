@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Dto;
+using CatalogService.Application.Exceptions;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MediatR;
@@ -18,9 +19,24 @@ namespace CatalogService.Application.UseCases
         private readonly IMapper _mapper = mapper;
         private readonly IAuthorRepository _authorRepository = authorRepository;
 
-        public async Task<AuthorDto> Handle(GetByIdAuthorQuery query, CancellationToken token)
+        public async Task<AuthorDto> Handle(GetByIdAuthorQuery request, CancellationToken token)
         {
-            Author author = await _authorRepository.GetByIdAsync(query.Id, token);
+            Author author;
+
+            try
+            {
+                author = await _authorRepository.GetByIdAsync(request.Id, token);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+                throw;
+            }
+
+            if (author == null)
+            {
+                throw new NotFoundException(nameof(Book), request.Id);
+            } 
 
             return _mapper.Map<AuthorDto>(author);
         }

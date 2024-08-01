@@ -5,6 +5,7 @@ using CatalogService.Application.UseCases;
 using CatalogService.Domain.Interfaces;
 using CatalogService.Infostructure;
 using CatalogService.Infostructure.Repositories;
+using CatalogService.WebApi.Middleware;
 using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddDbContext<CatalogDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
 
@@ -26,8 +26,6 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
 
-
-builder.Services.AddMassTransitHostedService();
 /*
 builder.Services.AddAutoMapper(options =>
 {
@@ -55,7 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 
 //app.UseAuthorization();

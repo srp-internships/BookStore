@@ -57,11 +57,6 @@ namespace CatalogService.Infostructure.Repositories
                 .Include(s => s.Authors)
                 .Include(s => s.Publisher)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-
-            if (book == null)
-            {
-                throw new NotFoundException(nameof(Book), book.Id);
-            }
             return book;
         }
 

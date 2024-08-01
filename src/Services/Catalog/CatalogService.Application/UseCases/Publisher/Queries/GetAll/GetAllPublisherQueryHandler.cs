@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Dto;
+using CatalogService.Application.Exceptions;
+using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MediatR;
 using System;
@@ -19,7 +21,22 @@ namespace CatalogService.Application.UseCases
 
         public async Task<PublisherListVm> Handle(GetAllPublisherQuery request, CancellationToken token)
         {
-            var publishers = await _publisherRepository.GetAllAsync(token);
+            IEnumerable<Publisher> publishers;
+            try
+            {
+                publishers = await _publisherRepository.GetAllAsync(token);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+                throw;
+            }
+
+            if (publishers.Count() == 0)
+            {
+                throw new NotFoundException(nameof(Publisher));
+            }
+            
             var publisherDtos = _mapper.Map<IEnumerable<PublisherDto>>(publishers);
             return new PublisherListVm { Publishers = publisherDtos.ToList() };
 

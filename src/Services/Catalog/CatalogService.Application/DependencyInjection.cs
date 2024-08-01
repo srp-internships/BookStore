@@ -1,4 +1,5 @@
-﻿using CatalogService.Application.Mappers;
+﻿using CatalogService.Application.Behaviors;
+using CatalogService.Application.Mappers;
 using CatalogService.Application.UseCases;
 using FluentValidation;
 using MediatR;
@@ -30,7 +31,8 @@ namespace CatalogService.Application
 
             // Adding Mediator
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateAuthorCommand).Assembly));
-
+            services.AddTransient(typeof(IPipelineBehavior<,>),
+                typeof(ValidationBehavior<,>));
             return services;
         }
     }

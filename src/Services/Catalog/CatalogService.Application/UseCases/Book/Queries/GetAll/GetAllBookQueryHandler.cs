@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Dto;
+using CatalogService.Application.Exceptions;
+using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MediatR;
 using System;
@@ -19,7 +21,22 @@ namespace CatalogService.Application.UseCases
 
         public async Task<BookListVm> Handle(GetAllBookQuery request, CancellationToken token)
         {
-            var books = await _bookRepository.GetAllAsync(token);
+            IEnumerable<Book> books;
+            try
+            {
+                books = await _bookRepository.GetAllAsync(token);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+                throw;
+            }
+
+            if (books.Count() == 0)
+            {
+                throw new NotFoundException(nameof(Book));
+            }
+
             var bookDtos = _mapper.Map<IEnumerable<BookDto>>(books);
             return new BookListVm { Books = bookDtos.ToList() };
         }

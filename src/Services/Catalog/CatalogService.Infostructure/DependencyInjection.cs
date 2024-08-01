@@ -36,6 +36,7 @@ namespace CatalogService.Infostructure
                     cfg.Host("rabbitmq://localhost");
                 });
             });
+            services.AddMassTransitHostedService();
 
             return services;
         }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Dto;
+using CatalogService.Application.Exceptions;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MediatR;
@@ -20,7 +21,23 @@ namespace CatalogService.Application.UseCases
 
         public async Task<BookDto> Handle(GetByIdBookQuery request, CancellationToken token)
         {
-            var book = await _bookRepository.GetByIdAsync(request.Id, token);
+            Book book;
+
+            try
+            {
+                book = await _bookRepository.GetByIdAsync(request.Id, token);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+                throw;
+            }
+
+            if (book == null)
+            {
+                throw new NotFoundException(nameof(Book), request.Id);
+            }
+
             var bookDto = _mapper.Map<BookDto>(book);
 
             return bookDto;

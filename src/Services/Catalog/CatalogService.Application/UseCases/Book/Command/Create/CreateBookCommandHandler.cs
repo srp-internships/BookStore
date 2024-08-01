@@ -33,12 +33,12 @@ namespace CatalogService.Application.UseCases
             var categoryList = await _categoryRepository.GetByIdsAsync(request.CategoryIds, token);
             if (!categoryList.Count().Equals(request.CategoryIds.Count))
             {
-                throw new NotFoundException(nameof(Category), categoryList); //TODO: to be fixed
+                throw new NotFoundException(nameof(Category)); 
             }
             var authorList = await _authorRepository.GetByIdsAsync(request.AuthorIds, token);
             if (!authorList.Count().Equals(request.AuthorIds.Count))
             {
-                throw new NotFoundException(nameof(Author), authorList);
+                throw new NotFoundException(nameof(Author));
             }
 
             var book = _mapper.Map<Book>(request);

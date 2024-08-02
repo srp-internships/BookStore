@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 namespace CatalogService.Infostructure.Repositories
 {
     public class PublisherRepository(
-        CatalogDbContext dbContext) : IPublisherRepository
+        CatalogDbContext dbContext,
+        IUnitOfWork unitOfWork) : IPublisherRepository
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task<Guid> CreateAsync(Publisher publisher, CancellationToken token = default)
         {
@@ -23,7 +25,7 @@ namespace CatalogService.Infostructure.Repositories
                 return existingPublisher.Id;
             }
             await _dbcontext.Publishers.AddAsync(publisher, token);
-            await _dbcontext.SaveChangesAsync(token);
+            await _unitOfWork.SaveChangesAsync(token);
             return publisher.Id;
         }
 
@@ -52,17 +54,17 @@ namespace CatalogService.Infostructure.Repositories
             entity.Logo = publisher.Logo;
             entity.Email = publisher.Email;
 
-            await _dbcontext.SaveChangesAsync(token);
+            await _unitOfWork.SaveChangesAsync(token);
         }
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
-            Publisher entity = await _dbcontext.Publishers.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
+            var entity = await _dbcontext.Publishers.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Publisher), entity.Id);
             }
             _dbcontext.Publishers.Remove(entity);
-            await _dbcontext.SaveChangesAsync(token);
+            await _unitOfWork.SaveChangesAsync(token);
         }
     }
 }

@@ -10,9 +10,12 @@ using System.Threading.Tasks;
 namespace CatalogService.Infostructure.Repositories
 {
     public class AuthorRepository
-        (CatalogDbContext dbContext) : IAuthorRepository
+        (CatalogDbContext dbContext,
+        IUnitOfWork unitOfWork) : IAuthorRepository
     {
-        private CatalogDbContext _dbcontext = dbContext;
+        private readonly CatalogDbContext _dbcontext = dbContext;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
         public async Task<Guid> CreateAsync(Author author, CancellationToken token = default)
         {
             var existingAuthor = await _dbcontext.Authors
@@ -21,7 +24,7 @@ namespace CatalogService.Infostructure.Repositories
             if(existingAuthor is null)
             {
                 await _dbcontext.Authors.AddAsync(author, token);
-                await _dbcontext.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
                 return author.Id;
             }
             return existingAuthor.Id;
@@ -45,7 +48,7 @@ namespace CatalogService.Infostructure.Repositories
 
         public async Task UpdateAsync(Author author, CancellationToken token = default)
         {
-            Author entity = await _dbcontext.Authors.FirstOrDefaultAsync(author
+            var entity = await _dbcontext.Authors.FirstOrDefaultAsync(author
                 => author.Id.Equals(author.Id), token);
             if (entity == null)
             {
@@ -54,19 +57,19 @@ namespace CatalogService.Infostructure.Repositories
             entity.Name = author.Name;
             entity.Description = author.Description;
 
-            await _dbcontext.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
         }
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
-            Author entity = await _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
+            var entity = await _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Book), entity.Id);
             }
             _dbcontext.Authors.Remove(entity);
-            await _dbcontext.SaveChangesAsync(token);
+            await _unitOfWork.SaveChangesAsync(token);
         }
-
+        
 
     }
 }

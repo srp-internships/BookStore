@@ -13,9 +13,11 @@ namespace CatalogService.Infostructure.Repositories
 {
     public class BookSellerRepository
         (CatalogDbContext dbContext,
+        IUnitOfWork unitOfWork,
         IBus bus) : IBookSellerRepository
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IBus _bus = bus;
         public async Task CreateAsync(BookSeller bookSeller, CancellationToken token = default)
         {
@@ -31,7 +33,7 @@ namespace CatalogService.Infostructure.Repositories
 
             await _dbcontext.BookSellers.AddAsync(bookSeller, token);
 
-            await _dbcontext.SaveChangesAsync(token);
+            await _unitOfWork.SaveChangesAsync(token);
             await _bus.Publish(new PriceCreatedEvent
             {
                 BookId = bookSeller.BookId,
@@ -60,7 +62,7 @@ namespace CatalogService.Infostructure.Repositories
             entity.Price = bookSeller.Price;
             entity.Description = bookSeller.Description;
 
-            await _dbcontext.SaveChangesAsync(token);
+            await _unitOfWork.SaveChangesAsync(token);
 
             await _bus.Publish(new PriceUpdatedEvent
             {
@@ -79,7 +81,7 @@ namespace CatalogService.Infostructure.Repositories
                 throw new NotFoundException(nameof(BookSeller), entity.Id);
             }
             _dbcontext.BookSellers.Remove(entity);
-            await _dbcontext.SaveChangesAsync(token);
+            await _unitOfWork.SaveChangesAsync(token);
         }
 
 

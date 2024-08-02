@@ -27,6 +27,7 @@ namespace CatalogService.Infostructure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IPublisherRepository, PublisherRepository>();
             services.AddScoped<IBookSellerRepository, BookSellerRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddMassTransit(x =>
             {

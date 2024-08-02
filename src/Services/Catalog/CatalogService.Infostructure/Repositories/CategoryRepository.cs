@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Infostructure.Repositories
 {
-    public class CategoryRepository
-    (CatalogDbContext dbContext) : ICategoryRepository
+    public class CategoryRepository(
+        CatalogDbContext dbContext,
+        IUnitOfWork unitOfWork) : ICategoryRepository
     {
         private CatalogDbContext _dbcontext = dbContext;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<Guid> CreateAsync(Category category, CancellationToken token = default)
         {
             var existingCategory = await _dbcontext.Categories.FirstOrDefaultAsync(x => x.Name.Equals(category.Name), token);
@@ -22,7 +24,7 @@ namespace CatalogService.Infostructure.Repositories
                 return existingCategory.Id;
             }
             await _dbcontext.Categories.AddAsync(category, token);
-            await _dbcontext.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
             return category.Id;
         }
         public async Task<Category> GetByIdAsync(Guid id, CancellationToken token = default)
@@ -52,7 +54,7 @@ namespace CatalogService.Infostructure.Repositories
             }
             entity.Name = category.Name;
 
-            await _dbcontext.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
         }
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
@@ -62,7 +64,7 @@ namespace CatalogService.Infostructure.Repositories
                 throw new NotFoundException(nameof(Category), category.Id);
             }
             _dbcontext.Categories.Remove(category);
-            await _dbcontext.SaveChangesAsync(token);
+            await _unitOfWork.SaveChangesAsync(token);
         }
 
 

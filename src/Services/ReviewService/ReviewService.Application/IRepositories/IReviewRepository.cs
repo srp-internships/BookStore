@@ -15,5 +15,6 @@ namespace ReviewService.Application.IRepositories
         Task<IEnumerable<Review>> GetByUserIdAsync(Guid userId);
         Task<Review> AddAsync(Review review);
         Task DeleteAsync(Guid id);
+        Task<Review?> GetByIdAndUserIdAsync(Guid id, Guid userId); 
     }
 }

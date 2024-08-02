@@ -15,5 +15,6 @@ namespace ReviewService.Application.Services
         Task<IEnumerable<ReviewDto>> GetByUserIdAsync(Guid userId);
         Task<ReviewDto> AddAsync(CreateReviewDto reviewDto);
         Task DeleteAsync(Guid id);
+        Task DeleteReviewByUserAsync(Guid reviewId, Guid userId);
     }
 }

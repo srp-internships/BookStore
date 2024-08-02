@@ -100,5 +100,15 @@ namespace ReviewService.Infrastructure.Services
         {
             await _reviewRepository.DeleteAsync(id);
         }
+        public async Task DeleteReviewByUserAsync(Guid reviewId, Guid userId)
+        {
+            var review = await _reviewRepository.GetByIdAndUserIdAsync(reviewId, userId);
+            if (review == null)
+            {
+                throw new KeyNotFoundException("Review not found or does not belong to the user.");
+            }
+
+            await _reviewRepository.DeleteAsync(reviewId);
+        }
     }
 }

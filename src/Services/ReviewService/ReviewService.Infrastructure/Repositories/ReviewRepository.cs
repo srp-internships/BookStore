@@ -61,6 +61,13 @@ namespace ReviewService.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<Review?> GetByIdAndUserIdAsync(Guid id, Guid userId)
+        {
+            return await _context.Set<Review>()
+                .Where(r => r.Id == id && r.UserId == userId)
+                .FirstOrDefaultAsync();
+        }
+
     }
 }
 

@@ -8,7 +8,7 @@ namespace ReviewService.Infrastructure.Persistence.Contexts
         public DbSet<Book> Books { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
-        public ReviewDbContext(DbContextOptions<ReviewDbContext> options) : base(options) { }
+        public ReviewDbContext(DbContextOptions<ReviewDbContext>? options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

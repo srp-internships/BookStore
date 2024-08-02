@@ -8,8 +8,8 @@ using ReviewService.Application.Services;
 
 namespace ReviewService.WebApi.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewService _reviewService;
@@ -20,18 +20,20 @@ namespace ReviewService.WebApi.Controllers
             _reviewService = reviewService;
             _bookService = bookService;
         }
-
+        #region GetReviewById
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var review = await _reviewService.GetByIdAsync(id);
             if (review == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Review not found." });
             }
             return Ok(review);
         }
-       
+        #endregion
+
+        #region Average-rating by BookId
         [HttpGet("book/{bookId}/average-rating")]
         public async Task<IActionResult> GetAverageRatingByBookId(Guid bookId)
         {
@@ -43,10 +45,12 @@ namespace ReviewService.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"An error occurred: {ex.Message}" });
             }
         }
-        
+        #endregion
+
+        #region GetReviewByBookId
         [HttpGet("book/{bookId}")]
         public async Task<IActionResult> GetByBookId(Guid bookId)
         {
@@ -56,15 +60,15 @@ namespace ReviewService.WebApi.Controllers
 
                 if (!bookExists)
                 {
-                    return NotFound("Book not found in database.");
+                    return NotFound(new { message = "Book not found in database." });
                 }
 
                 var reviews = await _reviewService.GetByBookIdAsync(bookId);
+                var averageRating = await _reviewService.GetAverageRatingByBookIdAsync(bookId);
+                averageRating = Math.Round(averageRating, 2);
 
                 if (reviews == null || !reviews.Any())
                 {
-                    var averageRating = await _reviewService.GetAverageRatingByBookIdAsync(bookId);
-                    averageRating = Math.Round(averageRating, 2); 
                     return Ok(new
                     {
                         Message = "No reviews found for this book.",
@@ -72,20 +76,20 @@ namespace ReviewService.WebApi.Controllers
                     });
                 }
 
-                var response = new
+                return Ok(new
                 {
                     Reviews = reviews,
-                    AverageRating = (await _reviewService.GetAverageRatingByBookIdAsync(bookId)).ToString("F2") 
-                };
-
-                return Ok(response);
+                    AverageRating = averageRating.ToString("F2")
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error occurred: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"An error occurred: {ex.Message}" });
             }
         }
+        #endregion
 
+        #region GetReviewByUserId
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(Guid userId)
         {
@@ -95,17 +99,19 @@ namespace ReviewService.WebApi.Controllers
 
                 if (reviews == null || !reviews.Any())
                 {
-                    return NotFound("User has not commented on any reviews.");
+                    return NotFound(new { message = "User has not commented on any reviews." });
                 }
 
                 return Ok(reviews);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"An error occurred: {ex.Message}" });
             }
         }
+        #endregion
 
+        #region PostReview
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateReviewDto reviewDto)
         {
@@ -116,21 +122,43 @@ namespace ReviewService.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound(new { message = ex.Message + " Book Not Found" });
+                return NotFound(new { message = $"Error: {ex.Message}. Book might not be found." });
             }
         }
+        #endregion
 
+        #region DeleteReviewById
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var review = await _reviewService.GetByIdAsync(id);
             if (review == null)
             {
-                return NotFound("Review not found!");
+                return NotFound(new { message = "Review not found." });
             }
             await _reviewService.DeleteAsync(id);
-            return Ok("Successfully deleted");
+            return NoContent(); 
         }
-    }
+        #endregion
 
+        #region DeleteReviewByUserId
+        [HttpDelete("{id}/user/{userId}")]
+        public async Task<IActionResult> DeleteByUserId(Guid id, Guid userId)
+        {
+            try
+            {
+                await _reviewService.DeleteReviewByUserAsync(id, userId);
+                return NoContent(); 
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+        #endregion
+    }
 }

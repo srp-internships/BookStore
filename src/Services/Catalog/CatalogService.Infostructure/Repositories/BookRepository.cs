@@ -52,34 +52,31 @@ namespace CatalogService.Infostructure.Repositories
             return book.Id;
 
         }
-        public async Task<Book> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<Book> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            var book = await _dbcontext.Books
+            return _dbcontext.Books
                 .Include(s => s.Categories)
                 .Include(s => s.Authors)
                 .Include(s => s.Publisher)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            return book;
         }
 
-        public async Task<IEnumerable<Book>> GetAllAsync(CancellationToken token)
+        public Task<List<Book>> GetAllAsync(CancellationToken token)
         {
-            var booklist = await _dbcontext.Books
+            return _dbcontext.Books
                 .Include(s => s.Categories)
                 .Include(s => s.Authors)
                 .Include(s => s.Publisher)
-                .ToListAsync(token);
-            return booklist;
+                .ToListAsync(token); ;
         }
 
-        public async Task<IEnumerable<Book>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
+        public Task<List<Book>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
         {
-            var booklist = await _dbcontext.Books
+            return _dbcontext.Books
                 .Include(s => s.Categories)
                 .Include(s => s.Authors)
                 .Include(s => s.Publisher)
-                .Where(p => ids.Contains(p.Id)).Include(p => p.Authors).ToListAsync(token);
-            return booklist;
+                .Where(p => ids.Contains(p.Id)).Include(p => p.Authors).ToListAsync(token); ;
         }
 
         public async Task UpdateAsync(Book book, CancellationToken token = default)

@@ -27,21 +27,18 @@ namespace CatalogService.Infostructure.Repositories
             await _unitOfWork.SaveChangesAsync();
             return category.Id;
         }
-        public async Task<Category> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<Category> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            var category = await _dbcontext.Categories.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            return category;
+            return _dbcontext.Categories.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
         }
 
-        public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken token = default)
+        public Task<List<Category>> GetAllAsync(CancellationToken token = default)
         {
-            var categorylist = await _dbcontext.Categories.ToListAsync(token);
-            return categorylist;
+            return _dbcontext.Categories.ToListAsync(token); 
         }
-        public async Task<IEnumerable<Category>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
+        public Task<List<Category>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
         {
-            var categoryList = await _dbcontext.Categories.Where(p => ids.Contains(p.Id)).ToListAsync(token);
-            return categoryList;
+            return _dbcontext.Categories.Where(p => ids.Contains(p.Id)).ToListAsync(token); ;
         }
 
         public async Task UpdateAsync(Category category, CancellationToken token = default)

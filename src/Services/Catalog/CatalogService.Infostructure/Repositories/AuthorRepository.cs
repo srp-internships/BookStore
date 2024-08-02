@@ -29,21 +29,18 @@ namespace CatalogService.Infostructure.Repositories
             }
             return existingAuthor.Id;
         }
-        public async Task<Author> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<Author> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            var author = await _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            return author;
+            return _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
         }
 
-        public async Task<IEnumerable<Author>> GetAllAsync(CancellationToken token)
+        public Task<List<Author>> GetAllAsync(CancellationToken token)
         {
-            var authorlist = await _dbcontext.Authors.ToListAsync(token);
-            return authorlist;
+            return _dbcontext.Authors.ToListAsync(token);
         }
-        public async Task<IEnumerable<Author>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
+        public Task<List<Author>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
         {
-            var authorlist = await _dbcontext.Authors.Where(p => ids.Contains(p.Id)).ToListAsync(token);
-            return authorlist;
+            return _dbcontext.Authors.Where(p => ids.Contains(p.Id)).ToListAsync(token); ;
         }
 
         public async Task UpdateAsync(Author author, CancellationToken token = default)

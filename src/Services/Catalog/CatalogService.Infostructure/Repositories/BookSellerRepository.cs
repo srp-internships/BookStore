@@ -42,13 +42,12 @@ namespace CatalogService.Infostructure.Repositories
             });
 
         }
-        public async Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            var bookSeller = await _dbcontext.BookSellers
+            return _dbcontext.BookSellers
                 .Include(bs => bs.Book)
                 .Include(bs => bs.Seller)
-                .FirstOrDefaultAsync(bs => bs.Id.Equals(id), token);
-            return bookSeller;
+                .FirstOrDefaultAsync(bs => bs.Id.Equals(id), token); ;
         }
 
         public async Task UpdateAsync(BookSeller bookSeller, CancellationToken token = default)

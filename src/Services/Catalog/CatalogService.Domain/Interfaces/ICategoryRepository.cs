@@ -11,8 +11,8 @@ namespace CatalogService.Domain.Interfaces
     {
         Task<Guid> CreateAsync(Category category, CancellationToken token = default);
         Task<Category> GetByIdAsync(Guid id, CancellationToken token = default);
-        Task<IEnumerable<Category>> GetAllAsync(CancellationToken token = default);
-        Task<IEnumerable<Category>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default);
+        Task<List<Category>> GetAllAsync(CancellationToken token = default);
+        Task<List<Category>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default);
         Task UpdateAsync(Category category, CancellationToken token = default);
         Task DeleteAsync(Guid id, CancellationToken token = default);
     }

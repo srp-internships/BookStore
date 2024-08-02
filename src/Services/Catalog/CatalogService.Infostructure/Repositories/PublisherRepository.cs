@@ -29,21 +29,19 @@ namespace CatalogService.Infostructure.Repositories
             return publisher.Id;
         }
 
-            public async Task<Publisher> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<Publisher> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            var author = await _dbcontext.Publishers.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            return author;
+            return _dbcontext.Publishers.FirstOrDefaultAsync(x => x.Id.Equals(id), token); ;
         }
 
-        public async Task<IEnumerable<Publisher>> GetAllAsync(CancellationToken token)
+        public Task<List<Publisher>> GetAllAsync(CancellationToken token)
         {
-            var publisherlist = await _dbcontext.Publishers.ToListAsync(token);
-            return publisherlist;
+            return _dbcontext.Publishers.ToListAsync(token); 
         }
 
         public async Task UpdateAsync(Publisher publisher, CancellationToken token = default)
         {
-            Publisher entity = await _dbcontext.Publishers.FirstOrDefaultAsync(author
+            var entity = await _dbcontext.Publishers.FirstOrDefaultAsync(author
                 => author.Id.Equals(publisher.Id), token);
             if (entity == null)
             {

@@ -11,8 +11,8 @@ namespace CatalogService.Domain.Interfaces
     {
         Task<Guid> CreateAsync(Book book, CancellationToken token = default);
         Task<Book> GetByIdAsync(Guid id, CancellationToken token = default);
-        Task<IEnumerable<Book>> GetAllAsync(CancellationToken token = default);
-        Task<IEnumerable<Book>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default);
+        Task<List<Book>> GetAllAsync(CancellationToken token = default);
+        Task<List<Book>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default);
         Task UpdateAsync(Book book, CancellationToken token = default);
         Task UpdateAuthorsAsync(Guid id, IEnumerable<Author> newAuthors, CancellationToken token = default);
         Task UpdateCategoriesAsync(Guid id, IEnumerable<Category> newCategories, CancellationToken token = default);

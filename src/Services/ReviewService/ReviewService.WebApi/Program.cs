@@ -12,6 +12,7 @@ namespace ReviewService.WebApi
 {
     public class Program
     {
+        public static string AppKey => "Test";
         private static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -89,6 +90,7 @@ namespace ReviewService.WebApi
             app.UseCors();
             app.UseMiddleware<GlobalExceptionMiddleware>();
             app.UseMiddleware<RateLimitingMiddleware>();
+            app.UseMiddleware<ApplicationKeyMiddleware>(AppKey);
             app.UseRouting();
             app.UseAuthorization();
             app.MapControllers();

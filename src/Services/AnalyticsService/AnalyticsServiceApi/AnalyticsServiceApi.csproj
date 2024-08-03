@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AnalyticService.Domain\AnalyticService.Domain.csproj" />
     <ProjectReference Include="..\AnalyticsService.Application\AnalyticsService.Application.csproj" />
     <ProjectReference Include="..\AnalyticsService.Infrastructure\AnalyticsService.Infrastructure.csproj" />
   </ItemGroup>

@@ -12,5 +12,6 @@ namespace RecommendationService.Domain.Entities
         public Book Book { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
+        
     }
 }

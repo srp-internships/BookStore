@@ -9,7 +9,7 @@ using RecommendationService.Application.Interfaces;
 
 namespace RecommendationService.Infrastructure.Data
 {
-    internal class RecommendationDbContext : DbContext, IApplicationDbContext
+    public class RecommendationDbContext : DbContext, IApplicationDbContext
     {
         public RecommendationDbContext(DbContextOptions<RecommendationDbContext> options) : base(options) { }
 

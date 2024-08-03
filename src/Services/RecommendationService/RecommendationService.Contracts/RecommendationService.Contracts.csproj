@@ -5,11 +5,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.64.0" />
-  </ItemGroup>
-	<ItemGroup>
-		<Protobuf Include="Protos/recommendation.proto" GrpcServices="Both" />
-	</ItemGroup>
 </Project>

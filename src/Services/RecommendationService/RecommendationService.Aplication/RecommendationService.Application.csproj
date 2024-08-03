@@ -13,6 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.27.2" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.65.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="MassTransit" Version="8.2.3" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
@@ -20,7 +26,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Catalog\CatalogService.Contracts\CatalogService.Contracts.csproj" />
+    <ProjectReference Include="..\RecommendationService.Contracts\RecommendationService.Contracts.csproj" />
     <ProjectReference Include="..\RecommendationService.Domain\RecommendationService.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\RecommendationService.Contracts\Protos\recommendation.proto" GrpcServices="Server">
+      <Link>Protos\recommendation.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>

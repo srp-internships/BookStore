@@ -14,5 +14,6 @@ namespace RecommendationService.Domain.Entities
         public DateTime PublishedDate { get; set; }
         public Guid AuthorId { get; set; }
         public ICollection<Guid> CategoriesIds { get; set; }
+        public ICollection<BookCategory> BookCategories { get; set; }
     }
 }

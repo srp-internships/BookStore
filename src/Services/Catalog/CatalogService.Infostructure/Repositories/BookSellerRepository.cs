@@ -54,21 +54,17 @@ namespace CatalogService.Infostructure.Repositories
         {
             var entity = await _dbcontext.BookSellers.FirstOrDefaultAsync(x
                 => x.Id.Equals(bookSeller.Id), token);
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(BookSeller), bookSeller.Id);
-            }
             entity.Price = bookSeller.Price;
             entity.Description = bookSeller.Description;
 
             await _unitOfWork.SaveChangesAsync(token);
-
+            /*
             await _bus.Publish(new PriceUpdatedEvent
             {
                 BookId = bookSeller.BookId,
                 SellerId = bookSeller.SellerId,
                 Price = bookSeller.Price,
-            });
+            }); */
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken token = default)

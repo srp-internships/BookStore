@@ -45,16 +45,12 @@ namespace CatalogService.Infostructure.Repositories
 
         public async Task UpdateAsync(Author author, CancellationToken token = default)
         {
-            var entity = await _dbcontext.Authors.FirstOrDefaultAsync(author
-                => author.Id.Equals(author.Id), token);
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Author), author.Id);
-            }
+            var entity = await _dbcontext.Authors.FirstOrDefaultAsync(e
+                => e.Id.Equals(author.Id), token);
             entity.Name = author.Name;
             entity.Description = author.Description;
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(token);
         }
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {

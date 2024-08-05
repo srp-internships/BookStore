@@ -43,13 +43,10 @@ namespace CatalogService.Infostructure.Repositories
 
         public async Task UpdateAsync(Category category, CancellationToken token = default)
         {
-            var entity = await _dbcontext.Categories.FirstOrDefaultAsync(Category
-                => Category.Id.Equals(category.Id), token);
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Category), category.Id);
-            }
+            var entity = await _dbcontext.Categories.FirstOrDefaultAsync(x
+                => x.Id.Equals(category.Id), token);
             entity.Name = category.Name;
+            entity.Description = category.Description;
 
             await _unitOfWork.SaveChangesAsync();
         }

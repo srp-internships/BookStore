@@ -43,10 +43,6 @@ namespace CatalogService.Infostructure.Repositories
         {
             var entity = await _dbcontext.Publishers.FirstOrDefaultAsync(author
                 => author.Id.Equals(publisher.Id), token);
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Publisher), publisher.Id);
-            }
             entity.Name = publisher.Name;
             entity.Address = publisher.Address;
             entity.Logo = publisher.Logo;

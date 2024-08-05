@@ -57,10 +57,6 @@ namespace CatalogService.Infostructure.Repositories
         {
             var entity = await _dbcontext.BookSellers
                 .FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(BookSeller), entity.Id);
-            }
             _dbcontext.BookSellers.Remove(entity);
             await _unitOfWork.SaveChangesAsync(token);
         }

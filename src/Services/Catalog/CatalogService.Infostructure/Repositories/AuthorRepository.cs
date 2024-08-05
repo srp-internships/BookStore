@@ -55,10 +55,6 @@ namespace CatalogService.Infostructure.Repositories
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
             var entity = await _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Book), entity.Id);
-            }
             _dbcontext.Authors.Remove(entity);
             await _unitOfWork.SaveChangesAsync(token);
         }

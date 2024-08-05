@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using CatalogService.Application.Exceptions;
 using CatalogService.Contracts;
 using CatalogService.Domain.Entities;
+using CatalogService.Domain.Exceptions;
 using CatalogService.Domain.Interfaces;
 using FluentValidation;
 using MassTransit;

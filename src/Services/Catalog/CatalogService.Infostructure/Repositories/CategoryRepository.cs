@@ -53,10 +53,6 @@ namespace CatalogService.Infostructure.Repositories
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
             var category = await _dbcontext.Categories.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            if (category == null)
-            {
-                throw new NotFoundException(nameof(Category), category.Id);
-            }
             _dbcontext.Categories.Remove(category);
             await _unitOfWork.SaveChangesAsync(token);
         }

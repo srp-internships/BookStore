@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
-    public class GetAllAuthorQuery : IRequest<AuthorListVm>
+    public class GetAllAuthorQuery : IRequest<List<AuthorDto>>
     {
 
     }

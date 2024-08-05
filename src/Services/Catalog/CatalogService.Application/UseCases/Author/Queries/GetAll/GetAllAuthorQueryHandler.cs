@@ -14,12 +14,12 @@ namespace CatalogService.Application.UseCases
 {
     public class GetAllAuthorQueryHandler(
         IAuthorRepository authorRepository,
-        IMapper mapper) : IRequestHandler<GetAllAuthorQuery, AuthorListVm>
+        IMapper mapper) : IRequestHandler<GetAllAuthorQuery, List<AuthorDto>>
     {
         private readonly IMapper _mapper = mapper;
         private readonly IAuthorRepository _authorRepository = authorRepository;
 
-        public async Task<AuthorListVm> Handle(GetAllAuthorQuery request, CancellationToken token)
+        public async Task<List<AuthorDto>> Handle(GetAllAuthorQuery request, CancellationToken token)
         {
             IEnumerable<Author> authors;
             try
@@ -38,7 +38,7 @@ namespace CatalogService.Application.UseCases
             }
             
             var authorDtos = _mapper.Map<IEnumerable<AuthorDto>>(authors);
-            return new AuthorListVm { Authors = authorDtos.ToList() };
+            return authorDtos.ToList();
         }
     }
 }

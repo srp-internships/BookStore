@@ -14,12 +14,12 @@ namespace CatalogService.Application.UseCases
 {
     public class GetAllBookQueryHandler(
         IBookRepository bookRepository,
-        IMapper mapper) : IRequestHandler<GetAllBookQuery, BookListVm>
+        IMapper mapper) : IRequestHandler<GetAllBookQuery, List<BookDto>>
     {
         private readonly IBookRepository _bookRepository = bookRepository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<BookListVm> Handle(GetAllBookQuery request, CancellationToken token)
+        public async Task<List<BookDto>> Handle(GetAllBookQuery request, CancellationToken token)
         {
             IEnumerable<Book> books;
             try
@@ -38,7 +38,7 @@ namespace CatalogService.Application.UseCases
             }
 
             var bookDtos = _mapper.Map<IEnumerable<BookDto>>(books);
-            return new BookListVm { Books = bookDtos.ToList() };
+            return bookDtos.ToList();
         }
     }
 }

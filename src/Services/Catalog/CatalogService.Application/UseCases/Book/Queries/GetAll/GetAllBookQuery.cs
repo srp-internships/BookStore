@@ -1,4 +1,5 @@
 ﻿
+using CatalogService.Application.UseCases.Queries;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
-    public class GetAllBookQuery : IRequest<BookListVm>
+    public class GetAllBookQuery : IRequest<List<BookDto>>
     {
 
     }

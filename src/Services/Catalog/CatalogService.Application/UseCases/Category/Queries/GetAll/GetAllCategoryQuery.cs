@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-
+using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MediatR;
 using System;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 { 
-    public class GetAllCategoryQuery : IRequest<CategoryListVm>
+    public class GetAllCategoryQuery : IRequest<List<Category>>
     {
 
     }

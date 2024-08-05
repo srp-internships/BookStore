@@ -13,12 +13,12 @@ namespace CatalogService.Application.UseCases
 {
     public class GetAllPublisherQueryHandler(
         IPublisherRepository publisherRepository,
-        IMapper mapper) : IRequestHandler<GetAllPublisherQuery, PublisherListVm>
+        IMapper mapper) : IRequestHandler<GetAllPublisherQuery, List<PublisherDto>>
     {
         private readonly IPublisherRepository _publisherRepository = publisherRepository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<PublisherListVm> Handle(GetAllPublisherQuery request, CancellationToken token)
+        public async Task<List<PublisherDto>> Handle(GetAllPublisherQuery request, CancellationToken token)
         {
             IEnumerable<Publisher> publishers;
             try
@@ -37,7 +37,7 @@ namespace CatalogService.Application.UseCases
             }
             
             var publisherDtos = _mapper.Map<IEnumerable<PublisherDto>>(publishers);
-            return new PublisherListVm { Publishers = publisherDtos.ToList() };
+            return publisherDtos.ToList();
 
         }
     }

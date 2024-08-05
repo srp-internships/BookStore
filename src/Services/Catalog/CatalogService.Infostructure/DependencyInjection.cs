@@ -14,12 +14,6 @@ namespace CatalogService.Infostructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            // Adding DataBase
-            services.AddDbContext<CatalogDbContext>((serviceProvider, options) =>
-            {
-                string path = Directory.GetCurrentDirectory();
-                
-            });
 
             // Adding Repository and Unit of work with Repository patterns implementations
             services.AddScoped<IBookRepository, BookRepository>();

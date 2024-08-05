@@ -38,6 +38,10 @@ namespace CatalogService.Infostructure.Configurations
                 .IsRequired();
 
             builder
+                .HasIndex(b => b.ISBN)
+                .IsUnique();
+
+            builder
                 .Property(p => p.Image)
                 .HasColumnName("image")
                 .HasColumnType("VARCHAR(500)")
@@ -74,7 +78,7 @@ namespace CatalogService.Infostructure.Configurations
                 .HasForeignKey(pt => pt.BookId),
                j =>
                {
-                j.HasKey(t => new { t.SellerId, t.BookId });
+                j.HasKey(t => new { t.Id });
                }
             );
         }

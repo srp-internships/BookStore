@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CatalogService.Application.UseCases.Queries;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Exceptions;
 using CatalogService.Domain.Interfaces;
@@ -13,12 +14,12 @@ namespace CatalogService.Application.UseCases
 {
     public class GetAllCategoryQueryHandler(
         ICategoryRepository categoryRepository,
-        IMapper mapper) : IRequestHandler<GetAllCategoryQuery, CategoryListVm>
+        IMapper mapper) : IRequestHandler<GetAllCategoryQuery, List<Category>>
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<CategoryListVm> Handle(GetAllCategoryQuery request, CancellationToken token)
+        public async Task<List<CategoryDto>> Handle(GetAllCategoryQuery request, CancellationToken token)
         {
             IEnumerable<Category> categories;
             try
@@ -37,7 +38,7 @@ namespace CatalogService.Application.UseCases
             }
 
             var categoryDtos = _mapper.Map<IEnumerable<CategoryDto>>(categories);
-            return new CategoryListVm { Categories = categoryDtos.ToList() };
+            return categoryDtos.ToList();   
         }
     }
 }

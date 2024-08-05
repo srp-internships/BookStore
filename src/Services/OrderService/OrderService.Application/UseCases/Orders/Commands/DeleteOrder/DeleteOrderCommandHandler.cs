@@ -3,11 +3,11 @@
 namespace OrderService.Application.UseCases.Orders.Commands.DeleteOrder;
 
 public class DeleteOrderCommandHandler(IOrderRepository orderRepository)
-    : ICommandHandler<DeleteOrderCommand, DeleteOrderResult>
+    : ICommandHandler<DeleteOrderCommand, bool>
 {
     private readonly IOrderRepository _orderRepository = orderRepository;
 
-    public async Task<DeleteOrderResult> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
     {
         var order = await _orderRepository.GetAsync(request.OrderId, cancellationToken);
 
@@ -16,6 +16,6 @@ public class DeleteOrderCommandHandler(IOrderRepository orderRepository)
             throw new OrderNotFoundException(request.OrderId);
         }
         await _orderRepository.DeleteAsync(order, cancellationToken);
-        return new DeleteOrderResult(true);
+        return true;
     }
 }

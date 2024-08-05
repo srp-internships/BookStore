@@ -4,19 +4,8 @@ namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 
 public record CreateOrderCommand(
     Guid CustomerId,
-    Guid CartId,
-    OrderStatus Status,
+    Guid? CartId,
     AddressDto ShippingAddress,
     List<OrderItemDto> Items)
-    : ICommand<CreateOrderResult>;
+    : ICommand<Guid>;
 
-public record CreateOrderResult(Guid Id);
-
-public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
-{
-    public CreateOrderCommandValidator()
-    {
-        RuleFor(x => x.CustomerId).NotNull().WithMessage("CustomerId is required");
-        RuleFor(x => x.Items).NotEmpty().WithMessage("OrderItems should not be empty");
-    }
-}

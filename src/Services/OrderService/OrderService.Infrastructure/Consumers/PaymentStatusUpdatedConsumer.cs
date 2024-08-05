@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
-using OrderService.Application.Mappers;
+using OrderService.Application.Common.Extensions;
 using OrderService.Domain.Entities;
 using OrderService.IntegrationEvents;
 using PaymentService.IntegrationEvents;

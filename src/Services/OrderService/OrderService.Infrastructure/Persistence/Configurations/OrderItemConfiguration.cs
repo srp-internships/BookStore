@@ -6,13 +6,10 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     public void Configure(EntityTypeBuilder<OrderItem> builder)
     {
         builder.HasKey(oi => oi.Id);
-
-        builder.HasOne(i => i.Book)
-            .WithMany()
-            .HasForeignKey(oi => oi.BookId);
-
-        builder.Property(oi => oi.Quantity).IsRequired();
-
-        builder.Property(oi => oi.Price).IsRequired();
+        builder.Property(oi => oi.BookId);
+        builder.Property(oi => oi.SellerId);
+        builder.Property(oi => oi.Quantity);
+        builder.Property(oi => oi.Price);
+        builder.Property(oi => oi.Title);
     }
 }

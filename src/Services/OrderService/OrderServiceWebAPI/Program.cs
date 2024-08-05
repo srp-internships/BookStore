@@ -18,7 +18,7 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<ShipmentStatusUpdatedConsumer>()
         .Endpoint(e => e.Name = builder.Configuration["EventBus:Queues:ShipmentStatusUpdateQueue"]!);
     x.AddConsumer<PaymentStatusUpdatedConsumer>()
-        .Endpoint(e => e.Name = builder.Configuration["EventBus: Queues:PaymentStatusUpdateQueue"]!);
+        .Endpoint(e => e.Name = builder.Configuration["EventBus:Queues:PaymentStatusUpdateQueue"]!);
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(new Uri(builder.Configuration["RabbitMq:Host"]!), h =>
@@ -39,8 +39,8 @@ builder.Services
 
 builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration).Assembly);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

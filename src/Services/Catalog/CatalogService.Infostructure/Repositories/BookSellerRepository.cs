@@ -1,4 +1,4 @@
-﻿using CatalogService.Contracts;
+﻿
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MassTransit;
@@ -13,12 +13,11 @@ namespace CatalogService.Infostructure.Repositories
 {
     public class BookSellerRepository
         (CatalogDbContext dbContext,
-        IUnitOfWork unitOfWork,
-        IBus bus) : IBookSellerRepository
+        IUnitOfWork unitOfWork) : IBookSellerRepository
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        private readonly IBus _bus = bus;
+
         public async Task CreateAsync(BookSeller bookSeller, CancellationToken token = default)
         {
             var existingBookSeller = await _dbcontext.BookSellers
@@ -34,12 +33,7 @@ namespace CatalogService.Infostructure.Repositories
             await _dbcontext.BookSellers.AddAsync(bookSeller, token);
 
             await _unitOfWork.SaveChangesAsync(token);
-            await _bus.Publish(new PriceCreatedEvent
-            {
-                BookId = bookSeller.BookId,
-                SellerId = bookSeller.SellerId,
-                Price = bookSeller.Price,
-            });
+            
 
         }
         public Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default)
@@ -58,13 +52,6 @@ namespace CatalogService.Infostructure.Repositories
             entity.Description = bookSeller.Description;
 
             await _unitOfWork.SaveChangesAsync(token);
-            /*
-            await _bus.Publish(new PriceUpdatedEvent
-            {
-                BookId = bookSeller.BookId,
-                SellerId = bookSeller.SellerId,
-                Price = bookSeller.Price,
-            }); */
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken token = default)

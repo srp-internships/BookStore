@@ -1,5 +1,4 @@
-﻿using CatalogService.Contracts;
-using CatalogService.Domain.Entities;
+﻿using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +12,10 @@ namespace CatalogService.Infostructure.Repositories
 {
     public class BookRepository
         (CatalogDbContext dbContext,
-        IUnitOfWork unitOfWork,
-        IBus bus) : IBookRepository
+        IUnitOfWork unitOfWork) : IBookRepository
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        private readonly IBus _bus = bus;
         public async Task<Guid> CreateAsync(Book book, CancellationToken token = default)
         {
             var existingBook = await _dbcontext.Books.FirstOrDefaultAsync(x => x.ISBN.Equals(book.ISBN), token);
@@ -28,27 +25,6 @@ namespace CatalogService.Infostructure.Repositories
             }
             await _dbcontext.Books.AddAsync(book, token);
             await _unitOfWork.SaveChangesAsync(token);
-            List<Guid> authorIds = new List<Guid>();
-            foreach (var author in book.Authors)
-            {
-                authorIds.Add(author.Id);
-            }
-            List<Guid> categoryIds = new List<Guid>();
-            foreach (var category in book.Categories)
-            {
-                categoryIds.Add(category.Id);
-            }
-
-            await _bus.Publish(new BookCreatedEvent
-            {
-                Id = book.Id,
-                Title = book.Title,
-                Image = book.Image,
-                AuthorIds = authorIds,
-                CategoryIds = categoryIds
-            });
-
-
             return book.Id;
 
         }
@@ -85,24 +61,6 @@ namespace CatalogService.Infostructure.Repositories
             bookToUpdate.Title = book.Title;
             bookToUpdate.Image = book.Image;
             await _unitOfWork.SaveChangesAsync(token);
-            List<Guid> authorIds = new List<Guid>();
-            foreach (var author in bookToUpdate.Authors)
-            {
-                authorIds.Add(author.Id);
-            }
-            List<Guid> categoryIds = new List<Guid>();
-            foreach (var category in bookToUpdate.Categories)
-            {
-                categoryIds.Add(category.Id);
-            }
-            await _bus.Publish(new BookUpdatedEvent
-            {
-                Id = bookToUpdate.Id,
-                Title = bookToUpdate.Title,
-                Image = bookToUpdate.Image,
-                CategoryIds = categoryIds,
-                AuthorIds = authorIds
-            });
         }
 
         public async Task UpdateCategoriesAsync(Guid id, IEnumerable<Category> newCategories, CancellationToken token = default)
@@ -114,25 +72,6 @@ namespace CatalogService.Infostructure.Repositories
                 book.Categories.Add(category);
             }
             await _unitOfWork.SaveChangesAsync(token);
-
-            List<Guid> authorIds = new List<Guid>();
-            foreach (var author in book.Authors)
-            {
-                authorIds.Add(author.Id);
-            }
-            List<Guid> categoryIds = new List<Guid>();
-            foreach (var category in book.Categories)
-            {
-                categoryIds.Add(category.Id);
-            }
-            await _bus.Publish(new BookUpdatedEvent
-            {
-                Id = book.Id,
-                Title = book.Title,
-                Image = book.Image,
-                CategoryIds = categoryIds,
-                AuthorIds = authorIds
-            });
         }
 
         public async Task UpdateAuthorsAsync(Guid id, IEnumerable<Author> newAuthors, CancellationToken token = default)
@@ -144,25 +83,6 @@ namespace CatalogService.Infostructure.Repositories
                 book.Authors.Add(author);
             }
             await _unitOfWork.SaveChangesAsync(token);
-
-            List<Guid> authorIds = new List<Guid>();
-            foreach (var author in book.Authors)
-            {
-                authorIds.Add(author.Id);
-            }
-            List<Guid> categoryIds = new List<Guid>();
-            foreach (var category in book.Categories)
-            {
-                categoryIds.Add(category.Id);
-            }
-            await _bus.Publish(new BookUpdatedEvent
-            {
-                Id = book.Id,
-                Title = book.Title,
-                Image = book.Image,
-                CategoryIds = categoryIds,
-                AuthorIds = authorIds
-            });
         }
 
         public async Task UpdatePublisherAsync(Guid id, Guid newPublisherId, CancellationToken token = default)

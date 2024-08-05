@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\IdentityService\IdentityService.IntegrationEvents\IdentityService.IntegrationEvents.csproj" />
-    <ProjectReference Include="..\CatalogService.Contracts\CatalogService.Contracts.csproj" />
     <ProjectReference Include="..\CatalogService.Domain\CatalogService.Domain.csproj" />
   </ItemGroup>
 

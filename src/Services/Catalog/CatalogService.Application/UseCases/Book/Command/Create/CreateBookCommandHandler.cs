@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Exceptions;
+using CatalogService.Contracts;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
 using FluentValidation;
+using MassTransit;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -17,14 +19,15 @@ namespace CatalogService.Application.UseCases
         ICategoryRepository categoryRepository,
         IAuthorRepository authorRepository,
         IValidator<CreateBookCommand> validator,
-        IMapper mapper)
-        : IRequestHandler<CreateBookCommand, Guid>
+        IMapper mapper,
+        IBus bus) : IRequestHandler<CreateBookCommand, Guid>
     {
         private readonly IBookRepository _bookrepository = bookrepository;
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
         private readonly IAuthorRepository _authorRepository = authorRepository;
         private readonly IMapper _mapper = mapper;
         private readonly IValidator<CreateBookCommand> _validator = validator;
+        private readonly IBus _bus = bus;
 
         public async Task<Guid> Handle(CreateBookCommand request, CancellationToken token)
         {
@@ -47,6 +50,16 @@ namespace CatalogService.Application.UseCases
             book.Categories = categoryList.ToArray();
             book.PublisherId = request.PublisherId;
             Guid guid = await _bookrepository.CreateAsync(book, token);
+
+            await _bus.Publish(new BookCreatedEvent
+            {
+                Id = guid,
+                Title = request.Title,
+                Image = request.Image,
+                AuthorIds = request.AuthorIds.ToList(),
+                CategoryIds = request.CategoryIds.ToList()
+            });
+
             return guid;
 
         }

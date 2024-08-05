@@ -10,7 +10,7 @@ namespace CatalogService.Domain.Entities
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
-        public ICollection<BookSeller> BookSellers { get; set; }
-        public ICollection<Book> Books { get; set; }
+        public List<BookSeller> BookSellers { get; set; }
+        public List<Book> Books { get; set; }
     }
 }

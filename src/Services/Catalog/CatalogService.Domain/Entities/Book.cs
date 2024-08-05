@@ -12,10 +12,10 @@ namespace CatalogService.Domain.Entities
         public required string Title { get; set; }
         public required string Image { get; set; }
         public required string ISBN { get; set; }
-        public ICollection<Category> Categories { get; set; }
-        public ICollection<Author> Authors { get; set; }
-        public ICollection<Seller> Sellers { get; set; }
-        public ICollection<BookSeller> BookSellers { get; set; }
+        public List<Category> Categories { get; set; }
+        public List<Author> Authors { get; set; }
+        public List<Seller> Sellers { get; set; }
+        public List<BookSeller> BookSellers { get; set; }
         public Guid PublisherId { get; set; }
         public Publisher? Publisher { get; set; }
     }

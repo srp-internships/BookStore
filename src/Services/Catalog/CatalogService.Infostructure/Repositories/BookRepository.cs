@@ -1,6 +1,5 @@
 ﻿using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -67,10 +66,7 @@ namespace CatalogService.Infostructure.Repositories
         {
             var book = await GetByIdAsync(id, token);
             book.Categories.Clear();
-            foreach (var category in newCategories)
-            {
-                book.Categories.Add(category);
-            }
+            book.Categories.AddRange(newCategories);
             await _unitOfWork.SaveChangesAsync(token);
         }
 
@@ -78,10 +74,7 @@ namespace CatalogService.Infostructure.Repositories
         {
             var book = await GetByIdAsync(id, token);
             book.Authors.Clear();
-            foreach(var author in newAuthors)
-            {
-                book.Authors.Add(author);
-            }
+            book.Authors.AddRange(newAuthors);
             await _unitOfWork.SaveChangesAsync(token);
         }
 

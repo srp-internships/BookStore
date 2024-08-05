@@ -11,7 +11,7 @@ namespace CatalogService.Domain.Entities
         public Guid Id { get; set; }
         public required string Name { get; set; }
         public string Description { get; set; } = string.Empty;
-        public ICollection<Book> Books { get; set; }
+        public List<Book> Books { get; set; }
     }
 }
 

@@ -1,7 +1,6 @@
 ﻿
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

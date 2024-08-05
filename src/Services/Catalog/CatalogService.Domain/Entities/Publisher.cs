@@ -13,6 +13,6 @@ namespace CatalogService.Domain.Entities
         public required string Email { get; set; }
         public required string Address { get; set; }
         public string Logo { get; set; } = string.Empty;
-        public ICollection<Book> Books { get; set; }
+        public List<Book> Books { get; set; }
     }
 }

@@ -46,8 +46,8 @@ namespace CatalogService.Application.UseCases
 
             var book = _mapper.Map<Book>(request);
 
-            book.Authors = authorList.ToArray();
-            book.Categories = categoryList.ToArray();
+            book.Authors = authorList;
+            book.Categories = categoryList;
             book.PublisherId = request.PublisherId;
             Guid guid = await _bookrepository.CreateAsync(book, token);
 

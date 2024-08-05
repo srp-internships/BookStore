@@ -31,16 +31,8 @@ namespace CatalogService.Application.UseCases
             var book = _mapper.Map<Book>(request);
             await _bookRepository.UpdateAsync(book, token);
 
-            List<Guid> authorIds = new List<Guid>();
-            foreach (var author in book.Authors)
-            {
-                authorIds.Add(author.Id);
-            }
-            List<Guid> categoryIds = new List<Guid>();
-            foreach (var category in book.Categories)
-            {
-                categoryIds.Add(category.Id);
-            }
+            List<Guid> authorIds = book.Authors.Select(p => p.Id).ToList();
+            List<Guid> categoryIds = book.Categories.Select(p => p.Id).ToList();
             await _bus.Publish(new BookUpdatedEvent
             {
                 Id = book.Id,

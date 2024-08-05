@@ -29,11 +29,7 @@ namespace CatalogService.Application.UseCases
             await _bookRepository.UpdateCategoriesAsync(request.Id, categories, token);
             var book = await _bookRepository.GetByIdAsync(request.Id, token);
 
-            List<Guid> authorIds = new List<Guid>();
-            foreach (var author in book.Authors)
-            {
-                authorIds.Add(author.Id);
-            }
+            List<Guid> authorIds = book.Authors.Select(p => p.Id).ToList();
             await _bus.Publish(new BookUpdatedEvent
             {
                 Id = book.Id,

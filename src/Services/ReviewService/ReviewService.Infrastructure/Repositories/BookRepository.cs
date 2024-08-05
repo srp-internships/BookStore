@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ReviewService.Application.IRepositories;
 using ReviewService.Domain.Entities;
+using ReviewService.Domain.Repositories;
 using ReviewService.Infrastructure.Persistence.Contexts;
 using System;
 using System.Collections.Generic;

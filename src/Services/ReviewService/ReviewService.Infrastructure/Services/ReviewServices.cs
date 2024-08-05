@@ -1,27 +1,21 @@
-﻿using ReviewService.Application.IRepositories;
+﻿using ReviewService.Application.Common.DTOs;
 using ReviewService.Application.Services;
-using ReviewService.Domain.DTOs;
 using ReviewService.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReviewService.Infrastructure.Services
 {
     public class ReviewServices : IReviewService
     {
-        private readonly IReviewRepository _reviewRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ReviewServices(IReviewRepository reviewRepository)
+        public ReviewServices(IUnitOfWork unitOfWork)
         {
-            _reviewRepository = reviewRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ReviewDto> GetByIdAsync(Guid id)
         {
-            var review = await _reviewRepository.GetByIdAsync(id);
+            var review = await _unitOfWork.Reviews.GetByIdAsync(id);
             if (review == null)
             {
                 return null;
@@ -40,13 +34,13 @@ namespace ReviewService.Infrastructure.Services
 
         public async Task<double> GetAverageRatingByBookIdAsync(Guid bookId)
         {
-            var averageRating = await _reviewRepository.GetAverageRatingByBookIdAsync(bookId);
-            return Math.Round(averageRating, 2); 
+            var averageRating = await _unitOfWork.Reviews.GetAverageRatingByBookIdAsync(bookId);
+            return Math.Round(averageRating, 2);
         }
 
         public async Task<IEnumerable<ReviewDto>> GetByBookIdAsync(Guid bookId)
         {
-            var reviews = await _reviewRepository.GetByBookIdAsync(bookId);
+            var reviews = await _unitOfWork.Reviews.GetByBookIdAsync(bookId);
             return reviews.Select(r => new ReviewDto
             {
                 Id = r.Id,
@@ -60,7 +54,7 @@ namespace ReviewService.Infrastructure.Services
 
         public async Task<IEnumerable<ReviewDto>> GetByUserIdAsync(Guid userId)
         {
-            var reviews = await _reviewRepository.GetByUserIdAsync(userId);
+            var reviews = await _unitOfWork.Reviews.GetByUserIdAsync(userId);
             return reviews.Select(r => new ReviewDto
             {
                 Id = r.Id,
@@ -84,7 +78,8 @@ namespace ReviewService.Infrastructure.Services
                 CreatedDate = DateTime.UtcNow
             };
 
-            var createdReview = await _reviewRepository.AddAsync(review);
+            var createdReview = await _unitOfWork.Reviews.AddAsync(review);
+            await _unitOfWork.CompleteAsync();
 
             return new ReviewDto
             {
@@ -96,19 +91,23 @@ namespace ReviewService.Infrastructure.Services
                 CreatedDate = createdReview.CreatedDate
             };
         }
+
         public async Task DeleteAsync(Guid id)
         {
-            await _reviewRepository.DeleteAsync(id);
+            await _unitOfWork.Reviews.DeleteAsync(id);
+            await _unitOfWork.CompleteAsync();
         }
+
         public async Task DeleteReviewByUserAsync(Guid reviewId, Guid userId)
         {
-            var review = await _reviewRepository.GetByIdAndUserIdAsync(reviewId, userId);
+            var review = await _unitOfWork.Reviews.GetByIdAndUserIdAsync(reviewId, userId);
             if (review == null)
             {
                 throw new KeyNotFoundException("Review not found or does not belong to the user.");
             }
 
-            await _reviewRepository.DeleteAsync(reviewId);
+            await _unitOfWork.Reviews.DeleteAsync(reviewId);
+            await _unitOfWork.CompleteAsync();
         }
     }
 }

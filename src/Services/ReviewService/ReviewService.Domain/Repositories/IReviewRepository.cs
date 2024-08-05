@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReviewService.Application.IRepositories
+namespace ReviewService.Domain.Repositories
 {
     public interface IReviewRepository
     {
@@ -15,6 +15,6 @@ namespace ReviewService.Application.IRepositories
         Task<IEnumerable<Review>> GetByUserIdAsync(Guid userId);
         Task<Review> AddAsync(Review review);
         Task DeleteAsync(Guid id);
-        Task<Review?> GetByIdAndUserIdAsync(Guid id, Guid userId); 
+        Task<Review?> GetByIdAndUserIdAsync(Guid id, Guid userId);
     }
 }

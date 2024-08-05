@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ReviewService.Application.IRepositories;
 using ReviewService.Domain.Entities;
+using ReviewService.Domain.Repositories;
 using ReviewService.Infrastructure.Persistence.Contexts;
 using System;
 using System.Collections.Generic;
@@ -23,14 +23,14 @@ namespace ReviewService.Infrastructure.Repositories
         {
             return await _context.Reviews.FindAsync(id);
         }
+
         public async Task<double> GetAverageRatingByBookIdAsync(Guid bookId)
         {
-            var averageRating = await _context.Reviews
+            return await _context.Reviews
                 .Where(r => r.BookId == bookId)
                 .AverageAsync(r => r.Rating);
-
-            return averageRating;
         }
+
         public async Task<IEnumerable<Review>> GetByBookIdAsync(Guid bookId)
         {
             return await _context.Reviews
@@ -47,8 +47,7 @@ namespace ReviewService.Infrastructure.Repositories
 
         public async Task<Review> AddAsync(Review review)
         {
-            _context.Reviews.Add(review);
-            await _context.SaveChangesAsync();
+            await _context.Reviews.AddAsync(review);
             return review;
         }
 
@@ -58,16 +57,15 @@ namespace ReviewService.Infrastructure.Repositories
             if (review != null)
             {
                 _context.Reviews.Remove(review);
-                await _context.SaveChangesAsync();
             }
         }
+
         public async Task<Review?> GetByIdAndUserIdAsync(Guid id, Guid userId)
         {
-            return await _context.Set<Review>()
+            return await _context.Reviews
                 .Where(r => r.Id == id && r.UserId == userId)
                 .FirstOrDefaultAsync();
         }
-
     }
 }
 

@@ -1,7 +1,7 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using ReviewService.Application.IRepositories;
 using ReviewService.Application.Services;
+using ReviewService.Domain.Repositories;
 using ReviewService.Infrastructure.Consumers;
 using ReviewService.Infrastructure.Persistence.Contexts;
 using ReviewService.Infrastructure.Repositories;
@@ -50,6 +50,7 @@ namespace ReviewService.WebApi
             builder.Services.AddScoped<IReviewService, ReviewServices>();
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddCors(options =>
             {

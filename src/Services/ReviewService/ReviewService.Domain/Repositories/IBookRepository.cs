@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReviewService.Application.IRepositories
+namespace ReviewService.Domain.Repositories
 {
     public interface IBookRepository
     {

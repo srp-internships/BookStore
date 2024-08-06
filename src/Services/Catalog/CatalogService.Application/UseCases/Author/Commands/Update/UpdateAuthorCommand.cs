@@ -10,15 +10,10 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
-    public class UpdateAuthorCommand : IRequest, IMapWith<Author>
+    public class UpdateAuthorCommand : IRequest
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
         public string Description { get; set; } = string.Empty;
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<UpdateAuthorCommand, Author>();
-        }
     }
 }

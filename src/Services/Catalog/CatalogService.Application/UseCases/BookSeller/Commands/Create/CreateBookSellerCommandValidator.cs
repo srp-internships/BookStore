@@ -14,7 +14,7 @@ namespace CatalogService.Application.UseCases
         {
             RuleFor(p => p.Price)
                 .NotEmpty()
-                .GreaterThanOrEqualTo(1);
+                .GreaterThanOrEqualTo(0);
         }
     }
 }

@@ -19,32 +19,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<CatalogDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
 
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
 
-
-/*
-builder.Services.AddAutoMapper(options =>
-{
-    options.AddProfile<MappingProfile>();
-});
-builder.Services.AddScoped<BookRepository>();
-builder.Services.AddScoped<AuthorRepository>();
-builder.Services.AddScoped<CategoryRepository>();
-builder.Services.AddScoped<PublisherRepository>();
-builder.Services.AddScoped<BookSellerRepository>();
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
-builder.Services.AddScoped<IBookSellerRepository, BookSellerRepository>();
-
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateBookCommandValidator>());
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateAuthorCommand).Assembly));
-*/
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

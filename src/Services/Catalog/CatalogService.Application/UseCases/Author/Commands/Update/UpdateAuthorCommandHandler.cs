@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
+using CatalogService.Infostructure;
 using FluentValidation;
 using MediatR;
 using System;
@@ -14,18 +15,20 @@ namespace CatalogService.Application.UseCases
     public class UpdateAuthorCommandHandler(
         IAuthorRepository authorRepository,
         IValidator<UpdateAuthorCommand> validator,
-        IMapper mapper) : IRequestHandler<UpdateAuthorCommand>
+        IUnitOfWork unitOfWork) : IRequestHandler<UpdateAuthorCommand>
     {
         private readonly IAuthorRepository _authorRepository = authorRepository;
-        private readonly IMapper _mapper = mapper;
         private readonly IValidator<UpdateAuthorCommand> _validator = validator;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task Handle(UpdateAuthorCommand request, CancellationToken token)
         {
             await _validator.ValidateAsync(request, token);
 
-            var author = _mapper.Map<Author>(request);
-            await _authorRepository.UpdateAsync(author, token);
+            var author = await _authorRepository.GetByIdAsync(request.Id, token);
+            author.Name = request.Name;
+            author.Description = request.Description;
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

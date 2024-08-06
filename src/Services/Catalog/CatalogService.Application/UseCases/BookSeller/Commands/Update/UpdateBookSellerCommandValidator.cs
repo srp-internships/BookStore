@@ -14,7 +14,7 @@ namespace CatalogService.Application.UseCases
         {
             RuleFor(p => p.Price)
                 .NotEmpty()
-                .GreaterThanOrEqualTo(1);
+                .GreaterThanOrEqualTo(0);
             RuleFor(prop => prop.Description)
                 .NotEmpty()
                 .MinimumLength(15).WithMessage("Descriptions's length can not be less than 15")

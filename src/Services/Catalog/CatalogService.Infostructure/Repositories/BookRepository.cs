@@ -10,20 +10,12 @@ using System.Threading.Tasks;
 namespace CatalogService.Infostructure.Repositories
 {
     public class BookRepository
-        (CatalogDbContext dbContext,
-        IUnitOfWork unitOfWork) : IBookRepository
+        (CatalogDbContext dbContext) : IBookRepository
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
-        private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<Guid> CreateAsync(Book book, CancellationToken token = default)
         {
-            var existingBook = await _dbcontext.Books.FirstOrDefaultAsync(x => x.ISBN.Equals(book.ISBN), token);
-            if (existingBook != null)
-            {
-                return existingBook.Id;
-            }
             await _dbcontext.Books.AddAsync(book, token);
-            await _unitOfWork.SaveChangesAsync(token);
             return book.Id;
 
         }
@@ -54,12 +46,10 @@ namespace CatalogService.Infostructure.Repositories
                 .Where(p => ids.Contains(p.Id)).Include(p => p.Authors).ToListAsync(token); ;
         }
 
-        public async Task UpdateAsync(Book book, CancellationToken token = default)
+        public Task UpdateAsync(Book book, CancellationToken token = default)
         {
-            var bookToUpdate = await GetByIdAsync(book.Id, token);
-            bookToUpdate.Title = book.Title;
-            bookToUpdate.Image = book.Image;
-            await _unitOfWork.SaveChangesAsync(token);
+             _dbcontext.Books.Update(book);
+            return Task.CompletedTask;
         }
 
         public async Task UpdateCategoriesAsync(Guid id, IEnumerable<Category> newCategories, CancellationToken token = default)
@@ -67,7 +57,8 @@ namespace CatalogService.Infostructure.Repositories
             var book = await GetByIdAsync(id, token);
             book.Categories.Clear();
             book.Categories.AddRange(newCategories);
-            await _unitOfWork.SaveChangesAsync(token);
+
+          
         }
 
         public async Task UpdateAuthorsAsync(Guid id, IEnumerable<Author> newAuthors, CancellationToken token = default)
@@ -75,20 +66,16 @@ namespace CatalogService.Infostructure.Repositories
             var book = await GetByIdAsync(id, token);
             book.Authors.Clear();
             book.Authors.AddRange(newAuthors);
-            await _unitOfWork.SaveChangesAsync(token);
         }
 
         public async Task UpdatePublisherAsync(Guid id, Guid newPublisherId, CancellationToken token = default)
         {
             var book = await GetByIdAsync(id, token);
             book.PublisherId = newPublisherId;
-            await _unitOfWork.SaveChangesAsync(token);
         }
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
-            var book = await _dbcontext.Books.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            _dbcontext.Books.Remove(book);
-            await _unitOfWork.SaveChangesAsync(token);
+            await _dbcontext.Books.Where(p => p.Id.Equals(id)).ExecuteDeleteAsync(token);
         }
 
 

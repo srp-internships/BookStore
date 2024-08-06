@@ -2,6 +2,7 @@
 using CatalogService.Contracts;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
+using CatalogService.Infostructure;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -17,18 +18,21 @@ namespace CatalogService.Application.UseCases
         IBookSellerRepository sellerRepository,
         IMapper mapper,
         IValidator<CreateBookSellerCommand> validator,
-        IBus bus) : IRequestHandler<CreateBookSellerCommand>
+        IBus bus,
+        IUnitOfWork unitOfWork) : IRequestHandler<CreateBookSellerCommand>
     {
         private readonly IBookSellerRepository _repository = sellerRepository;
         private readonly IMapper _mapper = mapper;
         private readonly IValidator<CreateBookSellerCommand> _validator = validator;
         private readonly IBus _bus = bus;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task Handle(CreateBookSellerCommand request, CancellationToken token)
         {
             await _validator.ValidateAndThrowAsync(request, token);
             var bookSeller = _mapper.Map<BookSeller>(request);
             await _repository.CreateAsync(bookSeller, token);
+            await _unitOfWork.SaveChangesAsync();
 
             await _bus.Publish(new PriceCreatedEvent
             {

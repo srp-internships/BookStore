@@ -3,6 +3,7 @@ using CatalogService.Contracts;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Exceptions;
 using CatalogService.Domain.Interfaces;
+using CatalogService.Infostructure;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -20,7 +21,8 @@ namespace CatalogService.Application.UseCases
         IAuthorRepository authorRepository,
         IValidator<CreateBookCommand> validator,
         IMapper mapper,
-        IBus bus) : IRequestHandler<CreateBookCommand, Guid>
+        IBus bus,
+        IUnitOfWork unitOfWork) : IRequestHandler<CreateBookCommand, Guid>
     {
         private readonly IBookRepository _bookrepository = bookrepository;
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
@@ -28,6 +30,7 @@ namespace CatalogService.Application.UseCases
         private readonly IMapper _mapper = mapper;
         private readonly IValidator<CreateBookCommand> _validator = validator;
         private readonly IBus _bus = bus;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task<Guid> Handle(CreateBookCommand request, CancellationToken token)
         {
@@ -50,6 +53,7 @@ namespace CatalogService.Application.UseCases
             book.Categories = categoryList;
             book.PublisherId = request.PublisherId;
             Guid guid = await _bookrepository.CreateAsync(book, token);
+            await _unitOfWork.SaveChangesAsync();
 
             await _bus.Publish(new BookCreatedEvent
             {

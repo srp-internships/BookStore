@@ -1,6 +1,8 @@
 ﻿using CatalogService.Domain.Interfaces;
 using CatalogService.Infostructure.Repositories;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,10 @@ namespace CatalogService.Infostructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
 
-            // Adding Repository and Unit of work with Repository patterns implementations
+
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -25,6 +27,7 @@ namespace CatalogService.Infostructure
 
             services.AddMassTransit(x =>
             {
+                //x.UsingInMemory();
                 // Configure RabbitMQ
                 x.UsingRabbitMq((context, cfg) =>
                 {
@@ -32,6 +35,13 @@ namespace CatalogService.Infostructure
                 });
             });
             services.AddMassTransitHostedService();
+
+
+            services.AddDbContext<CatalogDbContext>(options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("DbConnection"));
+                options.LogTo(Console.WriteLine);
+            });
 
             return services;
         }

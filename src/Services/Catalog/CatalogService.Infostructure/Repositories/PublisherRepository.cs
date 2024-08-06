@@ -10,11 +10,9 @@ using System.Threading.Tasks;
 namespace CatalogService.Infostructure.Repositories
 {
     public class PublisherRepository(
-        CatalogDbContext dbContext,
-        IUnitOfWork unitOfWork) : IPublisherRepository
+        CatalogDbContext dbContext) : IPublisherRepository
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
-        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task<Guid> CreateAsync(Publisher publisher, CancellationToken token = default)
         {
@@ -25,7 +23,6 @@ namespace CatalogService.Infostructure.Repositories
                 return existingPublisher.Id;
             }
             await _dbcontext.Publishers.AddAsync(publisher, token);
-            await _unitOfWork.SaveChangesAsync(token);
             return publisher.Id;
         }
 
@@ -41,20 +38,17 @@ namespace CatalogService.Infostructure.Repositories
 
         public async Task UpdateAsync(Publisher publisher, CancellationToken token = default)
         {
-            var entity = await _dbcontext.Publishers.FirstOrDefaultAsync(author
-                => author.Id.Equals(publisher.Id), token);
-            entity.Name = publisher.Name;
-            entity.Address = publisher.Address;
-            entity.Logo = publisher.Logo;
-            entity.Email = publisher.Email;
-
-            await _unitOfWork.SaveChangesAsync(token);
+            await _dbcontext.Publishers
+               .Where(u => u.Id.Equals(publisher.Id))
+               .ExecuteUpdateAsync(update => update
+                    .SetProperty(u => u.Name, publisher.Name)
+                    .SetProperty(u => u.Address, publisher.Address)
+                    .SetProperty(u => u.Email, publisher.Email)
+                    .SetProperty(u => u.Logo, publisher.Logo), token);
         }
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
-            var entity = await _dbcontext.Publishers.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            _dbcontext.Publishers.Remove(entity);
-            await _unitOfWork.SaveChangesAsync(token);
+            await _dbcontext.Publishers.Where(p => p.Id.Equals(id)).ExecuteDeleteAsync(token);
         }
     }
 }

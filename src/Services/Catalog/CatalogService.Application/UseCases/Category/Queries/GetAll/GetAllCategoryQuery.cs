@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 { 
-    public class GetAllCategoryQuery : IRequest<List<Category>>
+    public class GetAllCategoryQuery : IRequest<List<CategoryDto>>
     {
 
     }

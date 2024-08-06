@@ -2,6 +2,7 @@
 using CatalogService.Application.UseCases;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
+using CatalogService.Infostructure;
 using FluentValidation;
 using MediatR;
 using System;
@@ -15,17 +16,19 @@ namespace CatalogService.Application.UseCases
     public class UpdateCategoryCommandHandler(
         ICategoryRepository categoryRepository,
         IValidator<UpdateCategoryCommand> validator,
-        IMapper mapper) : IRequestHandler<UpdateCategoryCommand>
+        IUnitOfWork unitOfWork) : IRequestHandler<UpdateCategoryCommand>
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
         private readonly IValidator<UpdateCategoryCommand> _validator = validator;
-        private readonly IMapper _mapper = mapper;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task Handle(UpdateCategoryCommand request, CancellationToken token)
         {
             await _validator.ValidateAndThrowAsync(request, token);
-            var category = _mapper.Map<Category>(request);
-            await _categoryRepository.UpdateAsync(category, token);
+            var category = await _categoryRepository.GetByIdAsync(request.Id, token);
+            category.Name = request.Name;
+            category.Description = request.Description;
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

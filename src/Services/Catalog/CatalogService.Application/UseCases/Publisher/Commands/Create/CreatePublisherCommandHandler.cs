@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
+using CatalogService.Infostructure;
 using FluentValidation;
 using MediatR;
 using System;
@@ -14,17 +15,21 @@ namespace CatalogService.Application.UseCases
     public class CreatePublisherCommandHandler(
         IPublisherRepository publisherRepository,
         IValidator<CreatePublisherCommand> validator,
-        IMapper mapper) : IRequestHandler<CreatePublisherCommand, Guid>
+        IMapper mapper,
+        IUnitOfWork unitOfWork) : IRequestHandler<CreatePublisherCommand, Guid>
     {
         private readonly IPublisherRepository _publisherRepository = publisherRepository;
         private readonly IValidator<CreatePublisherCommand> _validator = validator;
         private readonly IMapper _mapper = mapper;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task<Guid> Handle(CreatePublisherCommand request, CancellationToken token)
         {
             await _validator.ValidateAndThrowAsync(request, token);
             var publisher = _mapper.Map<Publisher>(request);
-            return await _publisherRepository.CreateAsync(publisher, token);
+            var id = await _publisherRepository.CreateAsync(publisher, token);
+            await _unitOfWork.SaveChangesAsync();
+            return id;
         }
     }
 }

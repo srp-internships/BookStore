@@ -11,7 +11,7 @@ namespace CatalogService.Domain.Entities
         public Guid Id { get; set; }
         public required string Title { get; set; }
         public required string Image { get; set; }
-        public required string ISBN { get; set; }
+        public string ISBN { get; set; }
         public List<Category> Categories { get; set; }
         public List<Author> Authors { get; set; }
         public List<Seller> Sellers { get; set; }

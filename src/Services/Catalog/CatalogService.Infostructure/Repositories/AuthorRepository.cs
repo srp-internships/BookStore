@@ -10,24 +10,14 @@ using System.Threading.Tasks;
 namespace CatalogService.Infostructure.Repositories
 {
     public class AuthorRepository
-        (CatalogDbContext dbContext,
-        IUnitOfWork unitOfWork) : IAuthorRepository
+        (CatalogDbContext dbContext) : IAuthorRepository
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
-        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task<Guid> CreateAsync(Author author, CancellationToken token = default)
         {
-            var existingAuthor = await _dbcontext.Authors
-                .FirstOrDefaultAsync(x => x.Name.Equals(author.Name), token);
-
-            if(existingAuthor is null)
-            {
-                await _dbcontext.Authors.AddAsync(author, token);
-                await _unitOfWork.SaveChangesAsync();
-                return author.Id;
-            }
-            return existingAuthor.Id;
+            await _dbcontext.Authors.AddAsync(author, token);
+            return author.Id;
         }
         public Task<Author> GetByIdAsync(Guid id, CancellationToken token = default)
         {
@@ -45,20 +35,17 @@ namespace CatalogService.Infostructure.Repositories
 
         public async Task UpdateAsync(Author author, CancellationToken token = default)
         {
-            var entity = await _dbcontext.Authors.FirstOrDefaultAsync(e
-                => e.Id.Equals(author.Id), token);
-            entity.Name = author.Name;
-            entity.Description = author.Description;
-
-            await _unitOfWork.SaveChangesAsync(token);
+            await _dbcontext.Authors
+                .Where(u => u.Id.Equals(author.Id))
+                .ExecuteUpdateAsync(update => update
+                    .SetProperty(u => u.Name, author.Name)
+                    .SetProperty(u => u.Description, author.Description), token);
         }
         public async Task DeleteAsync(Guid id, CancellationToken token = default)
         {
-            var entity = await _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
-            _dbcontext.Authors.Remove(entity);
-            await _unitOfWork.SaveChangesAsync(token);
+            await _dbcontext.Authors.Where(p => p.Id.Equals(id)).ExecuteDeleteAsync(token);
         }
-        
+
 
     }
 }

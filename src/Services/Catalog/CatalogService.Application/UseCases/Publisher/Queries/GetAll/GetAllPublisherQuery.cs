@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
-    public class GetAllPublisherQuery : IRequest<List<PublisherDto>
+    public class GetAllPublisherQuery : IRequest<List<PublisherDto>>
     {
     }
 }

@@ -9,15 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 namespace CatalogService.Application.UseCases
 {
-    public class UpdateCategoryCommand : IRequest, IMapWith<Category>
+    public class UpdateCategoryCommand : IRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<UpdateCategoryCommand, Category>();
-        }
     }
 }

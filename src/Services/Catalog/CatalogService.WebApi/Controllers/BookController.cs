@@ -36,9 +36,9 @@ namespace CatalogService.WebApi.Controllers
             var bookDto = await _mediator.Send(query, token);
             return Ok(bookDto);
         }
-
+        /*
         [HttpPut]
-        [Route("authors")]
+        [Route("updateauthors")]
         public async Task<IActionResult> Update([FromBody] UpdateAuthorsBookCommand request, CancellationToken token = default)
         {
             await _mediator.Send(request, token);
@@ -46,7 +46,7 @@ namespace CatalogService.WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("categories")]
+        [Route("updatecategories")]
         public async Task<IActionResult> Update([FromBody] UpdateCategoriesBookCommand request, CancellationToken token = default)
         {
             await _mediator.Send(request, token);
@@ -54,12 +54,12 @@ namespace CatalogService.WebApi.Controllers
         }
 
         [HttpPut]
-        [Route("publisher")]
+        [Route("updatepublisher")]
         public async Task<IActionResult> Update([FromBody] UpdatePublisherBookCommand request, CancellationToken token = default)
         {
             await _mediator.Send(request, token);
             return Ok();
-        }
+        }*/
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateBookCommand request, CancellationToken token = default)
         {

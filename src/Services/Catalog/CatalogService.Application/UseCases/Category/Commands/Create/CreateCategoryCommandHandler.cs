@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CatalogService.Domain.Entities;
 using CatalogService.Domain.Interfaces;
+using CatalogService.Infostructure;
 using FluentValidation;
 using MediatR;
 using System;
@@ -14,11 +15,13 @@ namespace CatalogService.Application.UseCases
     public class CreateCategoryCommandHandler(
         ICategoryRepository categoryRepository,
         IValidator<CreateCategoryCommand> validator,
-        IMapper mapper) : IRequestHandler<CreateCategoryCommand, Guid>
+        IMapper mapper,
+        IUnitOfWork unitOfWork) : IRequestHandler<CreateCategoryCommand, Guid>
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
         private readonly IValidator<CreateCategoryCommand> _validator = validator;
         private readonly IMapper _mapper = mapper;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken token)
         {
@@ -26,6 +29,7 @@ namespace CatalogService.Application.UseCases
 
             var category = _mapper.Map<Category>(request);
             Guid guid = await _categoryRepository.CreateAsync(category, token);
+            _unitOfWork.SaveChangesAsync();
             return guid;
         }
     }

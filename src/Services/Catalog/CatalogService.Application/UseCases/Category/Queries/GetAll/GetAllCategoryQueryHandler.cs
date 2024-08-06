@@ -14,7 +14,7 @@ namespace CatalogService.Application.UseCases
 {
     public class GetAllCategoryQueryHandler(
         ICategoryRepository categoryRepository,
-        IMapper mapper) : IRequestHandler<GetAllCategoryQuery, List<Category>>
+        IMapper mapper) : IRequestHandler<GetAllCategoryQuery, List<CategoryDto>>
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
         private readonly IMapper _mapper = mapper;

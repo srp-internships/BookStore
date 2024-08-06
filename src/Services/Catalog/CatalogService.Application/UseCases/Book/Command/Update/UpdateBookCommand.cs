@@ -9,15 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 namespace CatalogService.Application.UseCases
 {
-    public class UpdateBookCommand : IRequest, IMapWith<Book>
+    public class UpdateBookCommand : IRequest
     {
-        public Guid Id { get; set; }
+        public Guid BookId { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<UpdateBookCommand, Book>();
-        }
+        public Guid PublisherId { get; set; }
+        public ICollection<Guid> CategoryIds { get; set; }
+        public ICollection<Guid> AuthorIds { get; set; }
     }
 }

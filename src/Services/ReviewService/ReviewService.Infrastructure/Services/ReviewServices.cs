@@ -1,4 +1,6 @@
-﻿using ReviewService.Application.Common.DTOs;
+﻿using MassTransit;
+using MassTransit.Middleware;
+using ReviewService.Application.Common.DTOs;
 using ReviewService.Application.Services;
 using ReviewService.Domain.Entities;
 
@@ -51,7 +53,6 @@ namespace ReviewService.Infrastructure.Services
                 CreatedDate = r.CreatedDate
             });
         }
-
         public async Task<IEnumerable<ReviewDto>> GetByUserIdAsync(Guid userId)
         {
             var reviews = await _unitOfWork.Reviews.GetByUserIdAsync(userId);
@@ -68,6 +69,11 @@ namespace ReviewService.Infrastructure.Services
 
         public async Task<ReviewDto> AddAsync(CreateReviewDto reviewDto)
         {
+            if (reviewDto.Rating < 1 || reviewDto.Rating > 5)
+            {
+                throw new ArgumentOutOfRangeException(nameof(reviewDto.Rating),
+                    "Rating must be between 1 and 5.");
+            }
             var review = new Review
             {
                 Id = Guid.NewGuid(),
@@ -77,7 +83,7 @@ namespace ReviewService.Infrastructure.Services
                 Rating = reviewDto.Rating,
                 CreatedDate = DateTime.UtcNow
             };
-
+            
             var createdReview = await _unitOfWork.Reviews.AddAsync(review);
             await _unitOfWork.CompleteAsync();
 

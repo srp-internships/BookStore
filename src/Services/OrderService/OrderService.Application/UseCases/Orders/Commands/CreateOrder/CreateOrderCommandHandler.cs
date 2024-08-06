@@ -1,19 +1,21 @@
-﻿using OrderService.IntegrationEvents;
+﻿using OrderService.Application.Common.Interfaces.Data;
+using OrderService.IntegrationEvents;
 using Address = OrderService.IntegrationEvents.Address;
 using OrderStatus = OrderService.IntegrationEvents.OrderStatus;
 
 namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
 
-public class CreateOrderCommandHandler(IPublishEndpoint publishEndpoint, IMapper mapper, IOrderRepository orderRepository)
+public class CreateOrderCommandHandler(IPublishEndpoint publishEndpoint,
+    IUnitOfWork unitOfWork,
+    IMapper mapper)
     : ICommandHandler<CreateOrderCommand, CreateOrderResult>
 {
-    private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
-    private readonly IMapper _mapper = mapper;
-    private readonly IOrderRepository _orderRepository = orderRepository;
 
     public async Task<CreateOrderResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
-        var order = await _orderRepository.CreateAsync(_mapper.Map<Order>(command), cancellationToken);
+        var order = await unitOfWork.OrderRepository.CreateAsync(mapper.Map<Order>(command), cancellationToken);
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         var orderProcessedEvent = new OrderProcessedIntegrationEvent(
         OrderId: order.Id,
@@ -37,10 +39,8 @@ public class CreateOrderCommandHandler(IPublishEndpoint publishEndpoint, IMapper
                 TotalPrice: command.Items.Sum(i => i.Quantity * i.Price)
             );
 
-        await _publishEndpoint.Publish(orderProcessedEvent);
+        await publishEndpoint.Publish(orderProcessedEvent);
 
-        return _mapper.Map<CreateOrderResult>(order);
+        return mapper.Map<CreateOrderResult>(order);
     }
-
-
 }

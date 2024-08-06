@@ -1,5 +1,6 @@
 ﻿using OrderService.Application.Common.Interfaces.Data;
 using OrderService.Application.Common.Interfaces.Repositories;
+using OrderService.Infrastructure.Persistence;
 using OrderService.Infrastructure.Persistence.Repositories;
 
 namespace OrderService.Infrastructure;
@@ -17,10 +18,9 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString);
         });
 
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IOrderRepository, OrderRepository>();
-        services.AddScoped<IGetOrdersByCustomerRepository, GetOrdersByCustomerRepository>();
-        services.Decorate<IGetOrdersByCustomerRepository, CachedGetOrdersByCustomerRepository>();
+        services.Decorate<IOrderRepository, DecoratedOrderRepository>();
 
         return services;
     }

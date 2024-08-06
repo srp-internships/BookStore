@@ -1,9 +1,7 @@
 ﻿namespace OrderService.Application.Common.Interfaces.Data;
 
-public interface IApplicationDbContext
+public interface IUnitOfWork
 {
-    DbSet<Order> Orders { get; }
-    DbSet<OrderItem> OrderItems { get; }
-
+    IOrderRepository OrderRepository { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

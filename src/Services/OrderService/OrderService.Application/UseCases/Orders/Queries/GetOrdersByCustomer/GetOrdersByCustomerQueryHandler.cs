@@ -1,17 +1,19 @@
 ﻿namespace OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
 
-public class GetOrdersByCustomerHandler : IQueryHandler<GetOrdersByCustomerQuery, GetOrdersByCustomerResult>
+public class GetOrdersByCustomerHandler
+    : IQueryHandler<GetOrdersByCustomerQuery, GetOrdersByCustomerResult>
 {
-    private readonly IGetOrdersByCustomerRepository _getOrdersByCustomerRepository;
+    private readonly IOrderRepository _orderRepository;
 
-    public GetOrdersByCustomerHandler(IGetOrdersByCustomerRepository getOrdersByCustomerRepository)
+    public GetOrdersByCustomerHandler(IOrderRepository getOrdersByCustomerRepository)
     {
-        _getOrdersByCustomerRepository = getOrdersByCustomerRepository;
+        _orderRepository = getOrdersByCustomerRepository;
     }
 
     public async Task<GetOrdersByCustomerResult> Handle(GetOrdersByCustomerQuery query, CancellationToken cancellationToken)
     {
-        var orders = await _getOrdersByCustomerRepository.GetOrdersByCustomerAsync(query.CustomerId, cancellationToken);
+        var orders = await _orderRepository.GetOrdersByCustomerIdAsNoTrackingAsync(query.CustomerId, cancellationToken);
+
         return new GetOrdersByCustomerResult(orders.ToOrderDtoList());
     }
 }

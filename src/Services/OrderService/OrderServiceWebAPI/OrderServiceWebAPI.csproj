@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Abp" Version="9.3.0" />
 		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.1" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
 		<PackageReference Include="Carter" Version="8.2.1" />

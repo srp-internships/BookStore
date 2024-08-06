@@ -1,10 +1,9 @@
-﻿using OrderService.Application.Common.Interfaces.Data;
-using OrderService.Domain.Entities;
+﻿using OrderService.Domain.Entities;
 using System.Reflection;
 
 namespace OrderService.Infrastructure.Persistence.DataBases;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options) { }
@@ -13,6 +12,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<Shipment> Shipments => Set<Shipment>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -100,6 +100,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderServiceWebAPI", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.IntegrationEvents", "src\Services\OrderService\OrderService.IntegrationEvents\OrderService.IntegrationEvents.csproj", "{885B5B3E-306A-4C1A-B284-081DF236CD56}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31AC7A4C-8D13-4BCE-A749-EE4D35430948}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

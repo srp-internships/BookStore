@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ReviewService.Domain.Entities;
-
-namespace ReviewService.Infrastructure.Persistence.Contexts
+﻿namespace ReviewService.Infrastructure.Persistence.Contexts
 {
     public class ReviewDbContext : DbContext
     {

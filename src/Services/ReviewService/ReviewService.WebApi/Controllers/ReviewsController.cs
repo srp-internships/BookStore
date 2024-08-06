@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using ReviewService.Application.Services;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReviewService.Application.Common.DTOs;
+using ReviewService.Application.Services;
 
 namespace ReviewService.WebApi.Controllers
 {

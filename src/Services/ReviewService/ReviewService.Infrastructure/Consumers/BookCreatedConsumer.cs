@@ -1,15 +1,7 @@
 ﻿using CatalogService.Contracts;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ReviewService.Domain.Entities;
 using ReviewService.Infrastructure.Persistence.Contexts;
-using ReviewService.Infrastructure.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ReviewService.Infrastructure.Consumers
 {

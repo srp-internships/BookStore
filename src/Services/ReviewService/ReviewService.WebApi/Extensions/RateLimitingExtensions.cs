@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using ReviewService.WebApi.Middlewares;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using ReviewService.WebApi.Middlewares;
 
 namespace ReviewService.WebApi.Extensions
 {

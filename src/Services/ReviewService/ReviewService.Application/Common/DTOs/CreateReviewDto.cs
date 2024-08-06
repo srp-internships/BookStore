@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReviewService.Application.Common.DTOs
+﻿namespace ReviewService.Application.Common.DTOs
 {
     public class CreateReviewDto
     {

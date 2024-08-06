@@ -1,8 +1,7 @@
-﻿using MassTransit;
-using MassTransit.Middleware;
-using ReviewService.Application.Common.DTOs;
+﻿using ReviewService.Application.Common.DTOs;
 using ReviewService.Application.Services;
-using ReviewService.Domain.Entities;
+using ReviewService.Domain.Exceptions;
+using ReviewService.Domain.Repositories;
 
 namespace ReviewService.Infrastructure.Services
 {
@@ -20,7 +19,7 @@ namespace ReviewService.Infrastructure.Services
             var review = await _unitOfWork.Reviews.GetByIdAsync(id);
             if (review == null)
             {
-                return null;
+                throw new ReviewNotFoundException(id);
             }
 
             return new ReviewDto
@@ -71,8 +70,11 @@ namespace ReviewService.Infrastructure.Services
         {
             if (reviewDto.Rating < 1 || reviewDto.Rating > 5)
             {
-                throw new ArgumentOutOfRangeException(nameof(reviewDto.Rating),
-                    "Rating must be between 1 and 5.");
+                throw new InvalidRatingException();
+            }
+            if (string.IsNullOrWhiteSpace(reviewDto.Comment))
+            {
+                throw new EmptyCommentException();
             }
             var review = new Review
             {

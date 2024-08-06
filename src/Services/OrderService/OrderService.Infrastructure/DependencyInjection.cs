@@ -18,9 +18,9 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
-        services.AddScoped<OrderRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IGetOrdersByCustomerRepository, GetOrdersByCustomerRepository>();
+        services.Decorate<IGetOrdersByCustomerRepository, CachedGetOrdersByCustomerRepository>();
 
         return services;
     }

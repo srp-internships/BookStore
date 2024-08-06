@@ -10,7 +10,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
     public void Configure(EntityTypeBuilder<Order> builder)
     {
         builder.HasKey(o => o.Id);
-        builder.Property(o => o.CartId);
+        builder.Property(o => o.CartId).IsRequired(false);
 
 
         builder.HasMany(o => o.Items)
@@ -55,6 +55,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
                 s => s.ToString(),
                 dbStatus => (OrderStatus)Enum.Parse(typeof(OrderStatus), dbStatus));
 
-        builder.Property(o => o.TotalPrice).HasField("_amount");
+        builder.Property(o => o.TotalPrice);
     }
 }

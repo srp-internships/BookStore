@@ -16,6 +16,6 @@ public class ShipmentConfiguration : IEntityTypeConfiguration<Shipment>
                       v => (ShipmentStatus)Enum.Parse(typeof(ShipmentStatus), v))
                   .IsRequired()
                   .HasMaxLength(50);
-        builder.Property(x => x.Message).IsRequired();
+        builder.Property(x => x.Message).IsRequired(false);
     }
 }

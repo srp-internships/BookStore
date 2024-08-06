@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OrderService.Application.Common.Interfaces.Repositories;
-using OrderService.Application.Common.Pagination;
+﻿using OrderService.Application.Common.Interfaces.Repositories;
 
 
 namespace OrderService.Infrastructure.Persistence.Repositories;
@@ -19,7 +17,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken token = default)
     {
         await _dbSet.AddAsync(entity, token);
-        await _dbContext.SaveChangesAsync(token);
         return entity;
     }
 
@@ -29,12 +26,12 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return await _dbContext.SaveChangesAsync(token) > 0;
     }
 
-    public async Task<TEntity> GetAsync(Guid id, CancellationToken token = default)
+    public async Task<TEntity?> GetAsync(Guid id, CancellationToken token = default)
     {
         var entity = await _dbSet.FindAsync(id, token);
 
         if (entity is null)
-            throw new Exception($"Not found entity with the following id: {id}");
+            return null;
 
         return entity;
     }

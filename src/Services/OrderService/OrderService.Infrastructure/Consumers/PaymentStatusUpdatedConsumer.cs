@@ -27,7 +27,7 @@ public class PaymentStatusUpdatedConsumer : IConsumer<PaymentRequestProcessedEve
     {
         var message = context.Message;
 
-        var paymentStatus = PaymentStatusMapper.ToDomainPaymentStatus(message.PaymentStatus);
+        var paymentStatus = PaymentStatusMapperExtensions.ToDomainPaymentStatus(message.PaymentStatus);
 
         var payment = await _context.Payments.FindAsync(message.OrderId);
 

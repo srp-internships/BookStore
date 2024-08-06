@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
 
 // Add MassTransit
 builder.Services.AddMassTransit(x =>
@@ -38,9 +38,6 @@ builder.Services
     .AddApiServices(builder.Configuration);
 
 builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration).Assembly);
-
-//builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

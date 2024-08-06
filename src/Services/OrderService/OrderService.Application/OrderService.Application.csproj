@@ -23,6 +23,7 @@
 		<ProjectReference Include="..\..\PaymentService\PaymentService.IntegrationEvents\PaymentService.IntegrationEvents.csproj" />
 		<ProjectReference Include="..\..\ShipmentService\ShipmentService.IntegrationEvent\ShipmentService.IntegrationEvent.csproj" />
 		<ProjectReference Include="..\OrderService.Domain\OrderService.Domain.csproj" />
+		<ProjectReference Include="..\OrderService.IntegrationEvents\OrderService.IntegrationEvents.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -16,6 +16,6 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
                       p => (PaymentStatus)Enum.Parse(typeof(PaymentStatus), p))
                   .IsRequired()
                   .HasMaxLength(50);
-        builder.Property(p => p.Message).IsRequired();
+        builder.Property(p => p.Message).IsRequired(false);
     }
 }

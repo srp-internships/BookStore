@@ -13,7 +13,7 @@ using OrderService.Infrastructure.Persistence.DataBases;
 namespace OrderService.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240731111015_InitialCreate")]
+    [Migration("20240805093832_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -118,7 +118,6 @@ namespace OrderService.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("OrderId")
@@ -143,7 +142,6 @@ namespace OrderService.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("OrderId")

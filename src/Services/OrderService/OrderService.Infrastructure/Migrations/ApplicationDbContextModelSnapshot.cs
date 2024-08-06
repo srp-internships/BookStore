@@ -115,7 +115,6 @@ namespace OrderService.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("OrderId")
@@ -140,7 +139,6 @@ namespace OrderService.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("OrderId")

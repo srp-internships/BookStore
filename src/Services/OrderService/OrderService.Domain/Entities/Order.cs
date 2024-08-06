@@ -9,22 +9,9 @@ public class Order : BaseEntity
     public Guid? CartId { get; private set; } = default!;
     public Address ShippingAddress { get; private set; } = default!;
     public List<OrderItem> Items { get; set; } = default!;
-
-    private decimal? _amount;
-
     public decimal TotalPrice
     {
-        get
-        {
-            if (_amount == null)
-            {
-                _amount = Items?.Sum(x => x.Price * x.Quantity) ?? 0;
-            }
-            return (decimal)_amount;
-        }
-        private set
-        {
-            _amount = value;
-        }
+        get => Items.Sum(x => x.Price * x.Quantity);
+        private set { }
     }
 }

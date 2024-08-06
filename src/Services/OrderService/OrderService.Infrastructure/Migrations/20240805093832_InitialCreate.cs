@@ -62,7 +62,7 @@ namespace OrderService.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     PaymentStatus = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Message = table.Column<string>(type: "text", nullable: false)
+                    Message = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,7 +82,7 @@ namespace OrderService.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     ShipmentStatus = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Message = table.Column<string>(type: "text", nullable: false)
+                    Message = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,36 +1,17 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using OrderService.Application.Common.Interfaces.Data;
-
-namespace OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
+﻿namespace OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
 
 public class GetOrdersByCustomerHandler : IQueryHandler<GetOrdersByCustomerQuery, GetOrdersByCustomerResult>
 {
-    private readonly IApplicationDbContext _dbContext;
-    private readonly IMemoryCache _cache;
+    private readonly IGetOrdersByCustomerRepository _getOrdersByCustomerRepository;
 
-    public GetOrdersByCustomerHandler(IApplicationDbContext dbContext, IMemoryCache cache)
+    public GetOrdersByCustomerHandler(IGetOrdersByCustomerRepository getOrdersByCustomerRepository)
     {
-        _dbContext = dbContext;
-        _cache = cache;
+        _getOrdersByCustomerRepository = getOrdersByCustomerRepository;
     }
 
     public async Task<GetOrdersByCustomerResult> Handle(GetOrdersByCustomerQuery query, CancellationToken cancellationToken)
     {
-        var cacheKey = $"CustomerOrders_{query.CustomerId}";
-
-        if (!_cache.TryGetValue(cacheKey, out List<Order> orders))
-        {
-            orders = await _dbContext.Orders
-                        .Include(o => o.Items)
-                        .AsNoTracking()
-                        .Where(o => o.CustomerId == query.CustomerId)
-                        .ToListAsync(cancellationToken);
-
-            var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromDays(1));
-            _cache.Set(cacheKey, orders, cacheEntryOptions);
-        }
-
+        var orders = await _getOrdersByCustomerRepository.GetOrdersByCustomerAsync(query.CustomerId, cancellationToken);
         return new GetOrdersByCustomerResult(orders.ToOrderDtoList());
     }
 }

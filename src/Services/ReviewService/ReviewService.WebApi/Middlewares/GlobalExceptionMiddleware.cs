@@ -1,19 +1,18 @@
-﻿using SendGrid.Helpers.Errors.Model;
+﻿using Microsoft.AspNetCore.Http;
+using Serilog;
+using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace ReviewService.WebApi.Middlewares
 {
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<GlobalExceptionMiddleware> _logger;
-        private readonly IWebHostEnvironment _env;
 
-        public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger, IWebHostEnvironment env)
+        public GlobalExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
-            _logger = logger;
-            _env = env;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -24,27 +23,18 @@ namespace ReviewService.WebApi.Middlewares
             }
             catch (Exception ex)
             {
-                var statusCode = (int)HttpStatusCode.InternalServerError;
-                var message = "Internal server error";
-
-                if (ex is NotFoundException) 
-                {
-                    statusCode = (int)HttpStatusCode.NotFound;
-                    message = "Resource not found";
-                }
-
-                httpContext.Response.ContentType = "application/json";
-                httpContext.Response.StatusCode = statusCode;
-
-                var response = new
-                {
-                    errorMessage = message,
-                    stackTrace = _env.IsDevelopment() ? ex.StackTrace : null
-                };
-
-                _logger.LogError(ex, "An unhandled exception has occurred.");
-                await httpContext.Response.WriteAsJsonAsync(response);
+                Log.Error(ex, "An unhandled exception has occurred.");
+                await HandleExceptionAsync(httpContext, ex);
             }
+        }
+
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            var result = new { errorMessage = "Internal server error" };
+            return context.Response.WriteAsJsonAsync(result);
         }
     }
 }

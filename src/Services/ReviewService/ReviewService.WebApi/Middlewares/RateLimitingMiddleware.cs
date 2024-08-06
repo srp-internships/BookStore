@@ -14,7 +14,6 @@ namespace ReviewService.WebApi.Middlewares
         {
             _next = next;
         }
-
         public async Task InvokeAsync(HttpContext context)
         {
             var ipAddress = context.Connection.RemoteIpAddress?.ToString();

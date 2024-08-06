@@ -7,63 +7,79 @@ using ReviewService.Infrastructure.Persistence.Contexts;
 using ReviewService.Infrastructure.Repositories;
 using ReviewService.Infrastructure.Services;
 using ReviewService.WebApi.Middlewares;
+using Serilog;
 using System.Text.Json.Serialization;
-namespace ReviewService.WebApi
+
+namespace ReviewService.WebApi;
+
+public class Program
 {
-    public class Program
+    public static string AppKey => "Test";
+
+    public static void Main(string[] args)
     {
-        public static string AppKey => "Test";
-        private static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Настройка Serilog
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .CreateLogger();
+
+        builder.Host.UseSerilog(); // Добавляем Serilog в хост
+
+        // Добавление сервисов в контейнер
+        builder.Services.AddDbContext<ReviewDbContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
+            .LogTo(Console.Write, LogLevel.Error)
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+
+        #region AddMassTransit
+        builder.Services.AddMassTransit(x =>
         {
-            var builder = WebApplication.CreateBuilder(args);
+            x.AddConsumer<BookCreatedConsumer>();
 
-            // Add services to the container.
-            builder.Services.AddDbContext<ReviewDbContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
-                                  .LogTo(Console.Write, LogLevel.Error)
-                      .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
-            #region AddMassTransit
-            builder.Services.AddMassTransit(x =>
+            x.UsingRabbitMq((context, cfg) =>
             {
-                x.AddConsumer<BookCreatedConsumer>();
-
-                x.UsingRabbitMq((context, cfg) =>
+                cfg.Host("rabbitmq://localhost", h =>
                 {
-                    cfg.Host("rabbitmq://localhost", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
+                    h.Username("guest");
+                    h.Password("guest");
+                });
 
-                    cfg.ReceiveEndpoint("book-created-event-queue", e =>
-                    {
-                        e.ConfigureConsumer<BookCreatedConsumer>(context);
-                    });
+                cfg.ReceiveEndpoint("book-created-event-queue", e =>
+                {
+                    e.ConfigureConsumer<BookCreatedConsumer>(context);
                 });
             });
-            #endregion
-            builder.Services.AddControllers()
-                .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+        });
+        #endregion
 
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-            builder.Services.AddScoped<IReviewService, ReviewServices>();
-            builder.Services.AddScoped<IBookRepository, BookRepository>();
-            builder.Services.AddScoped<IBookService, BookService>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddControllers()
+            .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin()
-                               .AllowAnyHeader()
-                               .AllowAnyMethod();
-                    });
-            });
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+        builder.Services.AddScoped<IReviewService, ReviewServices>();
+        builder.Services.AddScoped<IBookRepository, BookRepository>();
+        builder.Services.AddScoped<IBookService, BookService>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+        });
+
+        try
+        {
+            Log.Information("Starting web host");
             var app = builder.Build();
+
             #region DataConfigurations
             using (var scope = app.Services.CreateScope())
             {
@@ -88,6 +104,7 @@ namespace ReviewService.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseCors();
             app.UseMiddleware<GlobalExceptionMiddleware>();
             app.UseMiddleware<RateLimitingMiddleware>();
@@ -97,6 +114,13 @@ namespace ReviewService.WebApi
             app.MapControllers();
             app.Run();
         }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Host terminated unexpectedly");
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
     }
-
 }

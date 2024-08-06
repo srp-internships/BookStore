@@ -16,5 +16,4 @@
             await _next(httpContext);
         }
     }
-
 }

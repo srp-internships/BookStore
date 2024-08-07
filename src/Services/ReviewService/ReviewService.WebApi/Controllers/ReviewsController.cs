@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReviewService.Application.Common.DTOs;
 using ReviewService.Application.Services;
-using Serilog;
+using ReviewService.Domain.Exceptions;
 
 namespace ReviewService.WebApi.Controllers
 {
@@ -70,6 +70,7 @@ namespace ReviewService.WebApi.Controllers
 
                 var reviews = await _reviewService.GetByBookIdAsync(bookId);
                 var averageRating = await _reviewService.GetAverageRatingByBookIdAsync(bookId);
+
                 averageRating = Math.Round(averageRating, 2);
 
                 if (reviews == null || !reviews.Any())
@@ -87,10 +88,15 @@ namespace ReviewService.WebApi.Controllers
                     AverageRating = averageRating.ToString("F2")
                 });
             }
+            catch (ReviewNotFoundException ex)
+            {
+                _logger.LogError(ex, "Review not found for book with ID {BookId}", bookId);
+                return NotFound(new { message = $"Review not found: {ex.Message}" });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting reviews for book with ID {BookId}", bookId);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"An error occurred: {ex.Message}" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An internal server error occurred." });
             }
         }
         #endregion

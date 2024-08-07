@@ -1,5 +1,7 @@
 using MassTransit;
+using MassTransit.Caching;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using ReviewService.Application.Services;
 using ReviewService.Domain.Repositories;
 using ReviewService.Infrastructure.Consumers;
@@ -26,12 +28,10 @@ public class Program
             .CreateLogger();
 
         builder.Host.UseSerilog(); // Добавляем Serilog в хост
-
         // Добавление сервисов в контейнер
         builder.Services.AddDbContext<ReviewDbContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
             .LogTo(Console.Write, LogLevel.Error)
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
-
         #region AddMassTransit
         builder.Services.AddMassTransit(x =>
         {
@@ -52,6 +52,11 @@ public class Program
             });
         });
         #endregion
+        var cacheOptions = new MemoryCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
+            SlidingExpiration = TimeSpan.FromMinutes(2)
+        };
 
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -77,6 +82,7 @@ public class Program
 
         try
         {
+           
             Log.Information("Starting web host");
             var app = builder.Build();
 
@@ -109,6 +115,7 @@ public class Program
             app.UseMiddleware<GlobalExceptionMiddleware>();
             app.UseMiddleware<RateLimitingMiddleware>();
             app.UseMiddleware<ApplicationKeyMiddleware>(AppKey);
+            app.UseSerilogRequestLogging();
             app.UseRouting();
             app.UseAuthorization();
             app.MapControllers();

@@ -85,7 +85,7 @@ namespace ReviewService.Infrastructure.Services
                 Rating = reviewDto.Rating,
                 CreatedDate = DateTime.UtcNow
             };
-            
+
             var createdReview = await _unitOfWork.Reviews.AddAsync(review);
             await _unitOfWork.CompleteAsync();
 

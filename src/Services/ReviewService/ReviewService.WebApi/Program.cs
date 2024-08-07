@@ -1,17 +1,11 @@
 using MassTransit;
-using MassTransit.Caching;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using ReviewService.Application.Services;
-using ReviewService.Domain.Repositories;
 using ReviewService.Infrastructure.Consumers;
 using ReviewService.Infrastructure.Persistence.Contexts;
-using ReviewService.Infrastructure.Repositories;
-using ReviewService.Infrastructure.Services;
 using ReviewService.WebApi.Middlewares;
 using Serilog;
 using System.Text.Json.Serialization;
-
+using ReviewService.WebApi.Extensions;
 namespace ReviewService.WebApi;
 
 public class Program
@@ -22,13 +16,11 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Настройка Serilog
         Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(builder.Configuration)
             .CreateLogger();
 
-        builder.Host.UseSerilog(); // Добавляем Serilog в хост
-        // Добавление сервисов в контейнер
+        builder.Host.UseSerilog(); 
         builder.Services.AddDbContext<ReviewDbContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
             .LogTo(Console.Write, LogLevel.Error)
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
@@ -52,23 +44,15 @@ public class Program
             });
         });
         #endregion
-        var cacheOptions = new MemoryCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
-            SlidingExpiration = TimeSpan.FromMinutes(2)
-        };
 
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-        builder.Services.AddScoped<IReviewService, ReviewServices>();
-        builder.Services.AddScoped<IBookRepository, BookRepository>();
-        builder.Services.AddScoped<IBookService, BookService>();
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddMyServices();
 
+        #region AddCors
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(
@@ -79,10 +63,10 @@ public class Program
                            .AllowAnyMethod();
                 });
         });
+        #endregion
 
         try
         {
-           
             Log.Information("Starting web host");
             var app = builder.Build();
 
@@ -115,6 +99,7 @@ public class Program
             app.UseMiddleware<GlobalExceptionMiddleware>();
             app.UseMiddleware<RateLimitingMiddleware>();
             app.UseMiddleware<ApplicationKeyMiddleware>(AppKey);
+            app.UseMiddleware<EndpointListenerMiddleware>();
             app.UseSerilogRequestLogging();
             app.UseRouting();
             app.UseAuthorization();

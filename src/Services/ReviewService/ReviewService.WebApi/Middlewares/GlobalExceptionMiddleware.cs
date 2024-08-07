@@ -27,7 +27,6 @@ namespace ReviewService.WebApi.Middlewares
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
-
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";

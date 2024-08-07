@@ -1,0 +1,51 @@
+﻿using CatalogService.Domain.Entities;
+using CatalogService.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CatalogService.Infostructure.Repositories
+{
+    public class AuthorRepository
+        (CatalogDbContext dbContext) : IAuthorRepository
+    {
+        private readonly CatalogDbContext _dbcontext = dbContext;
+
+        public async Task<Guid> CreateAsync(Author author, CancellationToken token = default)
+        {
+            await _dbcontext.Authors.AddAsync(author, token);
+            return author.Id;
+        }
+        public Task<Author> GetByIdAsync(Guid id, CancellationToken token = default)
+        {
+            return _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
+        }
+
+        public Task<List<Author>> GetAllAsync(CancellationToken token)
+        {
+            return _dbcontext.Authors.ToListAsync(token);
+        }
+        public Task<List<Author>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
+        {
+            return _dbcontext.Authors.Where(p => ids.Contains(p.Id)).ToListAsync(token); ;
+        }
+
+        public async Task UpdateAsync(Author author, CancellationToken token = default)
+        {
+            await _dbcontext.Authors
+                .Where(u => u.Id.Equals(author.Id))
+                .ExecuteUpdateAsync(update => update
+                    .SetProperty(u => u.Name, author.Name)
+                    .SetProperty(u => u.Description, author.Description), token);
+        }
+        public async Task DeleteAsync(Guid id, CancellationToken token = default)
+        {
+            await _dbcontext.Authors.Where(p => p.Id.Equals(id)).ExecuteDeleteAsync(token);
+        }
+
+
+    }
+}

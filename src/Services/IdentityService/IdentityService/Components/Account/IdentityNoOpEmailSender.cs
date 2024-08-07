@@ -6,7 +6,7 @@ namespace IdentityService.Components.Account
 {
 	// Remove the "else if (EmailSender is IdentityNoOpEmailSender)" block from RegisterConfirmation.razor after updating with a real implementation.
 	internal sealed class IdentityNoOpEmailSender : IEmailSender<User>
-	{
+	{// TODO make this grpc call to notification service
 		private readonly IEmailSender emailSender = new NoOpEmailSender();
 
 		public Task SendConfirmationLinkAsync(User user, string email, string confirmationLink) =>

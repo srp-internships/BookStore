@@ -77,7 +77,7 @@
 		
 		RedirectManager.RedirectTo(
 				"/Account/Login",
-				new() { ["returnUrl"] = ReturnUrl });
+				new() { ["ReturnUrl"] = ReturnUrl });
 	}
 
 	private async Task SendConfirmationEmailAsync(User user)

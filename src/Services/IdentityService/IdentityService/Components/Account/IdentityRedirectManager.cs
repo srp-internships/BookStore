@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 
 namespace IdentityService.Components.Account
-{
+{//11
 	internal sealed class IdentityRedirectManager(NavigationManager navigationManager)
 	{
 		public const string StatusCookieName = "Identity.StatusMessage";

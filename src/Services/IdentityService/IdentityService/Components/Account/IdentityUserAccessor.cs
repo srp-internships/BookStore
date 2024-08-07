@@ -1,7 +1,7 @@
 using IdentityService.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace IdentityService.Components.Account
+namespace IdentityService.Components.Account//11
 {
 	internal sealed class IdentityUserAccessor(UserManager<User> userManager, IdentityRedirectManager redirectManager)
 	{

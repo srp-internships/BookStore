@@ -21,7 +21,7 @@
 <div class="row">
 	<div class="col-md-4">
 		<StatusMessage Message="@Message" />
-        <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
+		<EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
 			<DataAnnotationsValidator />
 			<hr />
 			<ValidationSummary class="text-danger" role="alert" />
@@ -40,6 +40,15 @@
 				<label for="confirm-password">Confirm Password</label>
 				<ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
 			</div>
+			<div class="form-floating mb-3">
+				<InputSelect @bind-Value="Input.Role" class="form-control">
+					<option value="">Select Role</option>
+					<option value="@Role.Seller">I am Seller</option>
+					<option value="@Role.Customer">I am Customer</option>
+				</InputSelect>
+				<label for="role">Role</label>
+				<ValidationMessage For="() => Input.Role" class="text-danger" />
+			</div>
 			<button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
 		</EditForm>
 	</div>
@@ -51,8 +60,8 @@
 	[SupplyParameterFromForm]
 	private InputModel Input { get; set; } = new();
 
-    [SupplyParameterFromQuery]
-    private string? ReturnUrl { get; set; }
+	[SupplyParameterFromQuery]
+	private string? ReturnUrl { get; set; }
 
 	private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
@@ -73,8 +82,19 @@
 
 		Logger.LogInformation("User created a new account with password.");
 
+		// Assign role to the user
+		if (!string.IsNullOrEmpty(Input.Role))
+		{
+			var roleResult = await UserManager.AddToRoleAsync(user, Input.Role);
+			if (!roleResult.Succeeded)
+			{
+				identityErrors = roleResult.Errors;
+				return;
+			}
+		}
+
 		await SendConfirmationEmailAsync(user);
-		
+
 		RedirectManager.RedirectTo(
 				"/Account/Login",
 				new() { ["ReturnUrl"] = ReturnUrl });
@@ -118,5 +138,9 @@
 		[Display(Name = "Confirm password")]
 		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 		public string ConfirmPassword { get; set; } = "";
+
+		[Required]
+		[Display(Name = "Role")]
+		public string Role { get; set; } = "";
 	}
 }

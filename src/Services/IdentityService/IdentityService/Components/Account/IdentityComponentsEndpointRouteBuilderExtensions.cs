@@ -1,3 +1,4 @@
+using Duende.IdentityServer.Services;
 using IdentityService.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,10 +20,18 @@ namespace Microsoft.AspNetCore.Routing
 			accountGroup.MapPost("/Logout", async (
 				ClaimsPrincipal user,
 				SignInManager<User> signInManager,
-				[FromForm] string returnUrl) =>
+				IIdentityServerInteractionService interactionService,
+				[FromQuery] string? logoutId) =>
 			{
 				await signInManager.SignOutAsync();
-				return TypedResults.LocalRedirect($"~/{returnUrl}");
+				var logoutResult = await interactionService.GetLogoutContextAsync(logoutId);
+
+				if (string.IsNullOrEmpty(logoutResult.PostLogoutRedirectUri))
+				{
+					return TypedResults.LocalRedirect($"~/");
+				}
+
+				return Results.Redirect(logoutResult.PostLogoutRedirectUri);
 			});
 
 			var manageGroup = accountGroup.MapGroup("/Manage").RequireAuthorization();

@@ -1,5 +1,6 @@
 using IdentityService.Components;
 using IdentityService.Components.Account;
+using IdentityService.Components.IDS;
 using IdentityService.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,6 @@ builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuth
 builder.Services.AddAuthentication(options =>
 	{
 		options.DefaultScheme = IdentityConstants.ApplicationScheme;
-		options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 	})
 	.AddIdentityCookies();
 
@@ -35,9 +35,13 @@ builder.Services.AddIdentityCore<User>(options => options.SignIn.RequireConfirme
 	.AddSignInManager()
 	.AddDefaultTokenProviders();
 
+builder.Services.AddIds(builder.Configuration);
+
 builder.Services.AddSingleton<IEmailSender<User>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
+
+SeedData.EnsureSeedData(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -52,6 +56,12 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseIdentityServer();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseStaticFiles();
 app.UseAntiforgery();

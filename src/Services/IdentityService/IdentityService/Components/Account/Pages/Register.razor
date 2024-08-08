@@ -3,6 +3,8 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Text
 @using System.Text.Encodings.Web
+@using IdentityService.IntegrationEvents.SellerEvents
+@using MassTransit
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
 @using IdentityService.Data
@@ -13,6 +15,7 @@
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject IBus Bus
 
 <PageTitle>Register</PageTitle>
 
@@ -25,6 +28,16 @@
 			<DataAnnotationsValidator />
 			<hr />
 			<ValidationSummary class="text-danger" role="alert" />
+			<div class="form-floating mb-3">
+				<InputText @bind-Value="Input.FirstName" class="form-control" aria-required="true" placeholder="First Name" />
+				<label for="first-name">First Name</label>
+				<ValidationMessage For="() => Input.FirstName" class="text-danger" />
+			</div>
+			<div class="form-floating mb-3">
+				<InputText @bind-Value="Input.LastName" class="form-control" aria-required="true" placeholder="Last Name" />
+				<label for="last-name">Last Name</label>
+				<ValidationMessage For="() => Input.LastName" class="text-danger" />
+			</div>
 			<div class="form-floating mb-3">
 				<InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
 				<label for="email">Email</label>
@@ -67,7 +80,11 @@
 
 	public async Task RegisterUser(EditContext editContext)
 	{
-		var user = new User();
+		var user = new User
+			{
+				FirstName = Input.FirstName,
+				LastName = Input.LastName
+			};
 
 		await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
 		var emailStore = GetEmailStore();
@@ -95,6 +112,8 @@
 
 		await SendConfirmationEmailAsync(user);
 
+		await PublishUserCreatedEvent(user, Input.Role);
+
 		RedirectManager.RedirectTo(
 				"/Account/Login",
 				new() { ["ReturnUrl"] = ReturnUrl });
@@ -121,8 +140,31 @@
 		return (IUserEmailStore<User>)UserStore;
 	}
 
+	private Task PublishUserCreatedEvent(User user, string role)
+	{
+		if (role == Role.Seller)
+			return Bus.Publish(new SellerCreatedIntegrationEvent
+				{
+					Id = Guid.NewGuid(),
+					OccuredOnUtc = DateTime.UtcNow,
+					SellerId = user.Id,
+					FirstName = user.FirstName,
+					LastName = user.LastName,
+				});
+		else
+			return Task.CompletedTask;
+	}
+
 	private sealed class InputModel
 	{
+		[Required]
+		[Display(Name = "First Name")]
+		public string FirstName { get; set; } = "";
+
+		[Required]
+		[Display(Name = "Last Name")]
+		public string LastName { get; set; } = "";
+
 		[Required]
 		[EmailAddress]
 		[Display(Name = "Email")]

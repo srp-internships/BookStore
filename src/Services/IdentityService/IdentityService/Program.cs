@@ -1,3 +1,4 @@
+using IdentityService.Common.Extensions;
 using IdentityService.Components;
 using IdentityService.Components.Account;
 using IdentityService.Components.IDS;
@@ -37,6 +38,8 @@ builder.Services.AddIdentityCore<User>(options => options.SignIn.RequireConfirme
 	.AddDefaultTokenProviders();
 
 builder.Services.AddIds(builder.Configuration);
+
+builder.Services.AddMassTransitWithRabbitMq();
 
 builder.Services.AddSingleton<IEmailSender<User>, IdentityNoOpEmailSender>();
 

@@ -17,6 +17,7 @@ namespace OrderService.Application.UseCases.Orders
         private static OrderDto DtoFromOrder(Order order)
         {
             return new OrderDto(
+                OrderId: order.Id,
                 CustomerId: order.CustomerId,
                 CartId: order.CartId,
                 ShippingAddress: new AddressDto(

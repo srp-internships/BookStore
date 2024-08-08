@@ -1,6 +1,7 @@
 ﻿namespace OrderService.Application.UseCases.DTOs;
 
 public record OrderDto(
+    Guid OrderId,
     Guid CustomerId,
     Guid? CartId,
     AddressDto ShippingAddress,

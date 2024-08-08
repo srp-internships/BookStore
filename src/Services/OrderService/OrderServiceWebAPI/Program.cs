@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddDistributedMemoryCache();
+// Add distributed Redis Cache
 builder.Services.AddStackExchangeRedisCache(redisOptions =>
 {
     string connection = builder.Configuration

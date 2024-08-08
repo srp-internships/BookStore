@@ -20,10 +20,5 @@ public class ApplicationDbContext : DbContext
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);
     }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=OrderService;Username=postgres;Password=7878_Postgresql");
-        base.OnConfiguring(optionsBuilder);
-    }
 }
 

@@ -1,6 +1,7 @@
 ﻿using OrderService.Application.Common.Interfaces.Data;
 using OrderService.IntegrationEvents;
 using Address = OrderService.IntegrationEvents.Address;
+using OrderItem = OrderService.IntegrationEvents.OrderItem;
 using OrderStatus = OrderService.IntegrationEvents.OrderStatus;
 
 namespace OrderService.Application.UseCases.Orders.Commands.CreateOrder;
@@ -29,7 +30,7 @@ public class CreateOrderCommandHandler(IPublishEndpoint publishEndpoint,
             State: command.ShippingAddress.State,
             Street: command.ShippingAddress.Street
         ),
-        Items: command.Items.Select(i => new IntegrationEvents.OrderItem(
+        Items: command.Items.Select(i => new OrderItem(
             BookId: i.BookId,
             Title: i.Title,
             SellerId: i.SellerId,

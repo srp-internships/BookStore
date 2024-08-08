@@ -37,21 +37,47 @@ public class PaymentStatusUpdatedConsumer : IConsumer<PaymentRequestProcessedEve
             {
                 OrderId = message.OrderId,
                 PaymentStatus = paymentStatus,
-                Message = message.Message?.ToString(),
+                Message = message.Message?.ToString()
             };
 
             _context.Payments.Add(payment);
-            await _context.SaveChangesAsync();
         }
-
-        _logger.LogInformation($"Processing payment {payment.PaymentStatus}");
-        await Task.Delay(3000);
-        payment.PaymentStatus = Domain.Enums.PaymentStatus.Succeeded;
+        else
+        {
+            payment.PaymentStatus = paymentStatus;
+            payment.Message = message.Message?.ToString();
+        }
 
         await _context.SaveChangesAsync();
 
-        await _publishEndpoint.Publish(new OrderStatusUpdatedIntegrationEvent(payment.OrderId, OrderStatus.ShipmentProcessing));
-        _logger.LogInformation($"Order {message.OrderId} has been paid successfully and processed shipment .");
-    }
+        var order = await _context.Orders.FindAsync(message.OrderId);
 
+        if (order != null)
+        {
+            if (paymentStatus == Domain.Enums.PaymentStatus.Failed)
+            {
+                order.Status = Domain.Enums.OrderStatus.Failed;
+                await _context.SaveChangesAsync();
+
+                await _publishEndpoint.Publish(new OrderStatusUpdatedIntegrationEvent(payment.OrderId, OrderStatus.Failed));
+                _logger.LogInformation($"Order {message.OrderId} payment failed and updated to failed status.");
+            }
+            else if (paymentStatus == Domain.Enums.PaymentStatus.Succeeded)
+            {
+                order.Status = Domain.Enums.OrderStatus.ShipmentProcessing;
+                await _context.SaveChangesAsync();
+
+                await _publishEndpoint.Publish(new OrderStatusUpdatedIntegrationEvent(payment.OrderId, OrderStatus.ShipmentProcessing));
+                _logger.LogInformation($"Order {message.OrderId} has been paid successfully and processed to shipment.");
+            }
+            else
+            {
+                _logger.LogInformation($"Order {message.OrderId} payment status is pending.");
+            }
+        }
+        else
+        {
+            _logger.LogWarning($"Order {message.OrderId} not found.");
+        }
+    }
 }

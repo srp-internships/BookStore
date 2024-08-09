@@ -1,9 +1,9 @@
 ﻿namespace PaymentService.IntegrationEvents
 {
-	public enum PaymentStatus
-	{
-		Pending,
-		Succeeded,
-		Failed,
-	}
+    public enum PaymentStatus
+    {
+        Pending,
+        Succeeded,
+        Failed,
+    }
 }

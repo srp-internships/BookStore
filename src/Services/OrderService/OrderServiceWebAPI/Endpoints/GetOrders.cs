@@ -3,8 +3,6 @@ using OrderService.Application.UseCases.Orders.Queries.GetOrders;
 
 namespace OrderServiceWebAPI.Endpoints;
 
-public record GetOrdersResponse(PaginatedResult<OrderDto> Orders);
-
 public class GetOrders : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
@@ -12,12 +10,11 @@ public class GetOrders : ICarterModule
         app.MapGet("/orders", async ([AsParameters] PagingParameters pagingParameters, ISender sender) =>
         {
             var result = await sender.Send(new GetOrdersQuery(pagingParameters));
-            var response = result.Adapt<GetOrdersResponse>();
 
-            return Results.Ok(response);
+            return Results.Ok(result);
         })
         .WithName("GetOrders")
-        .Produces<GetOrdersResponse>(StatusCodes.Status200OK)
+        .Produces<PaginatedResult<OrderDto>>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Get Orders")

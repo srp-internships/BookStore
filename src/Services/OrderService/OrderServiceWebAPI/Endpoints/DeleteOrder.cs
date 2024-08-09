@@ -2,23 +2,20 @@
 
 namespace OrderServiceWebAPI.Endpoints;
 
-public record DeleteOrderResponse(bool isSuccess);
-
 public class DeleteOrder : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/orders/{id}", async (Guid Id, ISender sender) =>
+        app.MapDelete("/orders/{id}", async (Guid id, ISender sender) =>
         {
-            var result = await sender.Send(new DeleteOrderCommand(Id));
+            var isSuccess = await sender.Send(new DeleteOrderCommand(id));
 
-
-            return Results.Ok(new DeleteOrderResponse(result));
+            return isSuccess ? Results.Ok(isSuccess) : Results.NotFound();
         })
         .WithName("DeleteOrder")
-        .Produces<DeleteOrderResponse>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Delete Order")
         .WithDescription("Delete Order");
     }

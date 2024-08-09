@@ -24,8 +24,8 @@ public class OrderRepository : IOrderRepository
     {
         var order = await _dbSet.FindAsync(orderId);
 
-        if (order != null)
-            _dbSet.Remove(order);
+        //if (order != null)
+        _dbSet.Remove(order);
     }
 
     public async Task<IEnumerable<Order>> GetAllOrdersAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default)

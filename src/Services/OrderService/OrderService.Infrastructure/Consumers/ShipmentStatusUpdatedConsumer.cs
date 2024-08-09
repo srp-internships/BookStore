@@ -26,7 +26,7 @@ public class ShipmentStatusUpdatedConsumer : IConsumer<ShipmentUpdatedEvent>
     {
         var message = context.Message;
 
-        var shipmentStatus = ShipmentStatusMapperExtensions.ToDomainShipmentStatus(message.Status);
+        var shipmentStatus = message.Status.ToDomainShipmentStatus();
 
         var shipment = await _context.Shipments.FindAsync(message.OrderId);
 

@@ -1,4 +1,3 @@
-using CartService.Aplication.Interfaces;
 using CartService.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
@@ -106,6 +105,7 @@ app.UseHttpsRedirection();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<ApplicationKeyMiddleware>();
 app.UseMiddleware<EndpointListenerMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

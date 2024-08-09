@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 	<ItemGroup>
+	<PackageReference Include="Google.Api.Gax.Grpc" Version="4.8.0" />
+	<PackageReference Include="Grpc" Version="2.46.6" />
 	<PackageReference Include="Grpc.Tools" Version="2.64.0">
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

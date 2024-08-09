@@ -22,9 +22,9 @@ public class DecoratedOrderRepository : IOrderRepository
         return orderRepository.CreateAsync(order, token);
     }
 
-    public Task DeleteAsync(Guid orderId, CancellationToken token = default)
+    public Task DeleteAsync(Order order, CancellationToken token = default)
     {
-        return orderRepository.DeleteAsync(orderId, token);
+        return orderRepository.DeleteAsync(order, token);
     }
 
     public Task<IEnumerable<Order>> GetAllOrdersAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default)

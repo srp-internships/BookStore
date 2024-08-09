@@ -14,23 +14,25 @@ namespace OrderService.Application.UseCases.Orders.Queries.GetOrders
 
         public async Task<GetOrdersResult> Handle(GetOrdersQuery query, CancellationToken cancellationToken)
         {
-            var pageIndex = query.PaginationRequest.PageIndex;
-            var pageSize = query.PaginationRequest.PageSize;
+            var pagingParams = query.PagingParameters;
 
-            var allOrders = await _unitOfWork.OrderRepository.GetAllOrdersAsync(cancellationToken);
-            var totalCount = allOrders.Count();
+            var paginatedOrders = await _unitOfWork.OrderRepository
+                .GetAllOrdersAsync(pagingParams, cancellationToken);
 
-            var orders = allOrders
-                .Skip(pageSize * pageIndex)
-                .Take(pageSize)
+            var totalCount = paginatedOrders.Count();
+
+            var ordersDto = paginatedOrders
+                .Select(order => order.ToOrderDto())
                 .ToList();
 
-            return new GetOrdersResult(
-                new PaginatedResult<OrderDto>(
-                    pageIndex,
-                    pageSize,
-                    totalCount,
-                    orders.ToOrderDtoList()));
+            var paginatedResult = new PaginatedResult<OrderDto>(
+                pagingParams.PageNumber,
+                pagingParams.PageSize,
+                totalCount,
+                ordersDto
+            );
+
+            return new GetOrdersResult(paginatedResult);
         }
     }
 }

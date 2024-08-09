@@ -1,4 +1,5 @@
 ﻿using OrderService.Application.Common.Interfaces.Repositories;
+using OrderService.Application.Common.Pagination;
 using OrderService.Domain.Entities;
 
 namespace OrderService.Infrastructure.Persistence.Repositories;
@@ -26,9 +27,9 @@ public class DecoratedOrderRepository : IOrderRepository
         return orderRepository.DeleteAsync(orderId, token);
     }
 
-    public Task<IEnumerable<Order>> GetAllOrdersAsync(CancellationToken cancellationToken = default)
+    public Task<IEnumerable<Order>> GetAllOrdersAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default)
     {
-        return orderRepository.GetAllOrdersAsync(cancellationToken);
+        return orderRepository.GetAllOrdersAsync(pagingParameters, cancellationToken);
     }
 
     public Task<Order?> GetAsync(Guid orderId, CancellationToken cancellationToken = default)

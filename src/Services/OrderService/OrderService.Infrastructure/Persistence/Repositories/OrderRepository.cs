@@ -1,4 +1,5 @@
 ﻿using OrderService.Application.Common.Interfaces.Repositories;
+using OrderService.Application.Common.Pagination;
 using OrderService.Domain.Entities;
 
 namespace OrderService.Infrastructure.Persistence.Repositories;
@@ -27,11 +28,22 @@ public class OrderRepository : IOrderRepository
             _dbSet.Remove(order);
     }
 
-    public virtual async Task<IEnumerable<Order>> GetAllOrdersAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Order>> GetAllOrdersAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default)
     {
-        return await _dbSet
-               .Include(o => o.Items)
-               .ToListAsync(cancellationToken);
+        var query = _dbSet.Include(o => o.Items).AsQueryable();
+
+        if (pagingParameters.OrderByDescending)
+        {
+            query = query.OrderByDescending(o => o.Id);
+        }
+        else
+        {
+            query = query.OrderBy(o => o.Id);
+        }
+        return await query
+            .Skip(pagingParameters.Skip)
+            .Take(pagingParameters.Take)
+            .ToListAsync(cancellationToken);
     }
 
     public virtual async Task<Order?> GetAsync(Guid id, CancellationToken cancellationToken = default)

@@ -6,6 +6,6 @@ public interface IOrderRepository
     Task<Order> CreateAsync(Order order, CancellationToken token = default);
     Task DeleteAsync(Guid orderId, CancellationToken token = default);
     Task<IEnumerable<Order>> GetOrdersByCustomerIdAsNoTrackingAsync(Guid CustomerId, CancellationToken cancellationToken = default);
-    Task<IEnumerable<Order>> GetAllOrdersAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<Order>> GetAllOrdersAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default);
 }
 

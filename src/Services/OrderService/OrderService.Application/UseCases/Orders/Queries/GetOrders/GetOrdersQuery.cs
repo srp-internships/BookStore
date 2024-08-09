@@ -2,7 +2,7 @@
 
 namespace OrderService.Application.UseCases.Orders.Queries.GetOrders;
 
-public record GetOrdersQuery(PaginationRequest PaginationRequest)
+public record GetOrdersQuery(PagingParameters PagingParameters)
     : IQuery<GetOrdersResult>;
 
 public record GetOrdersResult(PaginatedResult<OrderDto> Orders);

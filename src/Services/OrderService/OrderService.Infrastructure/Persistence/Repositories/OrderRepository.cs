@@ -16,15 +16,11 @@ public class OrderRepository : IOrderRepository
     public virtual async Task<Order> CreateAsync(Order order, CancellationToken token = default)
     {
         await _dbSet.AddAsync(order, token);
-
         return order;
     }
 
-    public virtual async Task DeleteAsync(Guid orderId, CancellationToken token = default)
+    public virtual async Task DeleteAsync(Order order, CancellationToken token = default)
     {
-        var order = await _dbSet.FindAsync(orderId);
-
-        //if (order != null)
         _dbSet.Remove(order);
     }
 

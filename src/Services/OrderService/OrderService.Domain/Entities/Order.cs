@@ -13,5 +13,6 @@ public class Order : BaseEntity
     {
         get => Items?.Sum(x => x.Price * x.Quantity) ?? 0;
         private set { }
+
     }
 }

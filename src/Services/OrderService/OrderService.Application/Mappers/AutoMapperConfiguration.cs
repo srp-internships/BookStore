@@ -9,7 +9,6 @@ public class AutoMapperConfiguration : Profile
     public AutoMapperConfiguration()
     {
         CreateMap<CreateOrderCommand, Order>();
-        CreateMap<Order, CreateOrderResult>();
         CreateMap<AddressDto, Address>();
         CreateMap<OrderItemDto, OrderItem>();
     }

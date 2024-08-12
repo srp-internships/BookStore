@@ -9,6 +9,6 @@ namespace CartService.Aplication.Commons.Interfaces
     public interface IBookSellerRepositoty
     {
         Task<BookSeller?> GetSellerByBookIdAsync(Guid bookId);
-        Task<decimal> GetPriceByBookIdAndSellerIdAsync(Guid bookId, BookSeller sellerId);
+        Task<BookSeller> GetPriceByBookIdAndSellerIdAsync(Guid bookId, Guid sellerId);
     }
 }

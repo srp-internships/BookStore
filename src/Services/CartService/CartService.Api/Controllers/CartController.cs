@@ -23,17 +23,10 @@ namespace CartService.Api.Controllers
             return cart != null ? Ok(cart) : NotFound();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateCartAsync([FromBody] Cart cart)
-        {
-            await _cartService.CreateCartAsync(cart);
-            return CreatedAtAction(nameof(GetCartByUserIdAsync), new { userId = cart.UserId }, cart);
-        }
-
         [HttpPost("{userId}/items")]
-        public async Task<IActionResult> AddToCartAsync(Guid userId, [FromBody] CartItem cartItem)
+        public async Task<IActionResult> AddToCartAsync(Guid userId, [FromBody] AddToCartRequest request)
         {
-            await _cartService.AddToCartAsync(userId, cartItem);
+            await _cartService.AddToCartAsync(userId, request);
             return NoContent();
         }
 
@@ -63,13 +56,6 @@ namespace CartService.Api.Controllers
         {
             var totalPrice = await _cartService.GetTotalPriceAsync(userId);
             return Ok(totalPrice);
-        }
-
-        [HttpGet("books/{bookId}/available")]
-        public async Task<IActionResult> IsBookAvailableAsync(Guid bookId)
-        {
-            var isAvailable = await _cartService.IsBookAvailableAsync(bookId);
-            return Ok(isAvailable);
         }
     }
 }

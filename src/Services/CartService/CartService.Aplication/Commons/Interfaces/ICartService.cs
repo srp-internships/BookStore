@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CartService.Aplication.Commons.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,7 @@ namespace CartService.Aplication.Commons.Interfaces
     public interface ICartService
     {
         Task<Cart?> GetCartByUserIdAsync(Guid userId);
-        Task CreateCartAsync(Cart cart);
-        Task AddToCartAsync(Guid userId, CartItem cartItem);
+        Task AddToCartAsync(Guid userId, AddToCartRequest request);
         Task UpdateCartItemQuantityAsync(Guid cartItemId, int quantity);
         Task RemoveCartItemAsync(Guid cartItemId);
         Task ClearCartAsync(Guid userId);

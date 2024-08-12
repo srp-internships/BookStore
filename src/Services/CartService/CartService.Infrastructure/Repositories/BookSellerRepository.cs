@@ -21,11 +21,10 @@ namespace CartService.Infrastructure.Repositories
             return await _context.BookSellers
                 .FirstOrDefaultAsync(bs => bs.BookId == bookId);
         }
-        public async Task<decimal> GetPriceByBookIdAndSellerIdAsync(Guid bookId, Guid sellerId)
+        public async Task<BookSeller?> GetPriceByBookIdAndSellerIdAsync(Guid bookId, Guid sellerId)
         {
-            var bookSeller = await _context.BookSellers
+            return await _context.BookSellers
                 .FirstOrDefaultAsync(bs => bs.BookId == bookId && bs.SellerId == sellerId);
-            return bookSeller?.Price ?? 0m;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CartService.Aplication.Commons.Exceptions;
+﻿using CartService.Aplication.Commons.DTOs;
+using CartService.Aplication.Commons.Exceptions;
 using CartService.Aplication.Commons.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,71 +20,59 @@ namespace CartService.Aplication.Services
 
         public async Task<Cart?> GetCartByUserIdAsync(Guid userId)
         {
+            return await _unitOfWork.Carts.GetCartByUserIdAsync(userId);
+        }
+
+        public async Task AddToCartAsync(Guid userId, AddToCartRequest request)
+        {
             var cart = await _unitOfWork.Carts.GetCartByUserIdAsync(userId);
             if (cart == null)
             {
-                throw new CartNotFoundException("Cart not found.");
-            }
-            return cart;
-        }
-
-        public async Task CreateCartAsync(Cart cart)
-        {
-            if (cart == null)
-            {
-                throw new ArgumentNullException(nameof(cart));
+                // Create a new cart if it does not exist
+                cart = new Cart { Id = Guid.NewGuid(), UserId = userId };
+                await _unitOfWork.Carts.AddCartAsync(cart);
+                await _unitOfWork.CompleteAsync();
             }
 
-            var existingCart = await _unitOfWork.Carts.GetCartByUserIdAsync(cart.UserId);
-            if (existingCart != null)
-            {
-                throw new InvalidOperationException("Cart already exists for this user.");
-            }
-
-            await _unitOfWork.Carts.AddCartAsync(cart);
-            await _unitOfWork.CompleteAsync();
-        }
-
-        public async Task AddToCartAsync(Guid userId, CartItem cartItem)
-        {
-            if (cartItem == null)
-            {
-                throw new ArgumentNullException(nameof(cartItem));
-            }
-
-            var cart = await GetCartByUserIdAsync(userId);
-            var book = await _unitOfWork.Books.GetByIdAsync(cartItem.BookId);
-
+            var book = await _unitOfWork.Books.GetByIdAsync(request.BookId);
             if (book == null)
             {
                 throw new BookNotFoundException("Book not found.");
             }
 
-            var sellerId = await _unitOfWork.BookSellers.GetSellerByBookIdAsync(cartItem.BookId);
-            var existingCartItem = await _unitOfWork.Carts.GetCartItemByBookIdAsync(cart.Id, cartItem.BookId);
-
-            if (existingCartItem == null)
+            var bookSeller = await _unitOfWork.BookSellers.GetPriceByBookIdAndSellerIdAsync(request.BookId, request.SellerId);
+            if (bookSeller == null)
             {
-                cartItem.Id = Guid.NewGuid();
-                cartItem.CartId = cart.Id;
-                cartItem.Price = await _unitOfWork.BookSellers.GetPriceByBookIdAndSellerIdAsync(cartItem.BookId,sellerId);
-                cartItem.SellerId = sellerId.SellerId;
+                throw new SellerNotFoundException("Book seller not found.");
+            }
 
-                await _unitOfWork.Carts.AddCartItemAsync(cartItem);
+            var cartItem = new CartItem
+            {
+                Id = Guid.NewGuid(),
+                CartId = cart.Id,
+                BookId = request.BookId,
+                BookName = book.Title,
+                ImageUrl = book.Image,
+                Quantity = request.Quantity,
+                Price = bookSeller.Price,
+                SellerId = request.SellerId
+            };
+
+            var existingItem = cart.Items.FirstOrDefault(item => item.BookId == request.BookId && item.SellerId == request.SellerId);
+            if (existingItem == null)
+            {
+                cart.Items.Add(cartItem);
             }
             else
             {
-                if (cartItem.Quantity <= 0)
-                {
-                    throw new InvalidQuantityException("Quantity must be greater than zero.");
-                }
-
-                existingCartItem.Quantity = cartItem.Quantity;
-                await _unitOfWork.Carts.UpdateCartItemAsync(existingCartItem);
+                existingItem.Quantity += request.Quantity;
+                existingItem.Price = bookSeller.Price; 
             }
 
+            await _unitOfWork.Carts.AddCartItemAsync(cartItem);
             await _unitOfWork.CompleteAsync();
         }
+
         public async Task UpdateCartItemQuantityAsync(Guid cartItemId, int quantity)
         {
             if (quantity <= 0)
@@ -116,15 +105,10 @@ namespace CartService.Aplication.Services
 
         public async Task ClearCartAsync(Guid userId)
         {
-            var cart = await GetCartByUserIdAsync(userId);
+            var cart = await _unitOfWork.Carts.GetCartByUserIdAsync(userId);
             if (cart == null)
             {
                 throw new CartNotFoundException("Cart not found.");
-            }
-
-            foreach (var item in cart.Items.ToList())
-            {
-                await _unitOfWork.Carts.DeleteCartItemAsync(item.Id);
             }
 
             await _unitOfWork.Carts.DeleteCartAsync(cart.Id);
@@ -133,7 +117,12 @@ namespace CartService.Aplication.Services
 
         public async Task<decimal> GetTotalPriceAsync(Guid userId)
         {
-            var cart = await GetCartByUserIdAsync(userId);
+            var cart = await _unitOfWork.Carts.GetCartByUserIdAsync(userId);
+            if (cart == null)
+            {
+                throw new CartNotFoundException("Cart not found.");
+            }
+
             return cart.TotalPrice;
         }
 
@@ -143,4 +132,5 @@ namespace CartService.Aplication.Services
             return book != null;
         }
     }
+
 }

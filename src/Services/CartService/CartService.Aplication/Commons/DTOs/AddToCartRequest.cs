@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CartService.Aplication.Commons.DTOs
 {
-    public class AddOrUpdateCartItemDto
+    public class AddToCartRequest
     {
-        public Guid UserId { get; set; }
         public Guid BookId { get; set; }
         public int Quantity { get; set; }
+        public Guid SellerId { get; set; }
     }
 }

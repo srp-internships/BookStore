@@ -7,6 +7,7 @@ using CartService.Consumers.Books;
 using CartService.Consumers.BookSellers;
 using CartService.Api.Middlewares;
 using CartService.Api;
+using CartService.Aplication.Commons.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,8 +63,9 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMyServices();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddMyServices();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(

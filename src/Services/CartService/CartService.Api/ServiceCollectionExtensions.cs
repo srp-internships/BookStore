@@ -8,9 +8,10 @@ namespace CartService.Api
     {
         public static void AddMyServices(this IServiceCollection service)
         {
-            service.AddScoped<IBookRepository, BookRepository>();
+            service.AddScoped<IUnitOfWork, UnitOfWork>();
             service.AddScoped<ICartService, CartServices>();
             service.AddScoped<ICartRepository, CartRepository>();
+            service.AddScoped<IBookRepository, BookRepository>();
             service.AddScoped<IBookSellerRepositoty, BookSellerRepository>();
         }
     }

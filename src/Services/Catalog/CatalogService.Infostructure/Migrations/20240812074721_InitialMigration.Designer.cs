@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CatalogService.Infostructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20240726062240_InitialMigaration")]
-    partial class InitialMigaration
+    [Migration("20240812074721_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,9 @@ namespace CatalogService.Infostructure.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ISBN")
+                        .IsUnique();
 
                     b.HasIndex("PublisherId");
 

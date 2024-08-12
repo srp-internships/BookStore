@@ -23,9 +23,6 @@ namespace CatalogService.Infostructure.Configurations
                 .IsRequired();
 
             builder
-                .HasKey(k => k.Id);
-
-            builder
                 .Property(p => p.Price)
                 .HasColumnName("price")
                 .HasColumnType("MONEY")

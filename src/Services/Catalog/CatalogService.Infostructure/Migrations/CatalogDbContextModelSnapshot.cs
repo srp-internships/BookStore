@@ -71,6 +71,9 @@ namespace CatalogService.Infostructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ISBN")
+                        .IsUnique();
+
                     b.HasIndex("PublisherId");
 
                     b.ToTable("book", (string)null);

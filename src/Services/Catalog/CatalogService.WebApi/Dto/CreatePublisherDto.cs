@@ -11,6 +11,9 @@ namespace CatalogService.WebApi.Dto
         public string Name { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
+        [Required(ErrorMessage = "Image is required.")]
+        [FileSize(5 * 1024 * 1024, ErrorMessage = "Image size cannot exceed 5 MB.")]
+        [FileType("image/jpeg,image/png", ErrorMessage = "Only JPEG and PNG images are allowed.")]
         public IFormFile Logo { get; set; }
 
         public void Mapping(Profile profile)

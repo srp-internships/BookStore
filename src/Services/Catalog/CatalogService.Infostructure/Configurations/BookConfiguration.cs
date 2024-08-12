@@ -64,6 +64,7 @@ namespace CatalogService.Infostructure.Configurations
             .HasMany(c => c.Authors)
             .WithMany(s => s.Books)
             .UsingEntity<BookAuthor>();
+
             builder
             .HasMany(c => c.Sellers)
             .WithMany(s => s.Books)

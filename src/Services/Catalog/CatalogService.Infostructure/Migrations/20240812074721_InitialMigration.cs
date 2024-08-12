@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CatalogService.Infostructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigaration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -159,6 +159,12 @@ namespace CatalogService.Infostructure.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_book_isbn",
+                table: "book",
+                column: "isbn",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_book_publisher_id",

@@ -20,7 +20,7 @@ namespace CartService.Api.Controllers
         public async Task<IActionResult> GetCartByUserIdAsync(Guid userId)
         {
             var cart = await _cartService.GetCartByUserIdAsync(userId);
-            return cart != null ? Ok(cart) : NotFound();
+            return Ok(cart);
         }
 
         [HttpPost("{userId}/items")]

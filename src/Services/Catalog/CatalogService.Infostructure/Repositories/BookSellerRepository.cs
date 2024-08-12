@@ -1,12 +1,13 @@
 ﻿
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
+using CatalogService.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace CatalogService.Infostructure.Repositories
 {
@@ -41,6 +42,16 @@ namespace CatalogService.Infostructure.Repositories
             await _dbcontext.BookSellers.Where(p => p.Id.Equals(id)).ExecuteDeleteAsync(token);
         }
 
-
+        public async Task<List<BookSeller>> GetByTwinId(Guid bookId, Guid sellerId, CancellationToken token = default)
+        {
+            var bookSeller = await _dbcontext.BookSellers
+                .Where(u => u.BookId.Equals(bookId))
+                .Where(u => u.SellerId.Equals(sellerId)).ToListAsync();
+            return bookSeller;
+        }
+        public Task<bool> AnyAsync(Guid id, CancellationToken token = default)
+        {
+            return _dbcontext.BookSellers.AnyAsync(prop => prop.Id.Equals(id));
+        }
     }
 }

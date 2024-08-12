@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatalogService.Domain.Interfaces
+namespace CatalogService.Application.Interfaces.Repositories
 {
     public interface IBookSellerRepository
     {
@@ -13,5 +13,7 @@ namespace CatalogService.Domain.Interfaces
         Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default);
         Task UpdateAsync(BookSeller bookSeller, CancellationToken token = default);
         Task DeleteAsync(Guid id, CancellationToken token = default);
+        Task<List<BookSeller>> GetByTwinId(Guid bookId, Guid sellerId, CancellationToken token = default);
+        Task<bool> AnyAsync(Guid id, CancellationToken token = default);
     }
 }

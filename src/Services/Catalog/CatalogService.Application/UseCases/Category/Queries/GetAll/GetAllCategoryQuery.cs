@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
+using CatalogService.Application.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;

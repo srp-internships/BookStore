@@ -13,9 +13,6 @@ namespace CatalogService.Application.UseCases
     {
         public UpdateBookCommandValidator()
         {
-            RuleFor(x => x.Image)
-                .NotEmpty().WithMessage("Image can not be empty")
-                .Must(BeAValidUrl).WithMessage("Incorrect URL");
             RuleFor(prop => prop.Title)
                 .NotEmpty().WithMessage("Name can not be empty")
                 .MinimumLength(3).WithMessage("Name's length can not be less than 3")

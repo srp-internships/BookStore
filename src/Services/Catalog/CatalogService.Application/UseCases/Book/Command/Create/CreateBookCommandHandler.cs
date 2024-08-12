@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using CatalogService.Application.UseCases.Queries;
 using CatalogService.Contracts;
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Exceptions;
-using CatalogService.Domain.Interfaces;
-using CatalogService.Infostructure;
+using CatalogService.Application.Exceptions;
+using CatalogService.Application.Interfaces.BlobServices;
+using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Application.Interfaces.UnitOfWork;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -22,7 +24,8 @@ namespace CatalogService.Application.UseCases
         IValidator<CreateBookCommand> validator,
         IMapper mapper,
         IBus bus,
-        IUnitOfWork unitOfWork) : IRequestHandler<CreateBookCommand, Guid>
+        IUnitOfWork unitOfWork,
+        IBlobService blobService) : IRequestHandler<CreateBookCommand, Guid>
     {
         private readonly IBookRepository _bookrepository = bookrepository;
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
@@ -31,6 +34,7 @@ namespace CatalogService.Application.UseCases
         private readonly IValidator<CreateBookCommand> _validator = validator;
         private readonly IBus _bus = bus;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IBlobService _blobService = blobService;
 
         public async Task<Guid> Handle(CreateBookCommand request, CancellationToken token)
         {
@@ -47,11 +51,17 @@ namespace CatalogService.Application.UseCases
                 throw new NotFoundException(nameof(Author));
             }
 
+            if (request.Image == null)
+                throw new NoFileUploaded();
+
+            var uri = await _blobService.UploadAsync(request.Image.Content, request.Image.ContentType, token);
+
             var book = _mapper.Map<Book>(request);
 
             book.Authors = authorList;
             book.Categories = categoryList;
             book.PublisherId = request.PublisherId;
+            book.Image = uri;
             Guid guid = await _bookrepository.CreateAsync(book, token);
             await _unitOfWork.SaveChangesAsync();
 
@@ -59,7 +69,7 @@ namespace CatalogService.Application.UseCases
             {
                 Id = guid,
                 Title = request.Title,
-                Image = request.Image,
+                Image = uri,
                 AuthorIds = request.AuthorIds.ToList(),
                 CategoryIds = request.CategoryIds.ToList()
             });

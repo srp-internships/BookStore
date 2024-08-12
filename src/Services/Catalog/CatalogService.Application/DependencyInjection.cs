@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using MassTransit;
-using CatalogService.Infostructure;
+using Azure.Storage.Blobs;
 
 namespace CatalogService.Application
 {
@@ -37,7 +37,10 @@ namespace CatalogService.Application
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateAuthorCommand).Assembly));
             services.AddTransient(typeof(IPipelineBehavior<,>),
                 typeof(ValidationBehavior<,>));
+
             
+
+
             return services;
         }
     }

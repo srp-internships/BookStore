@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Mappers;
+using CatalogService.Application.Models;
 using CatalogService.Domain.Entities;
 using MediatR;
 using System;
@@ -13,7 +14,7 @@ namespace CatalogService.Application.UseCases
     {
         public Guid BookId { get; set; }
         public string Title { get; set; }
-        public string Image { get; set; }
+        public FileRequest Image { get; set; }
         public Guid PublisherId { get; set; }
         public ICollection<Guid> CategoryIds { get; set; }
         public ICollection<Guid> AuthorIds { get; set; }

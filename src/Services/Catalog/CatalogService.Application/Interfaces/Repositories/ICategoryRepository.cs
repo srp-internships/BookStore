@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatalogService.Domain.Interfaces
+namespace CatalogService.Application.Interfaces.Repositories
 {
     public interface ICategoryRepository
     {
@@ -15,5 +15,6 @@ namespace CatalogService.Domain.Interfaces
         Task<List<Category>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default);
         Task UpdateAsync(Category category, CancellationToken token = default);
         Task DeleteAsync(Guid id, CancellationToken token = default);
+        Task<bool> AnyAsync(Guid id, CancellationToken token = default);
     }
 }

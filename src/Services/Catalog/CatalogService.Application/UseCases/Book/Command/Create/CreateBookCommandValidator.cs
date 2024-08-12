@@ -19,8 +19,7 @@ namespace CatalogService.Application.UseCases
                 .MaximumLength(50).WithMessage("Name's length can not be more than 50");
 
             RuleFor(x => x.Image)
-                .NotEmpty().WithMessage("Image can not be empty")
-                .Must(BeAValidUrl).WithMessage("Incorrect URL");
+                .NotEmpty().WithMessage("Image can not be empty");
 
             RuleFor(book => book.ISBN)
                 .NotEmpty().WithMessage("ISBN can not be empty")
@@ -36,11 +35,7 @@ namespace CatalogService.Application.UseCases
                 .NotEmpty().WithMessage("Author field can not be empty");
         }
 
-        private bool BeAValidUrl(string url)
-        {
-            var pattern = @"^(http|https):\/\/[^\s$.?#].[^\s]*$";
-            return Regex.IsMatch(url, pattern);
-        }
+        
         public static string NormalizeIsbn(string isbn)
         {
             return isbn.Replace("-", "").Replace(" ", "");

@@ -1,5 +1,6 @@
 ﻿using CatalogService.Application.UseCases;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.WebApi.Controllers
@@ -11,6 +12,7 @@ namespace CatalogService.WebApi.Controllers
     {
         private readonly IMediator _mediator = mediator;
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCategoryCommand request, CancellationToken token = default)
         {
@@ -37,6 +39,7 @@ namespace CatalogService.WebApi.Controllers
             return Ok(categoryDto);
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateCategoryCommand request, CancellationToken token = default)
         {
@@ -44,6 +47,7 @@ namespace CatalogService.WebApi.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromQuery] Guid id, CancellationToken token = default)
         {

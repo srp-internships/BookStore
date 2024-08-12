@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CatalogService.Contracts;
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
-using CatalogService.Infostructure;
+using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Application.Interfaces.UnitOfWork;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CatalogService.Application.Exceptions;
 
 namespace CatalogService.Application.UseCases
 {
@@ -30,6 +31,12 @@ namespace CatalogService.Application.UseCases
         public async Task Handle(CreateBookSellerCommand request, CancellationToken token)
         {
             await _validator.ValidateAndThrowAsync(request, token);
+            var existingBookSeller = await _repository.GetByTwinId(request.BookId, request.SellerId, token);
+            if (existingBookSeller != null)
+            {
+                throw new ArgumentException("You already have this kind of book in your shop!");
+            }
+
             var bookSeller = _mapper.Map<BookSeller>(request);
             await _repository.CreateAsync(bookSeller, token);
             await _unitOfWork.SaveChangesAsync();

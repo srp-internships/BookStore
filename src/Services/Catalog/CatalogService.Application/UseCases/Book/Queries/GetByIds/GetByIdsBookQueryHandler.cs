@@ -2,8 +2,8 @@
 using CatalogService.Application.UseCases;
 using CatalogService.Application.UseCases.Queries;
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Exceptions;
-using CatalogService.Domain.Interfaces;
+using CatalogService.Application.Exceptions;
+using CatalogService.Application.Interfaces.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;

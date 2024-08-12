@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Application.Interfaces.UnitOfWork;
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
-using CatalogService.Infostructure;
 using FluentValidation;
 using MediatR;
 using System;

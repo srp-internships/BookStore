@@ -1,5 +1,5 @@
 ﻿using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
+using CatalogService.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

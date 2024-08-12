@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Mappers;
+using CatalogService.Application.Models;
 using CatalogService.Domain.Entities;
 using MediatR;
 using System;
@@ -15,11 +16,12 @@ namespace CatalogService.Application.UseCases
         public string Name { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
-        public string Logo { get; set; }
+        public FileRequest Logo { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CreatePublisherCommand, Publisher>();
+            profile.CreateMap<CreatePublisherCommand, Publisher>()
+                .ForMember(dest => dest.Logo, opt => opt.Ignore());
         }
     }
 }

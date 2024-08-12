@@ -1,5 +1,10 @@
-﻿using CatalogService.Application.UseCases;
+﻿using AutoMapper;
+using CatalogService.Application.UseCases;
+using CatalogService.Application.UseCases.Queries;
+using CatalogService.Application.Interfaces.BlobServices;
+using CatalogService.WebApi.Dto;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.WebApi.Controllers
@@ -7,13 +12,18 @@ namespace CatalogService.WebApi.Controllers
     [ApiController]
     [Route("book")]
     public class BookController(
-        IMediator mediator) : ControllerBase
+        IMediator mediator,
+        IMapper mapper) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
+        private readonly IMapper _mapper = mapper;
+        
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateBookCommand request, CancellationToken token = default)
+        public async Task<IActionResult> Create([FromForm] CreateBookDto bookDto, CancellationToken token = default)
         {
+            var request = _mapper.Map<CreateBookCommand>(bookDto);
             var id = await _mediator.Send(request, token);
             return Ok(id);
         }
@@ -25,9 +35,6 @@ namespace CatalogService.WebApi.Controllers
             return Ok(vm);
         }
 
-
-
-
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token = default)
@@ -36,37 +43,17 @@ namespace CatalogService.WebApi.Controllers
             var bookDto = await _mediator.Send(query, token);
             return Ok(bookDto);
         }
-        /*
+
+        [Authorize]
         [HttpPut]
-        [Route("updateauthors")]
-        public async Task<IActionResult> Update([FromBody] UpdateAuthorsBookCommand request, CancellationToken token = default)
+        public async Task<IActionResult> Update([FromForm] UpdateBookDto bookDto, CancellationToken token = default)
         {
+            var request = _mapper.Map<UpdateBookCommand>(bookDto);
             await _mediator.Send(request, token);
             return Ok();
         }
 
-        [HttpPut]
-        [Route("updatecategories")]
-        public async Task<IActionResult> Update([FromBody] UpdateCategoriesBookCommand request, CancellationToken token = default)
-        {
-            await _mediator.Send(request, token);
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("updatepublisher")]
-        public async Task<IActionResult> Update([FromBody] UpdatePublisherBookCommand request, CancellationToken token = default)
-        {
-            await _mediator.Send(request, token);
-            return Ok();
-        }*/
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateBookCommand request, CancellationToken token = default)
-        {
-            await _mediator.Send(request, token);
-            return Ok();
-        }
-
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromQuery] Guid id, CancellationToken token = default)
         {

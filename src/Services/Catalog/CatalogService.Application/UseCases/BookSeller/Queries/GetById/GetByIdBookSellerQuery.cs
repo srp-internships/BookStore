@@ -2,7 +2,7 @@
 using CatalogService.Application.Mappers;
 
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
+using CatalogService.Application.Interfaces;
 using FluentValidation;
 using MediatR;
 using System;

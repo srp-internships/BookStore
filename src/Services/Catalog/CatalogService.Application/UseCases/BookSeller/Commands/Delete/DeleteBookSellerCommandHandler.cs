@@ -1,5 +1,7 @@
-﻿using CatalogService.Domain.Interfaces;
-using CatalogService.Infostructure;
+﻿using CatalogService.Application.Exceptions;
+using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Application.Interfaces.UnitOfWork;
+using CatalogService.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,12 @@ namespace CatalogService.Application.UseCases
 
         public async Task Handle(DeleteBookSellerCommand request, CancellationToken token)
         {
+            var existingBookSeller = await _sellerRepository.AnyAsync(request.Id, token);
+            if (!existingBookSeller)
+            {
+                throw new NotFoundException(nameof(BookSeller));
+            }
+
             await _sellerRepository.DeleteAsync(request.Id, token);
             await _unitOfWork.SaveChangesAsync();
         }

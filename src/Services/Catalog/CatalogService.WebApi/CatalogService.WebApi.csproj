@@ -21,4 +21,8 @@
     <ProjectReference Include="..\CatalogService.Infostructure\CatalogService.Infostructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="uploads\" />
+  </ItemGroup>
+
 </Project>

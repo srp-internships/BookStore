@@ -1,5 +1,5 @@
 ﻿using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
+using CatalogService.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,13 +24,13 @@ namespace CatalogService.Infostructure.Repositories
             return _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
         }
 
-        public Task<List<Author>> GetAllAsync(CancellationToken token)
+        public async Task<List<Author>> GetAllAsync(CancellationToken token)
         {
-            return _dbcontext.Authors.ToListAsync(token);
+            return await _dbcontext.Authors.ToListAsync(token);
         }
-        public Task<List<Author>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
+        public async Task<List<Author>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
         {
-            return _dbcontext.Authors.Where(p => ids.Contains(p.Id)).ToListAsync(token); ;
+            return await _dbcontext.Authors.Where(p => ids.Contains(p.Id)).ToListAsync(token); ;
         }
 
         public async Task UpdateAsync(Author author, CancellationToken token = default)
@@ -46,6 +46,9 @@ namespace CatalogService.Infostructure.Repositories
             await _dbcontext.Authors.Where(p => p.Id.Equals(id)).ExecuteDeleteAsync(token);
         }
 
-
+        public Task<bool> AnyAsync(Guid id, CancellationToken token = default)
+        {
+            return _dbcontext.Authors.AnyAsync(prop => prop.Id.Equals(id));
+        }
     }
 }

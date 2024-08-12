@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CatalogService.Application.Mappers;
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
+using CatalogService.Application.Interfaces;
 using MediatR;
 using System;
 using System.Collections;

@@ -1,5 +1,5 @@
 ﻿using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
+using CatalogService.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -51,6 +51,9 @@ namespace CatalogService.Infostructure.Repositories
             await _dbcontext.Categories.Where(p => p.Id.Equals(id)).ExecuteDeleteAsync(token);
         }
 
-
+        public Task<bool> AnyAsync(Guid id, CancellationToken token = default)
+        {
+            return _dbcontext.Categories.AnyAsync(prop => prop.Id.Equals(id));
+        }
     }
 }

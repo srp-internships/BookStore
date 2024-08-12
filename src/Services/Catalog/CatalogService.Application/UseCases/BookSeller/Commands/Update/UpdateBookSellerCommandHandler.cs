@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CatalogService.Contracts;
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Interfaces;
-using CatalogService.Infostructure;
+using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Application.Interfaces.UnitOfWork;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CatalogService.Application.Exceptions;
 
 namespace CatalogService.Application.UseCases
 {
@@ -31,6 +32,11 @@ namespace CatalogService.Application.UseCases
             await _validator.ValidateAndThrowAsync(request, token);
 
             var bookSeller = await _sellerRepository.GetByIdAsync(request.Id, token);
+            if (bookSeller == null)
+            {
+                throw new NotFoundException(nameof(BookSeller));
+            }
+
             bookSeller.Price = request.Price;
             bookSeller.Description = request.Description;
             await _unitOfWork.SaveChangesAsync();

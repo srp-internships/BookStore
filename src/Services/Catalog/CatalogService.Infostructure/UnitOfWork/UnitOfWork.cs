@@ -1,4 +1,5 @@
-﻿using CatalogService.Domain.Interfaces;
+﻿using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Application.Interfaces.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;

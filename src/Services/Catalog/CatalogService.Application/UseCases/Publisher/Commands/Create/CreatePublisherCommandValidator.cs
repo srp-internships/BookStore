@@ -18,10 +18,6 @@ namespace CatalogService.Application.UseCases
                 .MinimumLength(3).WithMessage("Name's length can not be less than 3")
                 .MaximumLength(50).WithMessage("Name's length can not be more than 50");
 
-            RuleFor(prop => prop.Logo)
-                .Must(BeAValidUrl).WithMessage("Incorrect URL")
-                .When(prop => !string.IsNullOrEmpty(prop.Logo));
-
             RuleFor(prop => prop.Address)
                 .NotEmpty().WithMessage("Address can not be empty")
                 .MaximumLength(100).WithMessage("Address must not exceed 100 characters.");

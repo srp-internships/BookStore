@@ -1,5 +1,5 @@
 ﻿
-using CatalogService.Domain.Exceptions;
+using CatalogService.Application.Exceptions;
 using FluentValidation;
 using System.Net;
 using System.Text.Json;

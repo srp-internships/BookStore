@@ -2,9 +2,10 @@
 using AutoMapper;
 using CatalogService.Contracts;
 using CatalogService.Domain.Entities;
-using CatalogService.Domain.Exceptions;
-using CatalogService.Domain.Interfaces;
-using CatalogService.Infostructure;
+using CatalogService.Application.Exceptions;
+using CatalogService.Application.Interfaces.BlobServices;
+using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Application.Interfaces.UnitOfWork;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -15,14 +16,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
-{ 
+{
     public class UpdateBookCommandHandler(
         IBookRepository bookRepository,
         IAuthorRepository authorRepository,
         ICategoryRepository categoryRepository,
         IValidator<UpdateBookCommand> validator,
         IBus bus,
-        IUnitOfWork unitOfWork) : IRequestHandler<UpdateBookCommand>
+        IUnitOfWork unitOfWork,
+        IBlobService blobService) : IRequestHandler<UpdateBookCommand>
     {
         private readonly IBookRepository _bookRepository = bookRepository;
         private readonly IAuthorRepository _authorRepository = authorRepository;
@@ -30,6 +32,7 @@ namespace CatalogService.Application.UseCases
         private readonly IValidator<UpdateBookCommand> _validator = validator;
         private readonly IBus _bus = bus;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IBlobService _blobService = blobService;
 
         public async Task Handle(UpdateBookCommand request, CancellationToken token)
         {
@@ -46,9 +49,14 @@ namespace CatalogService.Application.UseCases
                 throw new NotFoundException(nameof(Author));
             }
 
+            if (request.Image == null)
+                throw new NoFileUploaded();
+
+            var uri = await _blobService.UploadAsync(request.Image.Content, request.Image.ContentType, token);
+
             var book = await _bookRepository.GetByIdAsync(request.BookId, token);
             book.Title = request.Title;
-            book.Image = request.Image;
+            book.Image = uri;
             book.Authors = authorList;
             book.Categories = categoryList;
             book.PublisherId = request.PublisherId;

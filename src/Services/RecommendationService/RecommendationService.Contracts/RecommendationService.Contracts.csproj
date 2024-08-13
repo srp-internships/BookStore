@@ -5,13 +5,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-	<ItemGroup>
-	<PackageReference Include="Grpc.Tools" Version="2.64.0">
-		<PrivateAssets>all</PrivateAssets>
-		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-	</ItemGroup>
-	<ItemGroup>
-		<Protobuf Include="Protos/recommendation.proto" GrpcServices="Both" />
-	</ItemGroup>
 </Project>

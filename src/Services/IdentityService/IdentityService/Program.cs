@@ -3,9 +3,12 @@ using IdentityService.Components;
 using IdentityService.Components.Account;
 using IdentityService.Components.IDS;
 using IdentityService.Data;
+using IdentityService.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Net.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,25 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+
+builder.Services.AddScoped(provider =>
+{
+	var smtpSettings = provider.GetRequiredService<IOptions<SmtpSettings>>().Value;
+
+	var smtpClient = new SmtpClient
+	{
+		Host = smtpSettings.Host,
+		Port = smtpSettings.Port,
+		EnableSsl = smtpSettings.EnableSsl,
+		Credentials = new System.Net.NetworkCredential(smtpSettings.Username, smtpSettings.Password)
+	};
+
+	return smtpClient;
+});
+
+builder.Services.AddScoped<IMailService, MailService>();
 
 builder.Services.AddAuthentication(options =>
 	{
@@ -41,7 +63,7 @@ builder.Services.AddIds(builder.Configuration);
 
 builder.Services.AddMassTransitWithRabbitMq();
 
-builder.Services.AddSingleton<IEmailSender<User>, IdentityNoOpEmailSender>();
+builder.Services.AddScoped<IEmailSender<User>, IdentityEmailSender>();
 
 var app = builder.Build();
 

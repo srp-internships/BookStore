@@ -21,10 +21,5 @@
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\src\Services\OrderService\OrderService.Domain\OrderService.Domain.csproj" />
-		<ProjectReference Include="..\src\Services\OrderService\OrderService.Application\OrderService.Application.csproj" />
-		<ProjectReference Include="..\src\Services\OrderService\OrderService.Infrastructure\OrderService.Infrastructure.csproj" />
-	</ItemGroup>
 
 </Project>

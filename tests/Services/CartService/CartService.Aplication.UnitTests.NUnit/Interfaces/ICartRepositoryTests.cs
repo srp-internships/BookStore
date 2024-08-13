@@ -1,4 +1,4 @@
-﻿using CartService.Aplication.Interfaces;
+﻿using CartService.Aplication.Commons.Interfaces;
 using CartService.Domain.Entities;
 using Moq;
 using System;

@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CartService.Aplication.Commons.DTOs;
+using CartService.Aplication.Commons.Interfaces;
 using CartService.Domain.Entities;
-using CartService.Aplication.Interfaces;
-using CartService.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CartService.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
@@ -17,49 +17,47 @@ namespace CartService.Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<ActionResult<Cart>> GetCart(Guid userId)
+        public async Task<IActionResult> GetCartByUserIdAsync(Guid userId)
         {
-            var cart = await _cartService.GetCartAsync(userId);
-            if (cart == null)
-            {
-                return NotFound();
-            }
+            var cart = await _cartService.GetCartByUserIdAsync(userId);
             return Ok(cart);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> AddCart([FromBody] Cart cart)
+        [HttpPost("{userId}/items")]
+        public async Task<IActionResult> AddToCartAsync(Guid userId, [FromBody] AddToCartRequest request)
         {
-            await _cartService.AddCartAsync(cart);
-            return CreatedAtAction(nameof(GetCart), new { userId = cart.UserId }, cart);
-        }
-
-        [HttpPost("addOrUpdateItem")]
-        public async Task<ActionResult> AddOrUpdateCartItem([FromBody] CartItem cartItem)
-        {
-            await _cartService.AddOrUpdateCartItemAsync(cartItem);
+            await _cartService.AddToCartAsync(userId, request);
             return NoContent();
         }
 
-        [HttpPut("updateItemQuantity/{cartItemId}")]
-        public async Task<ActionResult> UpdateItemQuantity(Guid cartItemId, [FromBody] int quantity)
+        [HttpPut("items/{cartItemId}")]
+        public async Task<IActionResult> UpdateCartItemQuantityAsync(Guid cartItemId, [FromQuery] int quantity)
         {
-            await _cartService.UpdateItemQuantityAsync(cartItemId, quantity);
+            await _cartService.UpdateCartItemQuantityAsync(cartItemId, quantity);
             return NoContent();
         }
 
-        [HttpDelete("removeItem/{cartItemId}")]
-        public async Task<ActionResult> RemoveItemFromCart(Guid cartItemId)
+        [HttpDelete("items/{cartItemId}")]
+        public async Task<IActionResult> RemoveCartItemAsync(Guid cartItemId)
         {
-            await _cartService.RemoveItemFromCartAsync(cartItemId);
+            await _cartService.RemoveCartItemAsync(cartItemId);
             return NoContent();
         }
 
-        [HttpDelete("clearCart/{cartId}")]
-        public async Task<ActionResult> ClearCart(Guid cartId)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> ClearCartAsync(Guid userId)
         {
-            await _cartService.ClearCartAsync(cartId);
+            await _cartService.ClearCartAsync(userId);
             return NoContent();
+        }
+
+        [HttpGet("{userId}/total")]
+        public async Task<IActionResult> GetTotalPriceAsync(Guid userId)
+        {
+            var totalPrice = await _cartService.GetTotalPriceAsync(userId);
+            return Ok(totalPrice);
         }
     }
 }
+
+

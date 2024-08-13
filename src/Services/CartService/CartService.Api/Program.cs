@@ -1,12 +1,12 @@
-using CartService.Aplication.Interfaces;
 using CartService.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using CartService.Infrastructure.Services;
 using MassTransit;
 using System.Text.Json.Serialization;
 using CartService.Consumers.Books;
 using CartService.Consumers.BookSellers;
 using CartService.Api.Middlewares;
+using CartService.Api;
+using CartService.Aplication.Commons.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,8 +62,9 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMyServices();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddMyServices();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
@@ -105,6 +106,7 @@ app.UseHttpsRedirection();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<ApplicationKeyMiddleware>();
 app.UseMiddleware<EndpointListenerMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

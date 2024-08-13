@@ -12,4 +12,3 @@ public enum OrderStatus
     PaymentProcessing,
     ShipmentProcessing
 }
-    

@@ -20,12 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\OrderService\OrderService.IntegrationEvents\OrderService.IntegrationEvents.csproj" />
     <ProjectReference Include="..\ShipmentService.Aplication\ShipmentService.Aplication.csproj" />
     <ProjectReference Include="..\ShipmentService.Domain\ShipmentService.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
 </Project>

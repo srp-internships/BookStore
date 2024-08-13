@@ -23,7 +23,7 @@ namespace CartService.Api.Middlewares
             {
                 httpContext.Response.ContentType = "application/json";
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                object messageInfo = null;
+                object messageInfo =null;
 #if DEBUG
                 messageInfo = new
                 {

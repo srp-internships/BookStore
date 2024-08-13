@@ -11,16 +11,16 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Queries.GetAll
 {
     public class GetAllShipmentsQueryHandler : IRequestHandler<GetShipmentsQuery, IEnumerable<Shipment>>
     {
-        private readonly IShipmentRepository _shipmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllShipmentsQueryHandler(IShipmentRepository shipmentRepository)
+        public GetAllShipmentsQueryHandler(IUnitOfWork unitOfWork)
         {
-            _shipmentRepository = shipmentRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<Shipment>> Handle(GetShipmentsQuery request, CancellationToken cancellationToken)
         {
-            return await _shipmentRepository.GetAllShipmentsAsync();
+            return await _unitOfWork.Shipments.GetAllShipmentsAsync();
         }
     }
 }

@@ -14,14 +14,14 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.CQRS.Shipments.Queries.GetB
     [TestFixture]
     public class GetShipmentByIdQueryHandlerTests
     {
-        private Mock<IShipmentRepository>? _shipmentRepositoryMock;
+        private Mock<IUnitOfWork>? _unitOfWork;
         private GetShipmentByIdQueryHandler _handler;
 
         [SetUp]
         public void SetUp()
         {
-            _shipmentRepositoryMock = new Mock<IShipmentRepository>();
-            _handler = new GetShipmentByIdQueryHandler(_shipmentRepositoryMock.Object);
+            _unitOfWork = new Mock<IUnitOfWork>();
+            _handler = new GetShipmentByIdQueryHandler(_unitOfWork.Object);
         }
         [Test]
         public async Task Handle_ShouldReturnShipment_WhenFound()
@@ -33,8 +33,8 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.CQRS.Shipments.Queries.GetB
                 ShipmentId = shipmentId,
 
             };
-            _shipmentRepositoryMock
-                .Setup(r => r.GetShipmentByIdAsync(shipmentId))
+            _unitOfWork
+                .Setup(r => r.Shipments.GetShipmentByIdAsync(shipmentId))
                 .ReturnsAsync(shipment);
             var query=new GetShipmentByIdQuery(shipmentId);
 
@@ -51,8 +51,8 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.CQRS.Shipments.Queries.GetB
         {
             //Arrage
             var  shipmentId=Guid.NewGuid();
-            _shipmentRepositoryMock
-                .Setup(r => r.GetShipmentByIdAsync(shipmentId))
+            _unitOfWork
+                .Setup(r => r.Shipments.GetShipmentByIdAsync(shipmentId))
                 .ReturnsAsync((Shipment)null);
 
             var query =new GetShipmentByIdQuery(shipmentId);

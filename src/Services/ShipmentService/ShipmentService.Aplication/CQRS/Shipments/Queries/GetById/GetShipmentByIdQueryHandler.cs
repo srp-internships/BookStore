@@ -11,16 +11,16 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Queries.GetById
 {
     public class GetShipmentByIdQueryHandler : IRequestHandler<GetShipmentByIdQuery, Shipment>
     {
-        private readonly IShipmentRepository _shipmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetShipmentByIdQueryHandler(IShipmentRepository shipmentRepository)
+        public GetShipmentByIdQueryHandler(IUnitOfWork unitOfWork)
         {
-            _shipmentRepository = shipmentRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Shipment> Handle(GetShipmentByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _shipmentRepository.GetShipmentByIdAsync(request.ShipmentId);
+            return await _unitOfWork.Shipments.GetShipmentByIdAsync(request.ShipmentId);
         }
     }
 }

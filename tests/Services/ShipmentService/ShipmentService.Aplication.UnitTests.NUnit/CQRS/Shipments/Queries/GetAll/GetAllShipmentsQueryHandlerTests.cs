@@ -13,14 +13,14 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.CQRS.Shipments.Queries.GetA
     [TestFixture]
     public class GetAllShipmentsQueryHandlerTests
     {
-        private Mock<IShipmentRepository> _shipmentRepositoryMock;
+        private Mock<IUnitOfWork> _unitOfWork;
         private GetAllShipmentsQueryHandler _handler;
 
         [SetUp]
         public void Setup()
         {
-            _shipmentRepositoryMock = new Mock<IShipmentRepository>();
-            _handler = new GetAllShipmentsQueryHandler(_shipmentRepositoryMock.Object);
+            _unitOfWork = new Mock<IUnitOfWork>();
+            _handler = new GetAllShipmentsQueryHandler(_unitOfWork.Object);
         }
 
         [Test]
@@ -33,8 +33,8 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.CQRS.Shipments.Queries.GetA
                 new Shipment { ShipmentId = Guid.NewGuid() }
             };
 
-            _shipmentRepositoryMock
-                .Setup(r => r.GetAllShipmentsAsync())
+            _unitOfWork
+                .Setup(r => r.Shipments.GetAllShipmentsAsync())
                 .ReturnsAsync(shipments);
 
             var query = new GetShipmentsQuery();
@@ -52,8 +52,8 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.CQRS.Shipments.Queries.GetA
         public async Task Handle_ShouldReturnEmptyList_WhenNoShipmentsFound()
         {
             // Arrange
-            _shipmentRepositoryMock
-                .Setup(r => r.GetAllShipmentsAsync())
+            _unitOfWork
+                .Setup(r => r.Shipments.GetAllShipmentsAsync())
                 .ReturnsAsync(new List<Shipment>());
 
             var query = new GetShipmentsQuery();

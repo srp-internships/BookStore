@@ -1,15 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
+﻿using Moq;
 using ShipmentService.Aplication.Interfaces;
 using ShipmentService.Domain.Entities.Shipments;
-using ShipmentService.Domain.Enums;
-using ShipmentService.Infrastructure.Persistence.DbContexts;
-using ShipmentService.Infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShipmentService.Aplication.UnitTests.NUnit.Interfaces
 {
@@ -85,19 +76,6 @@ namespace ShipmentService.Aplication.UnitTests.NUnit.Interfaces
 
             // Assert
             _shipmentRepositoryMock.Verify(repo => repo.UpdateShipmentAsync(shipment), Times.Once);
-        }
-
-        [Test]
-        public async Task SaveChangesAsync_ShouldSaveChanges()
-        {
-            // Arrange
-            _shipmentRepositoryMock.Setup(repo => repo.SaveChangesAsync()).Returns(Task.CompletedTask);
-
-            // Act
-            await _shipmentRepositoryMock.Object.SaveChangesAsync();
-
-            // Assert
-            _shipmentRepositoryMock.Verify(repo => repo.SaveChangesAsync(), Times.Once);
         }
     }
 }

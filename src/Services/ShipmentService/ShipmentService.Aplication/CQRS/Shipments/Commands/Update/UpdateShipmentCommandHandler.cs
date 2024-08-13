@@ -11,18 +11,18 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Update
 {
     public class UpdateShipmentCommandHandler : IRequestHandler<UpdateShipmentCommand, Unit>
     {
-        private readonly IShipmentRepository _shipmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ILogger<UpdateShipmentCommandHandler> _logger;
 
         public UpdateShipmentCommandHandler(
-            IShipmentRepository shipmentRepository,
+            IUnitOfWork unitOfWork,
             IMapper mapper,
             IPublishEndpoint publishEndpoint,
             ILogger<UpdateShipmentCommandHandler> logger)
         {
-            _shipmentRepository = shipmentRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
             _logger = logger;
@@ -32,44 +32,52 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Update
         {
             try
             {
-                // Проверка допустимых значений статуса
+                _logger.LogInformation($"Handling UpdateShipmentCommand for ShipmentId: {request.ShipmentId}");
+
                 if (!IsValidStatus(request.Status.ToDomainEnum()))
                 {
                     _logger.LogError($"Invalid status value: {request.Status}");
                     throw new ArgumentOutOfRangeException(nameof(request.Status), "Invalid status value");
                 }
 
-                // Получение сущности доставки
-                var shipment = await _shipmentRepository.GetShipmentByIdAsync(request.ShipmentId);
+                var shipment = await _unitOfWork.Shipments.GetShipmentByIdAsync(request.ShipmentId);
+
                 if (shipment == null)
                 {
                     _logger.LogError($"Shipment with ID {request.ShipmentId} not found.");
-                    throw new Exception("Shipment not found");
+                    throw new KeyNotFoundException("Shipment not found");
                 }
 
-                // Сохранение предыдущего статуса
                 var previousStatus = shipment.Status;
 
-                // Обновление сущности с использованием AutoMapper
                 _mapper.Map(request, shipment);
 
-                // Сохранение изменений в репозитории
-                await _shipmentRepository.UpdateShipmentAsync(shipment);
-                await _shipmentRepository.SaveChangesAsync();
+                _logger.LogInformation($"Updating shipment: {shipment.ShipmentId}, Status: {shipment.Status}");
 
-                // Проверка на изменение статуса и публикация события, если статус стал Shipped
-                if (previousStatus != Status.Shipped && shipment.Status == Status.Shipped)
+                 await _unitOfWork.Shipments.UpdateShipmentAsync(shipment);
+
+                _logger.LogInformation("Saving changes to the database");
+
+                var result = await _unitOfWork.CompleteAsync();
+
+                if (result <= 0)
+                {
+                    _logger.LogError("No changes were saved to the database");
+                    throw new Exception("Failed to save changes to the database");
+                }
+
+                _logger.LogInformation("Changes saved to the database");
+
+                if (previousStatus != Status.Delivered && shipment.Status == Status.Delivered)
                 {
                     var shipmentUpdatedEvent = new ShipmentUpdatedEvent(
                         ShipmentId: shipment.ShipmentId,
                         OrderId: shipment.OrderId,
                         Status: shipment.Status.ToIntegrationEnum(),
                         StatusChangedDateTime: DateTime.UtcNow,
-                        Message: "Shipment status updated to Shipped"
+                        Message: $"Shipment status updated to {shipment.Status.ToIntegrationEnum()}"
                     );
-
                     await _publishEndpoint.Publish(shipmentUpdatedEvent);
-
                     _logger.LogInformation($"Published ShipmentUpdatedEvent for ShipmentId {shipment.ShipmentId}");
                 }
 
@@ -81,7 +89,6 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Update
                 throw;
             }
         }
-
         private bool IsValidStatus(ShipmentService.Domain.Enums.Status status)
         {
             return Enum.IsDefined(typeof(ShipmentService.Domain.Enums.Status), status);

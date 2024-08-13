@@ -22,22 +22,13 @@ namespace ShipmentService.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateShipment(Guid id, [FromBody] UpdateShipmentCommand command)
         {
-            try
+            if (id != command.ShipmentId)
             {
-                await _mediator.Send(command);
-                return Ok("Updated successfully");
+                return BadRequest("ID mismatch.");
             }
-            catch (Exception ex)
-            {
-                if (id != command.ShipmentId && !IsValidStatus(command.Status.ToDomainEnum()))
-                {
-                    return BadRequest("ID mismatch or Invalid status value");
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                };
-            }
+
+            await _mediator.Send(command);
+            return Ok("Updated successfully");
         }
 
         // GET api/shipments/{id}
@@ -53,21 +44,9 @@ namespace ShipmentService.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllShipments()
         {
-            try
-            {
-                var query = new GetShipmentsQuery();
-                var shipments = await _mediator.Send(query);
-                return Ok(shipments);
-            }
-            catch (Exception ex)
-            {
-                return NotFound("Shipments not found. ");
-            }
-            
-        }
-        private bool IsValidStatus(ShipmentService.Domain.Enums.Status status)
-        {
-            return Enum.IsDefined(typeof(ShipmentService.Domain.Enums.Status), status);
+            var query = new GetShipmentsQuery();
+            var shipments = await _mediator.Send(query);
+            return Ok(shipments);
         }
     }
 }

@@ -10,10 +10,7 @@ namespace ShipmentService.Aplication.Common.Mappings
     {
         public ShipmentMappings() 
         {
-            CreateMap<UpdateShipmentCommand, Shipment>()
-            .ForMember(dest => dest.ShipmentId, opt => opt.MapFrom(src => src.ShipmentId))
-            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-            .ForMember(dest => dest.UpdateShipmentStatus, opt => opt.MapFrom(src => src.UpdatedStatusDateTime));
+            CreateMap<UpdateShipmentCommand, Shipment>();
             CreateMap<Shipment, GetShipmentByIdQuery>()
                 .ReverseMap();
             CreateMap<Shipment, GetShipmentsQuery>()

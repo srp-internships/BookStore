@@ -1,7 +1,12 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
-app.MapGet("/", () => "Hello World!");
-app.MapGet("/books", () => "This book");
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+builder.Services.AddOcelot();
+
+var app = builder.Build();
+await app.UseOcelot();
 
 app.Run();

@@ -3,5 +3,5 @@
 public interface IUnitOfWork
 {
     IOrderRepository OrderRepository { get; }
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

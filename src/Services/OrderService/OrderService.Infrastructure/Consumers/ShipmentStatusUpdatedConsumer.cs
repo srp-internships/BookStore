@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using OrderService.Application.Common.Extensions;
+using OrderService.Application.Common.Interfaces.Data;
 using OrderService.Domain.Entities;
 using OrderService.IntegrationEvents;
 using ShipmentService.IntegrationEvent;
@@ -11,15 +12,18 @@ public class ShipmentStatusUpdatedConsumer : IConsumer<ShipmentUpdatedEvent>
 {
     private readonly ILogger<ShipmentStatusUpdatedConsumer> _logger;
     private readonly ApplicationDbContext _context;
-    IPublishEndpoint _publishEndpoint;
+    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IUnitOfWork _unitOfWork;
 
     public ShipmentStatusUpdatedConsumer(ILogger<ShipmentStatusUpdatedConsumer> logger,
         ApplicationDbContext context,
-        IPublishEndpoint publishEndpoint)
+        IPublishEndpoint publishEndpoint,
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _context = context;
         _publishEndpoint = publishEndpoint;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task Consume(ConsumeContext<ShipmentUpdatedEvent> context)
@@ -49,7 +53,7 @@ public class ShipmentStatusUpdatedConsumer : IConsumer<ShipmentUpdatedEvent>
             shipment.Message = message.Message;
         }
 
-        await _context.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         var order = await _context.Orders.FindAsync(message.OrderId);
 
@@ -58,7 +62,7 @@ public class ShipmentStatusUpdatedConsumer : IConsumer<ShipmentUpdatedEvent>
             if (shipmentStatus == Domain.Enums.ShipmentStatus.Shipped)
             {
                 order.Status = Domain.Enums.OrderStatus.ShipmentProcessing;
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 await _publishEndpoint.Publish(new OrderStatusUpdatedIntegrationEvent(shipment.OrderId, OrderStatus.ShipmentProcessing));
                 _logger.LogInformation($"Order {message.OrderId} shipped and processing to be delivered.");
@@ -66,7 +70,7 @@ public class ShipmentStatusUpdatedConsumer : IConsumer<ShipmentUpdatedEvent>
             else if (shipmentStatus == Domain.Enums.ShipmentStatus.Delivered)
             {
                 order.Status = Domain.Enums.OrderStatus.Completed;
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 await _publishEndpoint.Publish(new OrderStatusUpdatedIntegrationEvent(shipment.OrderId, OrderStatus.Completed));
                 _logger.LogInformation($"Order {message.OrderId} has been delivered and successfully completed.");

@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using OrderService.Application.Common.Extensions;
+using OrderService.Application.Common.Interfaces.Data;
 using OrderService.Domain.Entities;
 using OrderService.IntegrationEvents;
 using PaymentService.IntegrationEvents;
@@ -13,14 +14,17 @@ public class PaymentStatusUpdatedConsumer : IConsumer<PaymentRequestProcessedEve
     private readonly ILogger<PaymentStatusUpdatedConsumer> _logger;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ApplicationDbContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
     public PaymentStatusUpdatedConsumer(ILogger<PaymentStatusUpdatedConsumer> logger,
         IPublishEndpoint publishEndpoint,
-        ApplicationDbContext dbContext)
+        ApplicationDbContext dbContext,
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _publishEndpoint = publishEndpoint;
         _context = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task Consume(ConsumeContext<PaymentRequestProcessedEvent> context)
@@ -48,7 +52,7 @@ public class PaymentStatusUpdatedConsumer : IConsumer<PaymentRequestProcessedEve
             payment.Message = message.Message?.ToString();
         }
 
-        await _context.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         var order = await _context.Orders.FindAsync(message.OrderId);
 
@@ -57,7 +61,7 @@ public class PaymentStatusUpdatedConsumer : IConsumer<PaymentRequestProcessedEve
             if (paymentStatus == Domain.Enums.PaymentStatus.Failed)
             {
                 order.Status = Domain.Enums.OrderStatus.Failed;
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 await _publishEndpoint.Publish(new OrderStatusUpdatedIntegrationEvent(payment.OrderId, OrderStatus.Failed));
                 _logger.LogInformation($"Order {message.OrderId} payment failed and updated to failed status.");
@@ -65,7 +69,7 @@ public class PaymentStatusUpdatedConsumer : IConsumer<PaymentRequestProcessedEve
             else if (paymentStatus == Domain.Enums.PaymentStatus.Succeeded)
             {
                 order.Status = Domain.Enums.OrderStatus.ShipmentProcessing;
-                await _context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
 
                 await _publishEndpoint.Publish(new OrderStatusUpdatedIntegrationEvent(payment.OrderId, OrderStatus.ShipmentProcessing));
                 _logger.LogInformation($"Order {message.OrderId} has been paid successfully and processed to shipment.");

@@ -24,6 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Services\CartService\CartService.Aplication\CartService.Aplication.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Services\CartService\CartService.Domain\CartService.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 

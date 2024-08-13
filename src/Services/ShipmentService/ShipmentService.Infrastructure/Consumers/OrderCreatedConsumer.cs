@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using MassTransit.SagaStateMachine;
 using Microsoft.Extensions.Logging;
 using OrderService.IntegrationEvents;
 using ShipmentService.Aplication.Common.Extentions;
@@ -27,7 +26,7 @@ namespace ShipmentService.Infrastructure.Consumers
                 var orderEvent = context.Message;
 
                 if (orderEvent.Status == OrderService.IntegrationEvents.OrderStatus.ShipmentProcessing
-                    && orderEvent.ShippingAddress!=null)
+                    && orderEvent.ShippingAddress != null)
                 {
                     var shipment = new Shipment
                     {
@@ -43,7 +42,7 @@ namespace ShipmentService.Infrastructure.Consumers
                         },
                         Status = Status.Pending,
                         OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status),
-                        Items = orderEvent.OrderItems.Select(item => new ShipmentItem
+                        Items = orderEvent.Items.Select(item => new ShipmentItem
                         {
                             ItemId = item.BookId,
                             BookName = item.Title,

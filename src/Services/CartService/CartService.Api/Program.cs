@@ -1,12 +1,13 @@
-using CartService.Infrastructure.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
-using MassTransit;
-using System.Text.Json.Serialization;
+using CartService.Api;
+using CartService.Api.Middlewares;
+using CartService.Aplication.Commons.Interfaces;
 using CartService.Consumers.Books;
 using CartService.Consumers.BookSellers;
-using CartService.Api.Middlewares;
-using CartService.Api;
-using CartService.Aplication.Commons.Interfaces;
+using CartService.Infrastructure.Persistence.Contexts;
+using CartService.Infrastructure.Repositories;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,7 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<BookCreatedConsumer>();
     x.AddConsumer<PriceCreatedConsumer>();
     x.AddConsumer<BookUpdatedConsumer>();
-    x.AddConsumer<PriceUpdatedConsumer>(); 
+    x.AddConsumer<PriceUpdatedConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
@@ -51,7 +52,7 @@ builder.Services.AddMassTransit(x =>
 
         cfg.ReceiveEndpoint("price-updated-event-queue", e =>
         {
-            e.ConfigureConsumer<PriceUpdatedConsumer>(context); 
+            e.ConfigureConsumer<PriceUpdatedConsumer>(context);
         });
     });
 });

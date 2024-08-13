@@ -6,10 +6,6 @@ public record OrderProcessedIntegrationEvent(Guid OrderId, Guid CustomerId, Addr
 public record Address(string FirstName, string LastName, string EmailAddress, string Country, string State, string Street);
 
 public record OrderItem(Guid BookId, string Title, Guid SellerId, int Quantity, decimal Price);
-public record OrderProcessedIntegrationEvent(Guid OrderId, Guid CustomerId, Address ShippingAddress, 
-    OrderStatus Status, List<OrderItem> OrderItems, decimal TotalPrice);
-public record Address(string FirstName, string LastName, string EmailAddress, string Country, string State, string Street);
-public record OrderItem (Guid BookId,string Title ,Guid SellerId, int Quantity, decimal Price);
 
 public enum OrderStatus
 {

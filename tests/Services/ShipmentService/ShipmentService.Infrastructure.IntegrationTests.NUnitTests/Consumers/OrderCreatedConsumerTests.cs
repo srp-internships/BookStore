@@ -5,11 +5,6 @@ using Moq;
 using OrderService.IntegrationEvents;
 using ShipmentService.Infrastructure.Consumers;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShipmentService.Infrastructure.IntegrationTests.xUnitTests.Consumers
 {
@@ -72,9 +67,9 @@ namespace ShipmentService.Infrastructure.IntegrationTests.xUnitTests.Consumers
             Assert.Equal(orderEvent.ShippingAddress.State, shipment.ShippingAddress.City);
             Assert.Equal(orderEvent.ShippingAddress.Country, shipment.ShippingAddress.Country);
             Assert.Single(shipment.Items);
-            Assert.Equal(orderEvent.OrderItems[0].BookId, shipment.Items[0].ItemId);
-            Assert.Equal(orderEvent.OrderItems[0].Title, shipment.Items[0].BookName);
-            Assert.Equal(orderEvent.OrderItems[0].Quantity, shipment.Items[0].Quantity);
+            Assert.Equal(orderEvent.Items[0].BookId, shipment.Items[0].ItemId);
+            Assert.Equal(orderEvent.Items[0].Title, shipment.Items[0].BookName);
+            Assert.Equal(orderEvent.Items[0].Quantity, shipment.Items[0].Quantity);
         }
     }
 }

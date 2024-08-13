@@ -2,7 +2,8 @@
 using CatalogService.Application.Mappers;
 using CatalogService.Application.Models;
 using CatalogService.Application.UseCases;
-using CatalogService.Domain.Entities;
+using CatalogService.WebApi.Attrtibutes;
+using System.ComponentModel.DataAnnotations;
 
 namespace CatalogService.WebApi.Dto
 {

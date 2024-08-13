@@ -34,7 +34,7 @@ namespace PaymentService.IntegrationTests.Orders.Events
                 new Address("", "", "", "", "", ""),
                 OrderStatus.PaymentProcessing,
                 [
-                    new(Guid.NewGuid(), seller.UserId, 5, 3),
+                    new(Guid.NewGuid(), "", seller.UserId, 5, 3m),
                 ],
                 55);
 
@@ -63,7 +63,7 @@ namespace PaymentService.IntegrationTests.Orders.Events
                 new Address("", "", "", "", "", ""),
                 OrderStatus.PaymentProcessing,
                 [
-                    new(Guid.NewGuid(), seller.UserId, 5, 3),
+                    new(Guid.NewGuid(), "", seller.UserId, 5, 3),
                 ],
                 55);
 
@@ -93,7 +93,7 @@ namespace PaymentService.IntegrationTests.Orders.Events
                 new Address("", "", "", "", "", ""),
                 OrderStatus.PaymentProcessing,
                 [
-                    new(Guid.NewGuid(), Guid.NewGuid(), 5, 3),
+                    new(Guid.NewGuid(), "", Guid.NewGuid(), 5, 3),
                 ],
                 55);
 

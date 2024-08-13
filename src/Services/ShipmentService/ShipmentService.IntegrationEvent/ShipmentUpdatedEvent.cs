@@ -1,5 +1,3 @@
-﻿
-
 namespace ShipmentService.IntegrationEvent
 {
     public sealed record ShipmentUpdatedEvent

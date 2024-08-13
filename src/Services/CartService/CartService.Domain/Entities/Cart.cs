@@ -6,7 +6,7 @@ namespace CartService.Domain.Entities
     public class Cart
     {
         [Key]
-        public Guid Id  { get; set; } 
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public virtual List<CartItem> Items { get; set; } = new List<CartItem>();
         [NotMapped]

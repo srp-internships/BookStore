@@ -2,6 +2,7 @@ using AnalyticsService.Infrastructure.Data;
 using AnalyticsService.Infrastructure.MassTransit;
 using AnalyticsService.Infrastructure.Repositories;
 using AnalyticsService.Application.Interfaces;
+using AnalyticsServiceApi;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMassTransitConfiguration();
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionHandlerFilter>());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddDbContext<AnalyticsDbContext>(options =>

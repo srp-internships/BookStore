@@ -31,9 +31,10 @@ namespace AnalyticsServiceApi.Controllers
             {
                 return NotFound();
             }
+
             return Ok(bookSale);
         }
-        
+
         [HttpGet("api/analytics/salesreport")]
         public async Task<IActionResult> GetSalesReport(DateTime startDate, DateTime endDate)
         {
@@ -44,7 +45,6 @@ namespace AnalyticsServiceApi.Controllers
             }
             catch (Exception ex)
             {
-                
                 return BadRequest(ex.Message);
             }
         }
@@ -91,6 +91,5 @@ namespace AnalyticsServiceApi.Controllers
             await _bookSaleRepository.DeleteBookSaleAsync(id);
             return NoContent();
         }
-
     }
 }

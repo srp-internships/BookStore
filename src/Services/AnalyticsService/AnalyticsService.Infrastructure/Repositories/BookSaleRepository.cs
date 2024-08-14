@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AnalyticService.Domain.Exceptions;
 using AnalyticsService.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
@@ -45,11 +46,8 @@ namespace AnalyticsService.Infrastructure.Repositories
         public async Task DeleteBookSaleAsync(Guid id)
         {
             var bookSale = await _context.BookSales.FindAsync(id);
-            if (bookSale != null)
-            {
-                _context.BookSales.Remove(bookSale);
-                await _context.SaveChangesAsync();
-            }
+            _context.BookSales.Remove(bookSale);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<AnalyticsReport>> GetSalesReportByDateAsync(DateTime startDate, DateTime endDate)

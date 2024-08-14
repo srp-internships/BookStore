@@ -80,6 +80,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsService.Applicatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsService.Infrastructure", "src\Services\AnalyticsService\AnalyticsService.Infrastructure\AnalyticsService.Infrastructure.csproj", "{8695196C-58C9-421A-976D-2B57584E7DA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticService.Contracts", "src\Services\AnalyticsService\AnalyticService.Contracts\AnalyticService.Contracts.csproj", "{FFBEA219-C3A5-4019-9F2C-A37F2700B538}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -186,6 +188,10 @@ Global
 		{8695196C-58C9-421A-976D-2B57584E7DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8695196C-58C9-421A-976D-2B57584E7DA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8695196C-58C9-421A-976D-2B57584E7DA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFBEA219-C3A5-4019-9F2C-A37F2700B538}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFBEA219-C3A5-4019-9F2C-A37F2700B538}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFBEA219-C3A5-4019-9F2C-A37F2700B538}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFBEA219-C3A5-4019-9F2C-A37F2700B538}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +234,7 @@ Global
 		{35B107F6-DC38-49E1-8387-09D1131AF173} = {24360CC8-42E1-4643-9891-1B04CE72993C}
 		{9877E5A0-89E2-49FF-9DB2-71E88D61BC81} = {24360CC8-42E1-4643-9891-1B04CE72993C}
 		{8695196C-58C9-421A-976D-2B57584E7DA9} = {24360CC8-42E1-4643-9891-1B04CE72993C}
+		{FFBEA219-C3A5-4019-9F2C-A37F2700B538} = {24360CC8-42E1-4643-9891-1B04CE72993C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

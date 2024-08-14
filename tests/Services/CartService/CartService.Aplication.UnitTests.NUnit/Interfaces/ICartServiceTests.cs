@@ -1,4 +1,5 @@
-﻿using CartService.Aplication.Commons.Interfaces;
+﻿using CartService.Aplication.Commons.DTOs;
+using CartService.Aplication.Commons.Interfaces;
 using CartService.Domain.Entities;
 using Moq;
 using System;
@@ -19,9 +20,8 @@ namespace CartService.Aplication.UnitTests.NUnit.Interfaces
         {
             _cartServiceMock = new Mock<ICartService>();
         }
-        #region GetCartAsync_ShouldReturnCart
         [Test]
-        public async Task GetCartAsync_ShouldReturnCart()
+        public async Task GetCartByUserIdAsync_ShouldReturnCart()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -32,119 +32,89 @@ namespace CartService.Aplication.UnitTests.NUnit.Interfaces
                 Items = new List<CartItem>()
             };
 
-            _cartServiceMock.Setup(service => service.GetCartAsync(userId))
+            _cartServiceMock.Setup(service => service.GetCartByUserIdAsync(userId))
                             .ReturnsAsync(expectedCart);
 
             // Act
-            var result = await _cartServiceMock.Object.GetCartAsync(userId);
+            var result = await _cartServiceMock.Object.GetCartByUserIdAsync(userId);
 
             // Assert
-            Assert.AreEqual(expectedCart, result);
+            Assert.Equals(expectedCart, result);
         }
-        #endregion
-
-        #region AddCartAsync_ShouldAddCart
         [Test]
-        public async Task AddCartAsync_ShouldAddCart()
+        public async Task AddToCartAsync_ShouldNotThrowException()
         {
             // Arrange
-            var cart = new Cart
+            var userId = Guid.NewGuid();
+            var request = new AddToCartRequest
             {
-                Id = Guid.NewGuid(),
-                UserId = Guid.NewGuid(),
-                Items = new List<CartItem>()
-            };
-
-            _cartServiceMock.Setup(service => service.AddCartAsync(cart))
-                            .Returns(Task.CompletedTask);
-
-            // Act
-            await _cartServiceMock.Object.AddCartAsync(cart);
-
-            // Assert
-            _cartServiceMock.Verify(service => service.AddCartAsync(cart), Times.Once);
-        }
-        #endregion
-
-        #region AddOrUpdateCartItemAsync_ShouldAddOrUpdateCartItem
-        [Test]
-        public async Task AddOrUpdateCartItemAsync_ShouldAddOrUpdateCartItem()
-        {
-            // Arrange
-            var cartItem = new CartItem
-            {
-                Id = Guid.NewGuid(),
                 BookId = Guid.NewGuid(),
-                CartId = Guid.NewGuid(),
-                BookName = "Test Book",
-                Price = 10.0m,
                 Quantity = 1
             };
 
-            _cartServiceMock.Setup(service => service.AddOrUpdateCartItemAsync(cartItem))
-                            .Returns(Task.CompletedTask);
-
-            // Act
-            await _cartServiceMock.Object.AddOrUpdateCartItemAsync(cartItem);
-
-            // Assert
-            _cartServiceMock.Verify(service => service.AddOrUpdateCartItemAsync(cartItem), Times.Once);
+            // Act & Assert
+            Assert.DoesNotThrowAsync(() => _cartServiceMock.Object.AddToCartAsync(userId, request));
         }
-        #endregion
-
-        #region UpdateItemQuantityAsync_ShouldUpdateQuantity
         [Test]
-        public async Task UpdateItemQuantityAsync_ShouldUpdateQuantity()
+        public async Task UpdateCartItemQuantityAsync_ShouldNotThrowException()
         {
             // Arrange
             var cartItemId = Guid.NewGuid();
-            var quantity = 5;
+            var quantity = 2;
 
-            _cartServiceMock.Setup(service => service.UpdateItemQuantityAsync(cartItemId, quantity))
-                            .Returns(Task.CompletedTask);
-
-            // Act
-            await _cartServiceMock.Object.UpdateItemQuantityAsync(cartItemId, quantity);
-
-            // Assert
-            _cartServiceMock.Verify(service => service.UpdateItemQuantityAsync(cartItemId, quantity), Times.Once);
+            // Act & Assert
+            Assert.DoesNotThrowAsync(() => _cartServiceMock.Object.UpdateCartItemQuantityAsync(cartItemId, quantity));
         }
-        #endregion
-
-        #region RemovaItemFromCartAsync_ShouldRemoveItem
         [Test]
-        public async Task RemoveItemFromCartAsync_ShouldRemoveItem()
+        public async Task RemoveCartItemAsync_ShouldNotThrowException()
         {
             // Arrange
             var cartItemId = Guid.NewGuid();
 
-            _cartServiceMock.Setup(service => service.RemoveItemFromCartAsync(cartItemId))
-                            .Returns(Task.CompletedTask);
-
-            // Act
-            await _cartServiceMock.Object.RemoveItemFromCartAsync(cartItemId);
-
-            // Assert
-            _cartServiceMock.Verify(service => service.RemoveItemFromCartAsync(cartItemId), Times.Once);
+            // Act & Assert
+            Assert.DoesNotThrowAsync(() => _cartServiceMock.Object.RemoveCartItemAsync(cartItemId));
         }
-        #endregion
-
-        #region ClearCartAsync_ShouldClearCart
         [Test]
-        public async Task ClearCartAsync_ShouldClearCart()
+        public async Task ClearCartAsync_ShouldNotThrowException()
         {
             // Arrange
-            var cartId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
 
-            _cartServiceMock.Setup(service => service.ClearCartAsync(cartId))
-                            .Returns(Task.CompletedTask);
+            // Act & Assert
+            Assert.DoesNotThrowAsync(() => _cartServiceMock.Object.ClearCartAsync(userId));
+        }
+        [Test]
+        public async Task GetTotalPriceAsync_ShouldReturnTotalPrice()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var expectedTotalPrice = 100.0m;
+
+            _cartServiceMock.Setup(service => service.GetTotalPriceAsync(userId))
+                            .ReturnsAsync(expectedTotalPrice);
 
             // Act
-            await _cartServiceMock.Object.ClearCartAsync(cartId);
+            var result = await _cartServiceMock.Object.GetTotalPriceAsync(userId);
 
             // Assert
-            _cartServiceMock.Verify(service => service.ClearCartAsync(cartId), Times.Once);
+            Assert.Equals(expectedTotalPrice, result);
         }
-        #endregion
+        [Test]
+        public async Task IsBookAvailableAsync_ShouldReturnAvailabilityStatus()
+        {
+            // Arrange
+            var bookId = Guid.NewGuid();
+            var expectedAvailability = true;
+
+            _cartServiceMock.Setup(service => service.IsBookAvailableAsync(bookId))
+                            .ReturnsAsync(expectedAvailability);
+
+            // Act
+            var result = await _cartServiceMock.Object.IsBookAvailableAsync(bookId);
+
+            // Assert
+            Assert.Equals(expectedAvailability, result);
+        }
+
     }
 }

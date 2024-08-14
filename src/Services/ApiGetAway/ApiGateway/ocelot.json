@@ -3,6 +3,7 @@
     "BaseUrl": "http://localhost:5281"
   },
   "Routes": [
+    //Post Book
     {
       "DownstreamPathTemplate": "/book",
       "DownstreamScheme": "http",
@@ -13,12 +14,29 @@
         }
       ],
       "UpstreamPathTemplate": "/api/book",
-      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ],
+      "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        "AuthenticationProviderKey": "Bearer"
       }
     },
+    //Put Book by Id
+    {
+      "DownstreamPathTemplate": "/book/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5162
+        }
+      ],
+      "UpstreamPathTemplate": "/api/book/{id}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "book.updated" ]
+      }
+    },
+    //Get Book By Id
     {
       "DownstreamPathTemplate": "/book/{id}",
       "DownstreamScheme": "http",
@@ -31,6 +49,37 @@
       "UpstreamPathTemplate": "/api/book/{id}",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    //Get Books
+    {
+      "DownstreamPathTemplate": "/book",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5162
+        }
+      ],
+      "UpstreamPathTemplate": "/api/book",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    //delete book by id
+    {
+      "DownstreamPathTemplate": "/book/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5162
+        }
+      ],
+      "UpstreamPathTemplate": "/api/book/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "book.deleted" ]
+      }
+    },
+    //Post and Put Category
     {
       "DownstreamPathTemplate": "/category",
       "DownstreamScheme": "http",
@@ -41,8 +90,23 @@
         }
       ],
       "UpstreamPathTemplate": "/api/category",
-      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "POST", "Put" ],
+      "AuthenticationOptions": { "AuthenticationProviderKey": "Bearer" }
     },
+    //Get Categories
+    {
+      "DownstreamPathTemplate": "/category",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5162
+        }
+      ],
+      "UpstreamPathTemplate": "/api/category",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    //Get category by Id
     {
       "DownstreamPathTemplate": "/category/{id}",
       "DownstreamScheme": "http",
@@ -55,6 +119,24 @@
       "UpstreamPathTemplate": "/api/category/{id}",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    //Delete Category By Id
+    {
+      "DownstreamPathTemplate": "/category/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5162
+        }
+      ],
+      "UpstreamPathTemplate": "/api/category/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "category.deleted" ]
+      }
+    },
+    // Post and Put Publisher
     {
       "DownstreamPathTemplate": "/publisher",
       "DownstreamScheme": "http",
@@ -65,12 +147,25 @@
         }
       ],
       "UpstreamPathTemplate": "/api/publisher",
-      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ],
+      "UpstreamHttpMethod": [ "POST", "Put" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        "AuthenticationProviderKey": "Bearer"
       }
     },
+    //Get publishers
+    {
+      "DownstreamPathTemplate": "/publisher",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5162
+        }
+      ],
+      "UpstreamPathTemplate": "/api/publisher",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    //Get publisher by id
     {
       "DownstreamPathTemplate": "/publisher/{id}",
       "DownstreamScheme": "http",
@@ -82,6 +177,20 @@
       ],
       "UpstreamPathTemplate": "/api/publisher/{id}",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+    //Delete publisher by id
+    {
+      "DownstreamPathTemplate": "/publisher/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5162
+        }
+      ],
+      "UpstreamPathTemplate": "/api/publisher/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": {"AuthenticationProviderKey": "Bearer", "AllowedScopes": ["publisher.deleted"]}
     },
     {
       "DownstreamPathTemplate": "/author",
@@ -417,12 +526,12 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "identityservice",
+          "Host": "localhost",
           "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/identity/{everything}",
-      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ]
 }

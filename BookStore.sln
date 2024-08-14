@@ -33,26 +33,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecommendationService.Contracts", "src\Services\RecommendationService\RecommendationService.Contracts\RecommendationService.Contracts.csproj", "{0EB38DA9-1762-47E5-BCD4-B9837B978D1B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Domain", "src\Services\OrderService\OrderService.Domain\OrderService.Domain.csproj", "{71E27116-9E6B-46D1-9298-36B4998F8C76}"
-	ProjectSection(ProjectDependencies) = postProject
-		{26046A41-A2B1-4A22-8879-2923A66D2489} = {26046A41-A2B1-4A22-8879-2923A66D2489}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderService", "OrderService", "{0BBA49D1-3682-416C-834C-3843FAEA5E24}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.IntegrationEvents", "src\Services\OrderService\Orders.IntegrationEvents\Orders.IntegrationEvents.csproj", "{46259BF4-CC1C-4884-9FEB-2C7BE3354D86}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Application", "src\Services\OrderService\OrderService.Application\OrderService.Application.csproj", "{3F874720-BAE8-4C31-8A2A-A6375224C4DF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{71E27116-9E6B-46D1-9298-36B4998F8C76} = {71E27116-9E6B-46D1-9298-36B4998F8C76}
-		{A6EADCBB-788F-4B5B-A376-A84716338719} = {A6EADCBB-788F-4B5B-A376-A84716338719}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Infrastructure", "src\Services\OrderService\OrderService.Infrastructure\OrderService.Infrastructure.csproj", "{988CA0F4-C369-4DC8-8D41-6AF44C7D1FEC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{26046A41-A2B1-4A22-8879-2923A66D2489} = {26046A41-A2B1-4A22-8879-2923A66D2489}
-		{3F874720-BAE8-4C31-8A2A-A6375224C4DF} = {3F874720-BAE8-4C31-8A2A-A6375224C4DF}
-		{A6EADCBB-788F-4B5B-A376-A84716338719} = {A6EADCBB-788F-4B5B-A376-A84716338719}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{6F0690CD-3547-4E0B-9665-7BFFF1587FDF}"
 EndProject

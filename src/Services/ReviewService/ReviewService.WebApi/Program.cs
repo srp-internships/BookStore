@@ -31,16 +31,7 @@ public class Program
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("rabbitmq://localhost", h =>
-                {
-                    h.Username("guest");
-                    h.Password("guest");
-                });
-
-                cfg.ReceiveEndpoint("book-created-event-queue", e =>
-                {
-                    e.ConfigureConsumer<BookCreatedConsumer>(context);
-                });
+                cfg.ConfigureEndpoints(context);
             });
         });
         #endregion

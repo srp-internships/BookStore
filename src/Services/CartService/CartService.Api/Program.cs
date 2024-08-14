@@ -29,31 +29,7 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq://localhost", h =>
-        {
-            h.Username("guest");
-            h.Password("guest");
-        });
-
-        cfg.ReceiveEndpoint("book-created-event-queue", e =>
-        {
-            e.ConfigureConsumer<BookCreatedConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint("price-created-event-queue", e =>
-        {
-            e.ConfigureConsumer<PriceCreatedConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint("book-updated-event-queue", e =>
-        {
-            e.ConfigureConsumer<BookUpdatedConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint("price-updated-event-queue", e =>
-        {
-            e.ConfigureConsumer<PriceUpdatedConsumer>(context);
-        });
+        cfg.ConfigureEndpoints(context);
     });
 });
 #endregion

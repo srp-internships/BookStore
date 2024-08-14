@@ -44,7 +44,7 @@ namespace CatalogService.WebApi.Controllers
             return Ok(bookDto);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         public async Task<IActionResult> Update([FromForm] UpdateBookDto bookDto, CancellationToken token = default)
         {

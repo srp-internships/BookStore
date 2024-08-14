@@ -13,12 +13,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MassTransit;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Configuration;
 
 namespace CatalogService.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             // Adding AutoMapper
             services.AddAutoMapper(config => config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly())));
@@ -38,8 +39,17 @@ namespace CatalogService.Application
             services.AddTransient(typeof(IPipelineBehavior<,>),
                 typeof(ValidationBehavior<,>));
 
-            
 
+            services.AddMassTransit(x =>
+            {
+                //x.UsingInMemory();
+                // Configure RabbitMQ
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(configuration.GetConnectionString("RabbitMq"));
+                });
+            });
+            services.AddMassTransitHostedService();
 
             return services;
         }

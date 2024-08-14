@@ -29,16 +29,7 @@ namespace CatalogService.Infostructure
             services.AddScoped<IBookSellerRepository, BookSellerRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddMassTransit(x =>
-            {
-                //x.UsingInMemory();
-                // Configure RabbitMQ
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("rabbitmq://localhost");
-                });
-            });
-            services.AddMassTransitHostedService();
+            
 
 
             services.AddDbContext<CatalogDbContext>(options =>
@@ -48,11 +39,7 @@ namespace CatalogService.Infostructure
             });
 
             services.AddSingleton<IBlobService, BlobService>();
-            services.AddSingleton(_ => new BlobServiceClient("DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;" +
-                "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;" +
-                "BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1/images;" +
-                "QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1/images;" +
-                "TableEndpoint=http://127.0.0.1:10002/devstoreaccount1/images;"));
+            services.AddSingleton(_ => new BlobServiceClient(configuration.GetConnectionString("BlobStorage")));
 
             return services;
         }

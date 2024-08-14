@@ -1,14 +1,12 @@
 using AutoMapper.Configuration;
 using CatalogService.Application;
 using CatalogService.Application.Mappers;
+using CatalogService.Infostructure;
 using CatalogService.Application.UseCases;
 using CatalogService.Application.Interfaces;
-using CatalogService.Infostructure;
-using CatalogService.Infostructure.Repositories;
 using CatalogService.WebApi.Middleware;
 using FluentValidation;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(config => config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly())));
-builder.Services.AddApplication();
+builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();

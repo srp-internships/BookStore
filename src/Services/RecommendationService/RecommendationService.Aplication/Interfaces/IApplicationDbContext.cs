@@ -12,7 +12,7 @@ namespace RecommendationService.Application.Interfaces
     {
         DbSet<Book> Books { get; set; }
         DbSet<Category> Categories { get; set; }
-        DbSet<BookCategory> BookCategories { get; set; }
+        //DbSet<BookCategory> BookCategories { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

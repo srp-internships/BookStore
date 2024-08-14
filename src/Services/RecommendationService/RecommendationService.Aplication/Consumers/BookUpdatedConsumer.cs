@@ -27,7 +27,7 @@ namespace RecommendationService.Application.Consumers
             if (bookUpdated != null)
             {
                 bookUpdated.AuthorId = bookUpdatedEvent.AuthorIds.FirstOrDefault();
-                bookUpdated.CategoriesIds = bookUpdatedEvent.CategoryIds;
+                //bookUpdated.CategoriesIds = bookUpdatedEvent.CategoryIds;
                 bookUpdated.Title = bookUpdatedEvent.Title;
             }
             else throw new Exception("not this book");

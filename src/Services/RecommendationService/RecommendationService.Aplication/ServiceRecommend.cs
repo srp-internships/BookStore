@@ -25,15 +25,15 @@ namespace RecommendationService.Application
             {
                 throw new RpcException(new Status(StatusCode.NotFound, "Book not found"));
             }
-            var bookCategory = _dbContext.Books.Where(c => c.CategoriesIds == bookRequest.CategoriesIds);
+            //var bookCategory = _dbContext.Books.Where(c => c.CategoriesIds == bookRequest.CategoriesIds);
 
             var popularBooks = new BookListResponse();
 
-            foreach (var item in bookCategory)
-            {
-                popularBooks.BookIds.Add(item.Id.ToString());
+            //foreach (var item in bookCategory)
+            //{
+            //    popularBooks.BookIds.Add(item.Id.ToString());
 
-            }
+            //}
            return popularBooks;
         }
         public override async Task<BookListResponse> GetSimilarBooks(BookRequest request, ServerCallContext context)

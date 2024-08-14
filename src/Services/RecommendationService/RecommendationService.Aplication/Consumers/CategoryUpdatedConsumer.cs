@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RecommendationService.Application.Consumers
 {
-    internal class CategoryUpdatedConsumer : IConsumer<CategoryUpdatedEvent>
+    public class CategoryUpdatedConsumer : IConsumer<CategoryUpdatedEvent>
     {
        
         

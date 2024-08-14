@@ -11,6 +11,6 @@ namespace RecommendationService.Domain.Entities
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
-        public ICollection<BookCategory> BookCategories { get; set; }
+        public List<Book> BookCategories { get; set; }
     }
 }

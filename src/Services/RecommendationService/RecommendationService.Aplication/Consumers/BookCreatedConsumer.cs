@@ -21,19 +21,31 @@ namespace RecommendationService.Application.Consumers
 
         public async Task Consume(ConsumeContext<BookCreatedEvent> context)
         {
-            var bookCreatedEvent = context.Message;
+            try
+            {
+				var bookCreatedEvent = context.Message;
 
-            var newBook = new Book 
-            { 
-            Id= bookCreatedEvent.Id,
-            AuthorId = bookCreatedEvent.AuthorIds.First(),
-            CategoriesIds=bookCreatedEvent.CategoryIds,
-            Title=bookCreatedEvent.Title,
-            };
+                var categories = _dbContext.Categories.Where(i => context.Message.CategoryIds.Contains(i.Id)).ToList();
+				var newBook = new Book
+				{
+					Id = bookCreatedEvent.Id,
+					AuthorId = bookCreatedEvent.AuthorIds.First(),
+					
+                    BookCategories = categories,
+					Title = bookCreatedEvent.Title,
+                    Description = "",
+				};
+
+				_dbContext.Books.Add(newBook);
+
+				await _dbContext.SaveChangesAsync();
+			}
+            catch (Exception ex)
+            {
+
+                throw;
+            }
             
-            _dbContext.Books.Add(newBook);
-            
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

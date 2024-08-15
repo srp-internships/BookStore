@@ -3,6 +3,21 @@
     "BaseUrl": "http://localhost:5281"
   },
   "Routes": [
+    //Authentication Web api
+    {
+      "UpstreamPathTemplate": "/api/Account",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPort": [
+        {
+          "Host": "localhost",
+          "Port": 5252
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Account"
+    },
+
+    //Catalog Web Api
     //Post Book
     {
       "DownstreamPathTemplate": "/book",
@@ -190,8 +205,12 @@
       ],
       "UpstreamPathTemplate": "/api/publisher/{id}",
       "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {"AuthenticationProviderKey": "Bearer", "AllowedScopes": ["publisher.deleted"]}
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "publisher.deleted" ]
+      }
     },
+    //Post and Put Author
     {
       "DownstreamPathTemplate": "/author",
       "DownstreamScheme": "http",
@@ -202,336 +221,400 @@
         }
       ],
       "UpstreamPathTemplate": "/api/author",
-      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ],
+      "UpstreamHttpMethod": [ "Post", "Put" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
     },
+    //Delete author by id
     {
       "DownstreamPathTemplate": "/author/{id}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
+      "DownstreanHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 5162
         }
       ],
       "UpstreamPathTemplate": "/api/author/{id}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/bookseller",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5162
-        }
-      ],
-      "UpstreamPathTemplate": "/api/bookseller",
-      "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
+      "UpstreamHttpMethod": [ "Delete" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
     },
-    {
-      "DownstreamPathTemplate": "/bookseller/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5162
+      //Get Authors
+      {
+        "DownstreamPathTemplate": "/author",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5162
+          }
+        ],
+        "UpstreamPathTemplate": "/api/author",
+        "UpstreamHttpMethod": [ "Get" ]
+      },
+      //Get Author By Id
+      {
+        "DownstreamPathTemplate": "/author/{id}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5162
+          }
+        ],
+        "UpstreamPathTemplate": "/api/author/{id}",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
+      //Post and Put BookSeller
+      {
+        "DownstreamPathTemplate": "/bookseller",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5162
+          }
+        ],
+        "UpstreamPathTemplate": "/api/bookseller",
+        "UpstreamHttpMethod": [ "POST", "PUT" ],
+        "AuthenticationOptions": {
+          "AuthenticationProviderKey": "Bearer",
+          "AllowedScopes": []
         }
-      ],
-      "UpstreamPathTemplate": "/api/bookseller/{id}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    //CartService
-    {
-      "DownstreamPathTemplate": "/api/cart/{userId}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5124
+      },
+      // Delete bookseller by  id
+      {
+        "DownstreamPathTemplate": "/bookseller/{id}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5162
+          }
+        ],
+        "UpstreamPathTemplate": "/api/bookseller/{id}",
+        "UpstreamHttpMethod": [ "Delete" ],
+        "AuthenticationOptions": {
+          "AuthenticationProviderKey": "Bearer",
+          "AllowedScoped": ["bookseller.deleted"]
         }
-      ],
-      "UpstreamPathTemplate": "/cart/{userId}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/cart/{userId}/items",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5124
-        }
-      ],
-      "UpstreamPathTemplate": "/cart/{userId}/items",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/cart/items/{cartItemId}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5124
-        }
-      ],
-      "UpstreamPathTemplate": "/cart/items/{cartItemId}",
-      "UpstreamHttpMethod": [ "PUT", "DELETE" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/cart/{userId}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5124
-        }
-      ],
-      "UpstreamPathTemplate": "/cart/{userId}",
-      "UpstreamHttpMethod": [ "DELETE" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/cart/{userId}/total",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5124
-        }
-      ],
-      "UpstreamPathTemplate": "/cart/{userId}/total",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
+      },
+      // Get BookSellers
+      {
+        "DownstreamPathTemplate": "/bookseller",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5162
+          }
+        ],
+        "UpstreamPathTemplate": "/api/bookseller",
+        "UpstreamHttpMethod": ["Get"]
+      },
+      //Get bookSeller by id
+      {
+        "DownstreamPathTemplate": "/bookseller/{id}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5162
+          }
+        ],
+        "UpstreamPathTemplate": "/api/bookseller/{id}",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
 
-    //PaymentService
-    {
-      "DownstreamPathTemplate": "/api/card/addOrUpdate",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5011
-        }
-      ],
-      "UpstreamPathTemplate": "/card/addOrUpdate",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/card",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5011
-        }
-      ],
-      "UpstreamPathTemplate": "/card",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
+      //CartService Web Api
+      {
+        "DownstreamPathTemplate": "/api/cart/{userId}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5124
+          }
+        ],
+        "UpstreamPathTemplate": "/cart/{userId}",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/cart/{userId}/items",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5124
+          }
+        ],
+        "UpstreamPathTemplate": "/cart/{userId}/items",
+        "UpstreamHttpMethod": [ "POST" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/cart/items/{cartItemId}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5124
+          }
+        ],
+        "UpstreamPathTemplate": "/cart/items/{cartItemId}",
+        "UpstreamHttpMethod": [ "PUT", "DELETE" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/cart/{userId}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5124
+          }
+        ],
+        "UpstreamPathTemplate": "/cart/{userId}",
+        "UpstreamHttpMethod": [ "DELETE" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/cart/{userId}/total",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5124
+          }
+        ],
+        "UpstreamPathTemplate": "/cart/{userId}/total",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
 
-    //ReviewService
-    {
-      "DownstreamPathTemplate": "/api/reviews/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/reviews/{id}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/reviews/book/{bookId}/average-rating",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/reviews/book/{bookId}/average-rating",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/reviews/book/{bookId}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/reviews/book/{bookId}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/reviews/user/{userId}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/reviews/user/{userId}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/reviews",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/reviews",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/reviews/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/reviews/{id}",
-      "UpstreamHttpMethod": [ "DELETE" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/reviews/{id}/user/{userId}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/reviews/{id}/user/{userId}",
-      "UpstreamHttpMethod": [ "DELETE" ]
-    },
+      //PaymentService
+      {
+        "DownstreamPathTemplate": "/api/card/addOrUpdate",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5011
+          }
+        ],
+        "UpstreamPathTemplate": "/card/addOrUpdate",
+        "UpstreamHttpMethod": [ "POST" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/card",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5011
+          }
+        ],
+        "UpstreamPathTemplate": "/card",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
 
-    //ShipmentService
-    {
-      "DownstreamPathTemplate": "/api/shipments/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 3040
-        }
-      ],
-      "UpstreamPathTemplate": "/shipments/{id}",
-      "UpstreamHttpMethod": [ "GET", "PUT" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/shipments",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 3040
-        }
-      ],
-      "UpstreamPathTemplate": "/shipments",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    //OrderService
-    {
-      "DownstreamPathTemplate": "/api/orders",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5023
-        }
-      ],
-      "UpstreamPathTemplate": "/orders",
-      "UpstreamHttpMethod": [ "Get", "Post" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/orders/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5023
-        }
-      ],
-      "UpstreamPathTemplate": "/orders/{id}",
-      "UpstreamHttpMethod": [ "Delete" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/orders/customer/{customerId}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5023
-        }
-      ],
-      "UpstreamPathTemplate": "/orders/customer/{customerId}",
-      "UpstreamHttpMethod": [ "Get" ]
-    },
-    //AnalyticsService
-    {
-      "DownstreamPathTemplate": "/api/analytics",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/analytics",
-      "UpstreamHttpMethod": [ "Get", "Post" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/analytics/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/api/analytics/{id}",
-      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/analytics/salesreport",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/api/analytics/salesreport",
-      "UpstreamHttpMethod": [ "Gat" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/identity/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/api/identity/{everything}",
-      "UpstreamHttpMethod": [ "POST" ]
-    }
+      //ReviewService
+      {
+        "DownstreamPathTemplate": "/api/reviews/{id}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/reviews/{id}",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/reviews/book/{bookId}/average-rating",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/reviews/book/{bookId}/average-rating",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/reviews/book/{bookId}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/reviews/book/{bookId}",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/reviews/user/{userId}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/reviews/user/{userId}",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/reviews",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/reviews",
+        "UpstreamHttpMethod": [ "POST" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/reviews/{id}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/reviews/{id}",
+        "UpstreamHttpMethod": [ "DELETE" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/reviews/{id}/user/{userId}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/reviews/{id}/user/{userId}",
+        "UpstreamHttpMethod": [ "DELETE" ]
+      },
+
+      //ShipmentService
+      {
+        "DownstreamPathTemplate": "/api/shipments/{id}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 3040
+          }
+        ],
+        "UpstreamPathTemplate": "/shipments/{id}",
+        "UpstreamHttpMethod": [ "GET", "PUT" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/shipments",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 3040
+          }
+        ],
+        "UpstreamPathTemplate": "/shipments",
+        "UpstreamHttpMethod": [ "GET" ]
+      },
+      //OrderService
+      {
+        "DownstreamPathTemplate": "/api/orders",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5023
+          }
+        ],
+        "UpstreamPathTemplate": "/orders",
+        "UpstreamHttpMethod": [ "Get", "Post" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/orders/{id}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5023
+          }
+        ],
+        "UpstreamPathTemplate": "/orders/{id}",
+        "UpstreamHttpMethod": [ "Delete" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/orders/customer/{customerId}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5023
+          }
+        ],
+        "UpstreamPathTemplate": "/orders/customer/{customerId}",
+        "UpstreamHttpMethod": [ "Get" ]
+      },
+      //AnalyticsService
+      {
+        "DownstreamPathTemplate": "/api/analytics",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/analytics",
+        "UpstreamHttpMethod": [ "Get", "Post" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/analytics/{id}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/api/analytics/{id}",
+        "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/analytics/salesreport",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5257
+          }
+        ],
+        "UpstreamPathTemplate": "/api/analytics/salesreport",
+        "UpstreamHttpMethod": [ "Gat" ]
+      },
+      {
+        "DownstreamPathTemplate": "/api/identity/{everything}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 80
+          }
+        ],
+        "UpstreamPathTemplate": "/api/identity/{everything}",
+        "UpstreamHttpMethod": [ "POST" ]
+      }
   ]
 }

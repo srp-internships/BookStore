@@ -2,10 +2,10 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using ReviewService.Infrastructure.Consumers;
 using ReviewService.Infrastructure.Persistence.Contexts;
+using ReviewService.WebApi.Extensions;
 using ReviewService.WebApi.Middlewares;
 using Serilog;
 using System.Text.Json.Serialization;
-using ReviewService.WebApi.Extensions;
 namespace ReviewService.WebApi;
 
 public class Program
@@ -20,7 +20,7 @@ public class Program
             .ReadFrom.Configuration(builder.Configuration)
             .CreateLogger();
 
-        builder.Host.UseSerilog(); 
+        builder.Host.UseSerilog();
         builder.Services.AddDbContext<ReviewDbContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
             .LogTo(Console.Write, LogLevel.Error)
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
@@ -31,16 +31,7 @@ public class Program
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("rabbitmq://localhost", h =>
-                {
-                    h.Username("guest");
-                    h.Password("guest");
-                });
-
-                cfg.ReceiveEndpoint("book-created-event-queue", e =>
-                {
-                    e.ConfigureConsumer<BookCreatedConsumer>(context);
-                });
+                cfg.ConfigureEndpoints(context);
             });
         });
         #endregion
@@ -74,26 +65,13 @@ public class Program
             using (var scope = app.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<ReviewDbContext>();
-#if DEBUG
-                if (builder.Environment.IsEnvironment("Test"))
-                {
-                    context.Database.EnsureCreated();
-                }
-                else
-                {
-#endif
-                    context.Database.Migrate();
-#if DEBUG
-                }
-#endif
+
+                context.Database.Migrate();
             }
             #endregion
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseCors();
             app.UseMiddleware<GlobalExceptionMiddleware>();

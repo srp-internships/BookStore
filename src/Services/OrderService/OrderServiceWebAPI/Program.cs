@@ -1,5 +1,6 @@
 using OrderService.Application.Mappers;
 using OrderService.Infrastructure.Consumers;
+using OrderService.Infrastructure.Persistence.DataBases;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,11 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
+        cfg.Host(new Uri(builder.Configuration["RabbitMq:Host"]), h =>
+        {
+            h.Username(builder.Configuration["RabbitMq:Username"]);
+            h.Password(builder.Configuration["RabbitMq:Password"]);
+        });
         cfg.ConfigureEndpoints(context);
     });
 });
@@ -43,13 +49,12 @@ var app = builder.Build();
 //// Configure the HTTP request pipeline.
 app.UseApiServices();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+var applicationDbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+await applicationDbContext.Database.MigrateAsync();
 
 app.Run();

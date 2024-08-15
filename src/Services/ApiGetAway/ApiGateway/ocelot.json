@@ -372,7 +372,14 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "cart.read" ]
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/cart/{userId}/items",
@@ -384,7 +391,14 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}/items",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "cart.write" ]
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/cart/items/{cartItemId}",
@@ -396,7 +410,14 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/items/{cartItemId}",
-      "UpstreamHttpMethod": [ "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "PUT", "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/cart/{userId}",
@@ -408,7 +429,14 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}",
-      "UpstreamHttpMethod": [ "DELETE" ]
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/cart/{userId}/total",
@@ -420,7 +448,14 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}/total",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "cart.read" ]
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
     },
 
     //PaymentService
@@ -434,7 +469,14 @@
         }
       ],
       "UpstreamPathTemplate": "/card/addOrUpdate",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "card.write" ]
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/card",
@@ -446,7 +488,14 @@
         }
       ],
       "UpstreamPathTemplate": "/card",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "card.read" ]
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
     },
 
     //ReviewService
@@ -460,7 +509,7 @@
         }
       ],
       "UpstreamPathTemplate": "/reviews/{id}",
-      "UpstreamHttpMethod": [ "GET" ]    
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/reviews/book/{bookId}/average-rating",
@@ -499,56 +548,65 @@
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": ["reviews.read"]
+        "AllowedScopes": [ "reviews.read" ]
       }
     },
-      {
-        "DownstreamPathTemplate": "/api/reviews",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/reviews",
-        "UpstreamHttpMethod": [ "POST" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": ["reviews.write"]
+    {
+      "DownstreamPathTemplate": "/api/reviews",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5257
         }
+      ],
+      "UpstreamPathTemplate": "/reviews",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "reviews.write" ]
       },
-      {
-        "DownstreamPathTemplate": "/api/reviews/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/reviews/{id}",
-        "UpstreamHttpMethod": [ "DELETE" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": []
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/reviews/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5257
         }
+      ],
+      "UpstreamPathTemplate": "/reviews/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
       },
-      {
-        "DownstreamPathTemplate": "/api/reviews/{id}/user/{userId}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/reviews/{id}/user/{userId}",
-        "UpstreamHttpMethod": [ "DELETE" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": []
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/reviews/{id}/user/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5257
         }
+      ],
+      "UpstreamPathTemplate": "/reviews/{id}/user/{userId}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
       },
 
       //ShipmentService
@@ -682,7 +740,8 @@
         "AuthenticationOptions": {
           "AuthenticationProviderKey": "Bearer",
           "AllowedScopes": [ "analytics.read" ]
-        }
+        },
+
       }
 
   ]

@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<CartDbContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
-                      .LogTo(Console.Write, LogLevel.Error)
+                      .LogTo(Console.Write, LogLevel.Information)
           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 builder.Services.AddLogging();
 

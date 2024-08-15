@@ -4,11 +4,6 @@ using Microsoft.Extensions.Logging;
 using OrderService.IntegrationEvents;
 using ShipmentService.Aplication.Common.Extentions;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShipmentService.Infrastructure.Consumers
 {
@@ -33,6 +28,10 @@ namespace ShipmentService.Infrastructure.Consumers
             if (shipment != null)
             {
                 shipment.OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(statusUpdateEvent.Status);
+                if (statusUpdateEvent.Status == OrderStatus.ShipmentProcessing)
+                    shipment.Status = Domain.Enums.Status.Pending;
+                else if (statusUpdateEvent.Status == OrderStatus.Failed)
+                    _context.Shipments.Remove(shipment);
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation($"Updated shipment status for OrderId {statusUpdateEvent.OrderId} to {statusUpdateEvent.Status}");

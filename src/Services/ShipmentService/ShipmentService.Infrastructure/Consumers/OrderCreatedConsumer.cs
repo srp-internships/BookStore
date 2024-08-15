@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OrderService.IntegrationEvents;
 using ShipmentService.Aplication.Common.Extentions;
@@ -26,41 +25,32 @@ namespace ShipmentService.Infrastructure.Consumers
             {
                 var orderEvent = context.Message;
 
-                if (orderEvent.Status == OrderService.IntegrationEvents.OrderStatus.ShipmentProcessing
-                    && orderEvent.ShippingAddress != null)
+                var shipment = new Shipment
                 {
-                    
-                    var shipment = new Shipment
+                    ShipmentId = Guid.NewGuid(),
+                    OrderId = orderEvent.OrderId,
+                    CustomerId = orderEvent.CustomerId,
+                    ShippingAddress = new ShippingAddress
                     {
-                        ShipmentId = Guid.NewGuid(),
-                        OrderId = orderEvent.OrderId,
-                        CustomerId = orderEvent.CustomerId,
-                        ShippingAddress = new ShippingAddress
-                        {
-                            Id = Guid.NewGuid(),
-                            Street = orderEvent.ShippingAddress.Street,
-                            City = orderEvent.ShippingAddress.State,
-                            Country = orderEvent.ShippingAddress.Country
-                        },
-                        Status = Status.Pending, 
-                        OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status),
-                        Items = orderEvent.Items.Select(item => new ShipmentItem
-                        {
-                            ItemId = item.BookId,
-                            BookName = item.Title,
-                            Quantity = item.Quantity
-                        }).ToList()
-                    };
+                        Id = Guid.NewGuid(),
+                        Street = orderEvent.ShippingAddress.Street,
+                        City = orderEvent.ShippingAddress.State,
+                        Country = orderEvent.ShippingAddress.Country
+                    },
+                    Status = Status.Draft,
+                    OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status),
+                    Items = orderEvent.Items.Select(item => new ShipmentItem
+                    {
+                        ItemId = item.BookId,
+                        BookName = item.Title,
+                        Quantity = item.Quantity
+                    }).ToList()
+                };
 
-                    _context.Shipments.Add(shipment);
-                    await _context.SaveChangesAsync();
+                _context.Shipments.Add(shipment);
+                await _context.SaveChangesAsync();
 
-                    _logger.LogInformation($"Created shipment for OrderId {orderEvent.OrderId}");
-                }
-                else
-                {
-                    _logger.LogWarning($"Invalid OrderProcessedIntegrationEvent: {orderEvent.OrderId}");
-                }
+                _logger.LogInformation($"Created shipment for OrderId {orderEvent.OrderId}");
             }
             catch (Exception ex)
             {

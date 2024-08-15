@@ -26,19 +26,10 @@ namespace ShipmentService.Infrastructure.Consumers
             {
                 var orderEvent = context.Message;
 
-                var existingShipment = await _context.Shipments
-                    .FirstOrDefaultAsync(s => s.OrderId == orderEvent.OrderId);
-
-                if (existingShipment != null)
-                {
-                    existingShipment.OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status);
-                    await _context.SaveChangesAsync();
-
-                    _logger.LogInformation($"Updated shipment status for OrderId {orderEvent.OrderId}");
-                }
-                else if (orderEvent.Status == OrderService.IntegrationEvents.OrderStatus.ShipmentProcessing
+                if (orderEvent.Status == OrderService.IntegrationEvents.OrderStatus.ShipmentProcessing
                     && orderEvent.ShippingAddress != null)
                 {
+                    
                     var shipment = new Shipment
                     {
                         ShipmentId = Guid.NewGuid(),
@@ -51,7 +42,7 @@ namespace ShipmentService.Infrastructure.Consumers
                             City = orderEvent.ShippingAddress.State,
                             Country = orderEvent.ShippingAddress.Country
                         },
-                        Status = Status.Pending,
+                        Status = Status.Pending, 
                         OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status),
                         Items = orderEvent.Items.Select(item => new ShipmentItem
                         {
@@ -78,3 +69,4 @@ namespace ShipmentService.Infrastructure.Consumers
         }
     }
 }
+

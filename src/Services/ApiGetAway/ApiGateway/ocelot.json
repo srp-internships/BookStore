@@ -625,124 +625,146 @@
         "AuthenticationOptions": {
           "AuthenticationProviderKey": "Bearer",
           "AllowedScopes": [ "shipments.read", "shipments.write" ]
+        },
+        "AddClaimsToRequest": {
+          "Authorization": "Bearer {Token}"
         }
       },
       //Get Shipments
-      {
-        "DownstreamPathTemplate": "/api/shipments",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 3040
-          }
-        ],
-        "UpstreamPathTemplate": "/shipments",
-        "UpstreamHttpMethod": [ "GET" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "shipments.read" ]
+    {
+      "DownstreamPathTemplate": "/api/shipments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 3040
         }
+      ],
+      "UpstreamPathTemplate": "/shipments",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "shipments.read" ]
+      },
+      "AddClaimsToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
       },
       //OrderService
-      {
-        "DownstreamPathTemplate": "/api/orders",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5023
-          }
-        ],
-        "UpstreamPathTemplate": "/orders",
-        "UpstreamHttpMethod": [ "Get", "Post" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "orders.read", "orders.write" ]
+    {
+      "DownstreamPathTemplate": "/api/orders",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5023
         }
+      ],
+      "UpstreamPathTemplate": "/orders",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "orders.read", "orders.write" ]
       },
-      {
-        "DownstreamPathTemplate": "/api/orders/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5023
-          }
-        ],
-        "UpstreamPathTemplate": "/orders/{id}",
-        "UpstreamHttpMethod": [ "Delete" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "orders.deleted" ]
-        }
+      "AddClaimsToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
       },
-      {
-        "DownstreamPathTemplate": "/api/orders/customer/{customerId}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5023
-          }
-        ],
-        "UpstreamPathTemplate": "/orders/customer/{customerId}",
-        "UpstreamHttpMethod": [ "Get" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "orders.read" ]
+    {
+      "DownstreamPathTemplate": "/api/orders/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5023
         }
+      ],
+      "UpstreamPathTemplate": "/orders/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "orders.deleted" ]
+      },
+      "AddClaimsToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
+      },
+    {
+      "DownstreamPathTemplate": "/api/orders/customer/{customerId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5023
+        }
+      ],
+      "UpstreamPathTemplate": "/orders/customer/{customerId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "orders.read" ]
+      },
+      "AddClaimsToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
       },
       //AnalyticsService
-      {
-        "DownstreamPathTemplate": "/api/analytics",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/analytics",
-        "UpstreamHttpMethod": [ "Get", "Post" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "analytics.read", "analytics.write" ]
+    {
+      "DownstreamPathTemplate": "/api/analytics",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5257
         }
+      ],
+      "UpstreamPathTemplate": "/analytics",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "analytics.read", "analytics.write" ]
       },
-      {
-        "DownstreamPathTemplate": "/api/analytics/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/api/analytics/{id}",
-        "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "analytics.read", "analytics.write" ]
-        }
-      },
-      {
-        "DownstreamPathTemplate": "/api/analytics/salesreport",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/api/analytics/salesreport",
-        "UpstreamHttpMethod": [ "Get" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "analytics.read" ]
-        },
-
+      "AddClaimsToRequest": {
+        "Authorization": "Bearer {Token}"
       }
-
+      },
+    {
+      "DownstreamPathTemplate": "/api/analytics/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5257
+        }
+      ],
+      "UpstreamPathTemplate": "/api/analytics/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "analytics.read", "analytics.write" ]
+      },
+      "AddClaimsToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
+      },
+    {
+      "DownstreamPathTemplate": "/api/analytics/salesreport",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5257
+        }
+      ],
+      "UpstreamPathTemplate": "/api/analytics/salesreport",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "analytics.read" ]
+      },
+      "AddClaimsToRequest": {
+        "Authorization": "Bearer {Token}"
+      }
+     }
   ]
 }

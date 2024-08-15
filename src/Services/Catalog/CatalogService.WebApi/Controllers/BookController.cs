@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using CatalogService.Application.UseCases;
-using CatalogService.Application.UseCases.Queries;
-using CatalogService.Application.Interfaces.BlobServices;
 using CatalogService.WebApi.Dto;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.WebApi.Controllers
@@ -17,9 +14,9 @@ namespace CatalogService.WebApi.Controllers
     {
         private readonly IMediator _mediator = mediator;
         private readonly IMapper _mapper = mapper;
-        
 
-        [Authorize]
+
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateBookDto bookDto, CancellationToken token = default)
         {
@@ -44,7 +41,7 @@ namespace CatalogService.WebApi.Controllers
             return Ok(bookDto);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         public async Task<IActionResult> Update([FromForm] UpdateBookDto bookDto, CancellationToken token = default)
         {
@@ -53,7 +50,7 @@ namespace CatalogService.WebApi.Controllers
             return Ok();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromQuery] Guid id, CancellationToken token = default)
         {

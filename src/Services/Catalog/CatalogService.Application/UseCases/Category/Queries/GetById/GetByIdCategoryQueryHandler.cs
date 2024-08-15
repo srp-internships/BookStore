@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
-using CatalogService.Domain.Entities;
 using CatalogService.Application.Exceptions;
 using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
@@ -20,7 +15,7 @@ namespace CatalogService.Application.UseCases
 
         public async Task<CategoryDto> Handle(GetByIdCategoryQuery request, CancellationToken token)
         {
-            Category category;
+            Category? category;
 
             try
             {
@@ -35,7 +30,7 @@ namespace CatalogService.Application.UseCases
             if (category == null)
             {
                 throw new NotFoundException(nameof(Category), request.Id);
-            } 
+            }
 
             return _mapper.Map<CategoryDto>(category);
         }

@@ -29,31 +29,12 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq://localhost", h =>
+        cfg.Host(new Uri(builder.Configuration["RabbitMq:Host"]), h =>
         {
-            h.Username("guest");
-            h.Password("guest");
+            h.Username(builder.Configuration["RabbitMq:Username"]);
+            h.Password(builder.Configuration["RabbitMq:Password"]);
         });
-
-        cfg.ReceiveEndpoint("book-created-event-queue", e =>
-        {
-            e.ConfigureConsumer<BookCreatedConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint("price-created-event-queue", e =>
-        {
-            e.ConfigureConsumer<PriceCreatedConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint("book-updated-event-queue", e =>
-        {
-            e.ConfigureConsumer<BookUpdatedConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint("price-updated-event-queue", e =>
-        {
-            e.ConfigureConsumer<PriceUpdatedConsumer>(context);
-        });
+        cfg.ConfigureEndpoints(context);
     });
 });
 #endregion
@@ -97,11 +78,9 @@ using (var scope = app.Services.CreateScope())
 #endif
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseMiddleware<GlobalExceptionMiddleware>();
@@ -111,5 +90,8 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var applicationDbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<CartDbContext>();
+await applicationDbContext.Database.MigrateAsync();
 
 app.Run();

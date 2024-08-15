@@ -1,16 +1,9 @@
-﻿using AutoMapper;
-using CatalogService.Application.UseCases;
-using CatalogService.Domain.Entities;
+﻿using CatalogService.Application.Exceptions;
 using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Application.Interfaces.UnitOfWork;
+using CatalogService.Domain.Entities;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CatalogService.Application.Exceptions;
 
 namespace CatalogService.Application.UseCases
 {
@@ -25,6 +18,7 @@ namespace CatalogService.Application.UseCases
 
         public async Task Handle(UpdateCategoryCommand request, CancellationToken token)
         {
+            // TODO same
             await _validator.ValidateAndThrowAsync(request, token);
             var category = await _categoryRepository.GetByIdAsync(request.Id, token);
             if (category == null)
@@ -34,7 +28,7 @@ namespace CatalogService.Application.UseCases
 
             category.Name = request.Name;
             category.Description = request.Description;
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(token);
         }
     }
 }

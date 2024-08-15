@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OrderService.IntegrationEvents;
 using ShipmentService.Aplication.Common.Extentions;
@@ -28,6 +29,7 @@ namespace ShipmentService.Infrastructure.Consumers
                 if (orderEvent.Status == OrderService.IntegrationEvents.OrderStatus.ShipmentProcessing
                     && orderEvent.ShippingAddress != null)
                 {
+                    
                     var shipment = new Shipment
                     {
                         ShipmentId = Guid.NewGuid(),
@@ -40,7 +42,7 @@ namespace ShipmentService.Infrastructure.Consumers
                             City = orderEvent.ShippingAddress.State,
                             Country = orderEvent.ShippingAddress.Country
                         },
-                        Status = Status.Pending,
+                        Status = Status.Pending, 
                         OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status),
                         Items = orderEvent.Items.Select(item => new ShipmentItem
                         {
@@ -64,7 +66,7 @@ namespace ShipmentService.Infrastructure.Consumers
             {
                 _logger.LogError(ex, "Failed to process OrderProcessedIntegrationEvent");
             }
-
         }
     }
 }
+

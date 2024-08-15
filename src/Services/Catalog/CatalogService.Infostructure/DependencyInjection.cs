@@ -8,11 +8,6 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Infostructure
 {
@@ -35,7 +30,11 @@ namespace CatalogService.Infostructure
                 // Configure RabbitMQ
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host("rabbitmq://localhost");
+                    cfg.Host(configuration.GetValue<string>("RabbitMq:Host"), h =>
+                    {
+                        h.Username(configuration.GetValue<string>("RabbitMq:Username"));
+                        h.Password(configuration.GetValue<string>("RabbitMq:Password"));
+                    });
                 });
             });
             services.AddMassTransitHostedService();
@@ -48,11 +47,7 @@ namespace CatalogService.Infostructure
             });
 
             services.AddSingleton<IBlobService, BlobService>();
-            services.AddSingleton(_ => new BlobServiceClient("DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;" +
-                "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;" +
-                "BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1/images;" +
-                "QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1/images;" +
-                "TableEndpoint=http://127.0.0.1:10002/devstoreaccount1/images;"));
+            services.AddSingleton(_ => new BlobServiceClient(configuration.GetValue<string>("BlobStorage")));
 
             return services;
         }

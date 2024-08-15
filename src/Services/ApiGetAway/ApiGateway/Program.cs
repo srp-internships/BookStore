@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -7,6 +8,16 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerForOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+var authentication = "Bearer";
+builder.Services.AddAuthentication()
+    .AddJwtBearer(authentication, x =>
+    {
+        x.Authority = "http://localhost:5252";
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false,
+        };
+    });
 builder.Services.AddOcelot();
 builder.Services.AddAuthentication();
 var app = builder.Build();

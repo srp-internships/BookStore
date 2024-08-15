@@ -1,9 +1,11 @@
-using PaymentService.WebApi.Common;
-using PaymentService.WebApi.Common.Extensions;
+using Asp.Versioning.ApiExplorer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PaymentService.Application;
 using PaymentService.Infrastructure;
-using Asp.Versioning.ApiExplorer;
-using Microsoft.Extensions.Options;
+using PaymentService.Infrastructure.Persistence;
+using PaymentService.WebApi.Common;
+using PaymentService.WebApi.Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
 
 builder.Services.AddOptions<WebApiSettings>()
-	.BindConfiguration(WebApiSettings.ConfigurationSection);
+    .BindConfiguration(WebApiSettings.ConfigurationSection);
 
 // Adding httpcontext accessor to get current httpcontext by DI
 builder.Services.AddHttpContextAccessor();
@@ -46,18 +48,18 @@ var webApiSettings = app.Services.GetRequiredService<IOptions<WebApiSettings>>()
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || webApiSettings.EnableSwaggerUI)
 {
-	var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
-	app.UseSwagger();
-	app.UseSwaggerUI(opt =>
-	{
-		// build a swagger endpoint for each discovered API version
-		foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
-		{
-			opt.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-		}
-		opt.InjectStylesheet("/swagger-ui/SwaggerDark.css");
-	});
+    app.UseSwagger();
+    app.UseSwaggerUI(opt =>
+    {
+        // build a swagger endpoint for each discovered API version
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+        {
+            opt.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+        }
+        opt.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+    });
 }
 
 app.UseCustomExceptionHandlerMiddleware();
@@ -73,5 +75,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var applicationDbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>();
+await applicationDbContext.Database.MigrateAsync();
 
 app.Run();

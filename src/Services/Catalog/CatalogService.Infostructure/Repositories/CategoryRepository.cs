@@ -1,11 +1,6 @@
-﻿using CatalogService.Domain.Entities;
-using CatalogService.Application.Interfaces.Repositories;
+﻿using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Infostructure.Repositories
 {
@@ -24,7 +19,7 @@ namespace CatalogService.Infostructure.Repositories
             await _dbcontext.Categories.AddAsync(category, token);
             return category.Id;
         }
-        public Task<Category> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<Category?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             return _dbcontext.Categories.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
         }

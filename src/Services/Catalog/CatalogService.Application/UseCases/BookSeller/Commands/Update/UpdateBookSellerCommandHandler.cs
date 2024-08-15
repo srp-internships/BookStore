@@ -1,18 +1,11 @@
-﻿using AutoMapper;
-using CatalogService.Contracts;
-using CatalogService.Domain.Entities;
+﻿using CatalogService.Application.Exceptions;
 using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Application.Interfaces.UnitOfWork;
+using CatalogService.Contracts;
+using CatalogService.Domain.Entities;
 using FluentValidation;
 using MassTransit;
 using MediatR;
-using MediatR.Pipeline;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CatalogService.Application.Exceptions;
 
 namespace CatalogService.Application.UseCases
 {
@@ -29,6 +22,7 @@ namespace CatalogService.Application.UseCases
 
         public async Task Handle(UpdateBookSellerCommand request, CancellationToken token)
         {
+            // TODO same thing as CreateBookSellerCommandHandler
             await _validator.ValidateAndThrowAsync(request, token);
 
             var bookSeller = await _sellerRepository.GetByIdAsync(request.Id, token);

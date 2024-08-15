@@ -68,13 +68,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnalyticsService", "Analyti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyticsServiceApi", "src\Services\AnalyticsService\AnalyticsServiceApi\AnalyticsServiceApi.csproj", "{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3A61306-3988-4F45-A499-2A38CC0E20DE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyticService.Contracts", "src\Services\AnalyticsService\AnalyticService.Contracts\AnalyticService.Contracts.csproj", "{D0D5DD94-6221-4063-969C-79DEB5B07550}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentService", "PaymentService", "{FF97376A-14E5-4586-8252-DFE8C5F904D2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.IntegrationEvents", "src\Services\PaymentService\PaymentService.IntegrationEvents\PaymentService.IntegrationEvents.csproj", "{A6EADCBB-788F-4B5B-A376-A84716338719}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderServiceWebAPI", "src\Services\OrderService\OrderServiceWebAPI\OrderServiceWebAPI.csproj", "{4B5698A7-E831-4B08-9E00-1B90EA964C96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.IntegrationEvents", "src\Services\OrderService\OrderService.IntegrationEvents\OrderService.IntegrationEvents.csproj", "{885B5B3E-306A-4C1A-B284-081DF236CD56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderService", "OrderService", "{A8C9A987-362B-4ABE-9E09-6013B52FDE95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{D68C7E7C-60F8-4F1A-8EF1-CE2304CFE7B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService.IntegrationEvents", "src\Services\IdentityService\IdentityService.IntegrationEvents\IdentityService.IntegrationEvents.csproj", "{F847695D-29DF-45AE-8C7B-97ADA425BE84}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShipmentService.Domain", "src\Services\ShipmentService\ShipmentService.Domain\ShipmentService.Domain.csproj", "{7EBEAAB7-6E38-4F9D-8B5C-2A3ABE0A2E66}"
 EndProject
@@ -129,6 +135,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService.IntegrationEvents", "src\Services\IdentityService\IdentityService.IntegrationEvents\IdentityService.IntegrationEvents.csproj", "{15D4F769-E265-4029-A841-6CE3F277F1F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService", "src\Services\IdentityService\IdentityService\IdentityService.csproj", "{386FD1D6-05AC-493E-ADCF-9AAFA6B3230C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6178623-A43A-4AF9-981C-944F3CDEC506}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -216,10 +227,6 @@ Global
 		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D0D5DD94-6221-4063-969C-79DEB5B07550}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6EADCBB-788F-4B5B-A376-A84716338719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6EADCBB-788F-4B5B-A376-A84716338719}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6EADCBB-788F-4B5B-A376-A84716338719}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -353,10 +360,8 @@ Global
 		{F3674980-185C-4D52-98DB-01BDE961F205} = {1AFD0172-2B76-469E-A1EF-7BFE28BCA129}
 		{680CBA1E-670B-40B8-90FE-39866B4E1279} = {F3674980-185C-4D52-98DB-01BDE961F205}
 		{A1846A71-FF36-4961-BA68-DC8EBF8FA77D} = {4391AB8B-3648-47C0-91E5-F3CDAE96E0A0}
-		{24360CC8-42E1-4643-9891-1B04CE72993C} = {4391AB8B-3648-47C0-91E5-F3CDAE96E0A0}
-		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
-		{C3A61306-3988-4F45-A499-2A38CC0E20DE} = {24360CC8-42E1-4643-9891-1B04CE72993C}
-		{D0D5DD94-6221-4063-969C-79DEB5B07550} = {C3A61306-3988-4F45-A499-2A38CC0E20DE}
+		{24360CC8-42E1-4643-9891-1B04CE72993C} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
+		{B7272347-D6BB-4D1B-8008-A0E70C4AF40C} = {24360CC8-42E1-4643-9891-1B04CE72993C}
 		{FF97376A-14E5-4586-8252-DFE8C5F904D2} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
 		{A6EADCBB-788F-4B5B-A376-A84716338719} = {FF97376A-14E5-4586-8252-DFE8C5F904D2}
 		{7EBEAAB7-6E38-4F9D-8B5C-2A3ABE0A2E66} = {84566DAF-0371-41CB-9633-F33316915257}

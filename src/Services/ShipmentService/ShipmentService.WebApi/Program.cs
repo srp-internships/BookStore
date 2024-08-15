@@ -32,7 +32,7 @@ builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(typeof(ShipmentMappings).Assembly);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(typeof(GetAllShipmentsQueryHandler).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetAllShipmentsQueryHandler).Assembly));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UpdateShipmentCommandHandler).Assembly));
 builder.Services.AddTransient<IValidator<UpdateShipmentCommand>, UpdateShipmentCommandValidator>();
 builder.Services.AddTransient<IValidator<GetShipmentByIdQuery>, GetShipmentByIdQueryValidator>();
@@ -40,19 +40,15 @@ builder.Services.AddTransient<IValidator<GetShipmentByIdQuery>, GetShipmentByIdQ
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<OrderCreatedConsumer>();
-
+    x.AddConsumer<OrderStatusUpdatedConsumer>();
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq://localhost", h =>
+        cfg.Host(new Uri(builder.Configuration["RabbitMq:Host"]), h =>
         {
-            h.Username("guest");
-            h.Password("guest");
+            h.Username(builder.Configuration["RabbitMq:Username"]);
+            h.Password(builder.Configuration["RabbitMq:Password"]);
         });
-
-        cfg.ReceiveEndpoint("order-created-event-queue", e =>
-        {
-            e.ConfigureConsumer<OrderCreatedConsumer>(context);
-        });
+        cfg.ConfigureEndpoints(context);
     });
 });
 
@@ -63,25 +59,13 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetService<ShipmentContext>();
-#if DEBUG
-    if (builder.Environment.IsEnvironment("Test"))
-    {
-        context.Database.EnsureCreated();
-    }
-    else
-    {
-#endif
-        context.Database.Migrate();
-#if DEBUG
-    }
-#endif
+
+    context.Database.Migrate();
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.UseRouting();

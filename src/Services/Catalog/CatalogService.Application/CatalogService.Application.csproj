@@ -8,9 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UseCases\Author\Queries\GetByIds\**" />
+    <Compile Remove="UseCases\Category\Queries\GetByIds\**" />
+    <EmbeddedResource Remove="UseCases\Author\Queries\GetByIds\**" />
+    <EmbeddedResource Remove="UseCases\Category\Queries\GetByIds\**" />
+    <None Remove="UseCases\Author\Queries\GetByIds\**" />
+    <None Remove="UseCases\Category\Queries\GetByIds\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Dto\" />
-    <Folder Include="UseCases\Author\Queries\GetByIds\" />
-    <Folder Include="UseCases\Category\Queries\GetByIds\" />
   </ItemGroup>
 
   <ItemGroup>

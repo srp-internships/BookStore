@@ -3,11 +3,6 @@ using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Application.Interfaces.UnitOfWork;
 using CatalogService.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
@@ -27,7 +22,7 @@ namespace CatalogService.Application.UseCases
             }
 
             await _categoryRepository.DeleteAsync(request.Id, token);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(token);
         }
     }
 }

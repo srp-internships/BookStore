@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using CatalogService.Application.UseCases.Queries;
-using CatalogService.Domain.Entities;
 using CatalogService.Application.Exceptions;
 using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Application.UseCases.Queries;
+using CatalogService.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
@@ -21,7 +16,7 @@ namespace CatalogService.Application.UseCases
 
         public async Task<BookDto> Handle(GetByIdBookQuery request, CancellationToken token)
         {
-            Book book;
+            Book? book;
 
             try
             {

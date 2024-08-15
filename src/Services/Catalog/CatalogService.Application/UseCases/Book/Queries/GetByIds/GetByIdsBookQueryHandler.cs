@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
+using CatalogService.Application.Exceptions;
+using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Application.UseCases;
 using CatalogService.Application.UseCases.Queries;
 using CatalogService.Domain.Entities;
-using CatalogService.Application.Exceptions;
-using CatalogService.Application.Interfaces.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Application
 {
@@ -22,7 +17,7 @@ namespace CatalogService.Application
 
         public async Task<List<BookDto>> Handle(GetByIdsBookQuery request, CancellationToken token)
         {
-            IEnumerable<Book> books;
+            List<Book> books;
             try
             {
                 books = await _bookRepository.GetByIdsAsync(request.BookIds, token);
@@ -33,11 +28,11 @@ namespace CatalogService.Application
                 throw;
             }
 
-            if (books.Count() == 0)
+            if (books.Count == 0)
             {
                 throw new NotFoundException(nameof(Book));
             }
-            
+
             var bookDtos = _mapper.Map<IEnumerable<BookDto>>(books);
             return bookDtos.ToList();
         }

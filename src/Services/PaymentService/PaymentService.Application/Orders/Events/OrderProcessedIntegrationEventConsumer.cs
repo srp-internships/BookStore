@@ -8,7 +8,7 @@ using PaymentService.IntegrationEvents;
 
 namespace PaymentService.Application.Orders.Events
 {
-    internal class OrderProcessedIntegrationEventConsumer(
+    public class OrderProcessedIntegrationEventConsumer(
         IInboxRepository inboxRepository,
         IPaymentRepository paymentRepository,
         ICardRepository cardRepository,

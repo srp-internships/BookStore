@@ -1,15 +1,9 @@
-﻿using AutoMapper;
-using CatalogService.Domain.Entities;
+﻿using CatalogService.Application.Exceptions;
 using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Application.Interfaces.UnitOfWork;
+using CatalogService.Domain.Entities;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CatalogService.Application.Exceptions;
 
 namespace CatalogService.Application.UseCases
 {
@@ -27,8 +21,7 @@ namespace CatalogService.Application.UseCases
             await _validator.ValidateAsync(request, token);
 
             var author = await _authorRepository.GetByIdAsync(request.Id, token);
-            var existingAuthor = await _authorRepository.AnyAsync(request.Id, token);
-            if (!existingAuthor)
+            if (author is null)
             {
                 throw new NotFoundException(nameof(Author));
             }

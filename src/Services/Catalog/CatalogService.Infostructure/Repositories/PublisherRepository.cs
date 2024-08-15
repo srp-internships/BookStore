@@ -1,11 +1,6 @@
-﻿using CatalogService.Domain.Entities;
-using CatalogService.Application.Interfaces.Repositories;
+﻿using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Infostructure.Repositories
 {
@@ -26,14 +21,14 @@ namespace CatalogService.Infostructure.Repositories
             return publisher.Id;
         }
 
-        public Task<Publisher> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<Publisher?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             return _dbcontext.Publishers.FirstOrDefaultAsync(x => x.Id.Equals(id), token); ;
         }
 
         public Task<List<Publisher>> GetAllAsync(CancellationToken token)
         {
-            return _dbcontext.Publishers.ToListAsync(token); 
+            return _dbcontext.Publishers.ToListAsync(token);
         }
 
         public async Task UpdateAsync(Publisher publisher, CancellationToken token = default)

@@ -40,7 +40,7 @@ builder.Services.AddTransient<IValidator<GetShipmentByIdQuery>, GetShipmentByIdQ
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<OrderCreatedConsumer>();
-
+    x.AddConsumer<OrderStatusUpdatedConsumer>();
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.ConfigureEndpoints(context);

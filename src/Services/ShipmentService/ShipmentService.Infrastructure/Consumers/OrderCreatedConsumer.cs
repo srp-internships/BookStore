@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OrderService.IntegrationEvents;
 using ShipmentService.Aplication.Common.Extentions;
@@ -25,7 +26,17 @@ namespace ShipmentService.Infrastructure.Consumers
             {
                 var orderEvent = context.Message;
 
-                if (orderEvent.Status == OrderService.IntegrationEvents.OrderStatus.ShipmentProcessing
+                var existingShipment = await _context.Shipments
+                    .FirstOrDefaultAsync(s => s.OrderId == orderEvent.OrderId);
+
+                if (existingShipment != null)
+                {
+                    existingShipment.OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status);
+                    await _context.SaveChangesAsync();
+
+                    _logger.LogInformation($"Updated shipment status for OrderId {orderEvent.OrderId}");
+                }
+                else if (orderEvent.Status == OrderService.IntegrationEvents.OrderStatus.ShipmentProcessing
                     && orderEvent.ShippingAddress != null)
                 {
                     var shipment = new Shipment
@@ -64,7 +75,6 @@ namespace ShipmentService.Infrastructure.Consumers
             {
                 _logger.LogError(ex, "Failed to process OrderProcessedIntegrationEvent");
             }
-
         }
     }
 }

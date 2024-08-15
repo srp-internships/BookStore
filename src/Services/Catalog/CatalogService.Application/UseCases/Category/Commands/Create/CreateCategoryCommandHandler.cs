@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using CatalogService.Domain.Entities;
 using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Application.Interfaces.UnitOfWork;
+using CatalogService.Domain.Entities;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
@@ -25,11 +20,12 @@ namespace CatalogService.Application.UseCases
 
         public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken token)
         {
+            // TODO same
             await _validator.ValidateAsync(request, token);
 
             var category = _mapper.Map<Category>(request);
             Guid guid = await _categoryRepository.CreateAsync(category, token);
-            _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(token);
             return guid;
         }
     }

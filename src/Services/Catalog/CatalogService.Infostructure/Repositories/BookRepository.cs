@@ -1,11 +1,6 @@
-﻿using CatalogService.Domain.Entities;
-using CatalogService.Application.Interfaces.Repositories;
+﻿using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Infostructure.Repositories
 {
@@ -19,7 +14,7 @@ namespace CatalogService.Infostructure.Repositories
             return book.Id;
 
         }
-        public Task<Book> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<Book?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             return _dbcontext.Books
                 .Include(s => s.Categories)
@@ -48,7 +43,7 @@ namespace CatalogService.Infostructure.Repositories
 
         public Task UpdateAsync(Book book, CancellationToken token = default)
         {
-             _dbcontext.Books.Update(book);
+            _dbcontext.Books.Update(book);
             return Task.CompletedTask;
         }
 
@@ -58,7 +53,7 @@ namespace CatalogService.Infostructure.Repositories
             book.Categories.Clear();
             book.Categories.AddRange(newCategories);
 
-          
+
         }
 
         public async Task UpdateAuthorsAsync(Guid id, IEnumerable<Author> newAuthors, CancellationToken token = default)

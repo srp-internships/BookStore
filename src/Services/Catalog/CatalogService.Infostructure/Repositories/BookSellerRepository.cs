@@ -1,13 +1,7 @@
 ﻿
-using CatalogService.Domain.Entities;
 using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 
 namespace CatalogService.Infostructure.Repositories
 {
@@ -20,7 +14,7 @@ namespace CatalogService.Infostructure.Repositories
         {
             await _dbcontext.BookSellers.AddAsync(bookSeller, token);
         }
-        public Task<BookSeller> GetByIdAsync(Guid id, CancellationToken token = default)
+        public Task<BookSeller?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             return _dbcontext.BookSellers
                 .Include(bs => bs.Book)
@@ -42,12 +36,10 @@ namespace CatalogService.Infostructure.Repositories
             await _dbcontext.BookSellers.Where(p => p.Id.Equals(id)).ExecuteDeleteAsync(token);
         }
 
-        public async Task<List<BookSeller>> GetByTwinId(Guid bookId, Guid sellerId, CancellationToken token = default)
+        public Task<BookSeller?> GetByTwinId(Guid bookId, Guid sellerId, CancellationToken token = default)
         {
-            var bookSeller = await _dbcontext.BookSellers
-                .Where(u => u.BookId.Equals(bookId))
-                .Where(u => u.SellerId.Equals(sellerId)).ToListAsync();
-            return bookSeller;
+            return _dbcontext.BookSellers.FirstOrDefaultAsync(i => i.BookId == bookId && i.SellerId == sellerId, token);
+
         }
         public Task<bool> AnyAsync(Guid id, CancellationToken token = default)
         {

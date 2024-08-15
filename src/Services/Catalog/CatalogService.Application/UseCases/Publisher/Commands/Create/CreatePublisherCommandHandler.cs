@@ -1,16 +1,11 @@
 ﻿using AutoMapper;
-using CatalogService.Domain.Entities;
 using CatalogService.Application.Exceptions;
 using CatalogService.Application.Interfaces.BlobServices;
 using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Application.Interfaces.UnitOfWork;
+using CatalogService.Domain.Entities;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
@@ -29,6 +24,7 @@ namespace CatalogService.Application.UseCases
 
         public async Task<Guid> Handle(CreatePublisherCommand request, CancellationToken token)
         {
+            // TODO same
             await _validator.ValidateAndThrowAsync(request, token);
 
             if (request.Logo == null)

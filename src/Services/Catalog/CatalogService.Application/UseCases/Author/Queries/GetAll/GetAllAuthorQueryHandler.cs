@@ -1,14 +1,7 @@
 ﻿using AutoMapper;
-using CatalogService.Domain.Entities;
-using CatalogService.Application.Exceptions;
 using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
@@ -34,9 +27,9 @@ namespace CatalogService.Application.UseCases
 
             if (authors.Count() == 0)
             {
-                throw new NotFoundException(nameof(Author));
+                return [];
             }
-            
+
             var authorDtos = _mapper.Map<IEnumerable<AuthorDto>>(authors);
             return authorDtos.ToList();
         }

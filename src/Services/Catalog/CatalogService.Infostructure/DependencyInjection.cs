@@ -26,6 +26,7 @@ namespace CatalogService.Infostructure
 
             services.AddMassTransit(x =>
             {
+                x.AddConsumers(typeof(DependencyInjection).Assembly);
                 //x.UsingInMemory();
                 // Configure RabbitMQ
                 x.UsingRabbitMq((context, cfg) =>
@@ -35,6 +36,8 @@ namespace CatalogService.Infostructure
                         h.Username(configuration.GetValue<string>("RabbitMq:Username"));
                         h.Password(configuration.GetValue<string>("RabbitMq:Password"));
                     });
+
+                    cfg.ConfigureEndpoints(context);
                 });
             });
             services.AddMassTransitHostedService();

@@ -30,7 +30,26 @@ namespace CatalogService.Infostructure
 
         public void Dispose()
         {
+            
             _dbContext.Dispose();
         }
+
+
+        public static IEnumerable<int> Range(int start, int count)
+        {
+            long max = ((long)start) + count - 1;
+            if (count < 0 || max > int.MaxValue)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.count);
+            }
+
+            if (count == 0)
+            {
+                return Empty<int>();
+            }
+
+            return new RangeIterator(start, count);
+        }
+
     }
 }

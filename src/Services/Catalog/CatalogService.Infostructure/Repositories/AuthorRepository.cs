@@ -19,9 +19,9 @@ namespace CatalogService.Infostructure.Repositories
             await _dbcontext.Authors.AddAsync(author, token);
             return author.Id;
         }
-        public Task<Author> GetByIdAsync(Guid id, CancellationToken token = default)
+        public ValueTask<Author?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            return _dbcontext.Authors.FirstOrDefaultAsync(x => x.Id.Equals(id), token);
+            return _dbcontext.Authors.FindAsync(id);
         }
 
         public async Task<List<Author>> GetAllAsync(CancellationToken token)

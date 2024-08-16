@@ -30,7 +30,7 @@ namespace CatalogService.WebApi.Controllers
 
         [HttpGet]
         [Route("book_id")]
-        public async Task<IActionResult> GetListByBookId([FromRoute] Guid book_id, CancellationToken token = default)
+        public async Task<IActionResult> GetListByBookId([FromQuery] Guid book_id, CancellationToken token = default)
         {
             var query = new GetListByBookIdBookSellerQuery() { BookId = book_id };
             var bookSellerDtos = await _mediator.Send(query, token);

@@ -61,38 +61,34 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
-
-  catalogservice.webapi:
-    image: ${DOCKER_REGISTRY-}catalogservicewebapi
-    build:
-      context: .
-      dockerfile: src/Services/Catalog/CatalogService.WebApi/Dockerfile
-    container_name: catalog-service
+  order-service:
+    image: orderservicewebapi:latest
+    container_name: order-service
     depends_on:
       - postgres
+      - redis
       - rabbitmq
     environment:
-      ConnectionStrings__DbConnection: "Host=postgres-db;Port=5432;Database=Catalog;Username=postgres;Password=7878_Postgresql;"
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=postgres-db;Port=5432;Database=OrderService;Username=postgres;Password=7878_Postgresql;"
+      ConnectionStrings__Redis: "redis-cache:6379"
       RabbitMq__Host: "rabbitmq://rabbitmq"
       RabbitMq__Username: "guest"
       RabbitMq__Password: "guest"
-      BlobStorage: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;"
     ports:
-      - "8093:8080" # Mapping port for your ASP.NET app
-      - "8094:8081" # Mapping port for your ASP.NET app
+      - "8080:8080" # Mapping port for your ASP.NET app
+      - "8081:8081" # Mapping port for your ASP.NET app
     networks:
       - app-network
 
-  cartservice.api:
-    image: ${DOCKER_REGISTRY-}cartserviceapi
-    build:
-      context: .
-      dockerfile: src/Services/CartService/CartService.Api/Dockerfile
+  cart-service:
+    image: cartservicewebapi:latest  # Replace with your actual image name if needed
     container_name: cart-service
     depends_on:
       - sqlserver
       - rabbitmq
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       ConnectionString: "Server=sqlserver;Database=Carta;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
       RabbitMq__Host: "rabbitmq://rabbitmq"
       RabbitMq__Username: "guest"
@@ -103,16 +99,14 @@ services:
     networks:
       - app-network
 
-  identityservice:
-    image: ${DOCKER_REGISTRY-}identityservice
-    build:
-      context: .
-      dockerfile: src/Services/IdentityService/IdentityService/Dockerfile
+  ids-service:
+    image: idsservicewebapi:latest  # Replace with your actual image name if needed
     container_name: ids-service
     depends_on:
       - sqlserver
       - rabbitmq
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=user_management;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
       ConnectionStrings__IdsDb: "Server=sqlserver;Database=identity;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
       RabbitMq__Host: "rabbitmq"
@@ -131,38 +125,14 @@ services:
     networks:
       - app-network
 
-  orderservicewebapi:
-    image: ${DOCKER_REGISTRY-}orderservicewebapi
-    build:
-      context: .
-      dockerfile: src/Services/OrderService/OrderServiceWebAPI/Dockerfile
-    container_name: order-service
-    depends_on:
-      - postgres
-      - redis
-      - rabbitmq
-    environment:
-      ConnectionStrings__DefaultConnection: "Host=postgres-db;Port=5432;Database=OrderService;Username=postgres;Password=7878_Postgresql;"
-      ConnectionStrings__Redis: "redis-cache:6379"
-      RabbitMq__Host: "rabbitmq://rabbitmq"
-      RabbitMq__Username: "guest"
-      RabbitMq__Password: "guest"
-    ports:
-      - "8080:8080" # Mapping port for your ASP.NET app
-      - "8081:8081" # Mapping port for your ASP.NET app
-    networks:
-      - app-network
-
-  paymentservice.webapi:
-    image: ${DOCKER_REGISTRY-}paymentservicewebapi
-    build:
-      context: .
-      dockerfile: src/Services/PaymentService/PaymentService.WebApi/Dockerfile
+  payment-service:
+    image: paymentservicewebapi:latest  # Replace with your actual image name if needed
     container_name: payment-service
     depends_on:
       - sqlserver
       - rabbitmq
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       Database: "Server=sqlserver;Database=payment;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
       RabbitMq__Host: "rabbitmq"
       RabbitMq__VirtualHost: "/"
@@ -176,16 +146,32 @@ services:
     networks:
       - app-network
 
-  reviewservice.webapi:
-    image: ${DOCKER_REGISTRY-}reviewservicewebapi
-    build:
-      context: .
-      dockerfile: src/Services/ReviewService/ReviewService.WebApi/Dockerfile
+  shipment-service:
+    image: shipmentservicewebapi:latest
+    container_name: shipment-service
+    depends_on:
+      - sqlserver
+      - rabbitmq
+    environment: 
+        ASPNETCORE_ENVIRONMENT: Development
+        ConnectionString: "Server=sqlserver;Database=ShipmentService;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
+        RabbitMq__Host: "rabbitmq://rabbitmq"
+        RabbitMq__Username: "guest"
+        RabbitMq__Password: "guest"
+    ports:
+      - "8089:8080" # Mapping port for your ASP.NET app
+      - "8090:8081" # Mapping port for your ASP.NET app
+    networks:
+      - app-network
+
+  review-service:
+    image: reviewservicewebapi:latest
     container_name: review-service
     depends_on:
       - sqlserver
       - rabbitmq
     environment: 
+        ASPNETCORE_ENVIRONMENT: Development
         ConnectionString: "Server=sqlserver;Database=ReviewService;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
         RabbitMq__Host: "rabbitmq://rabbitmq"
         RabbitMq__Username: "guest"
@@ -196,23 +182,22 @@ services:
     networks:
       - app-network
 
-  shipmentservice.webapi:
-    image: ${DOCKER_REGISTRY-}shipmentservicewebapi
-    build:
-      context: .
-      dockerfile: src/Services/ShipmentService/ShipmentService.WebApi/Dockerfile
-    container_name: shipment-service
+  catalog-service:
+    image: catalogservicewebapi:latest
+    container_name: catalog-service
     depends_on:
-      - sqlserver
+      - postgres
       - rabbitmq
-    environment: 
-        ConnectionString: "Server=sqlserver;Database=ShipmentService;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
-        RabbitMq__Host: "rabbitmq://rabbitmq"
-        RabbitMq__Username: "guest"
-        RabbitMq__Password: "guest"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DbConnection: "Host=postgres-db;Port=5432;Database=Catalog;Username=postgres;Password=7878_Postgresql;"
+      RabbitMq__Host: "rabbitmq://rabbitmq"
+      RabbitMq__Username: "guest"
+      RabbitMq__Password: "guest"
+      BlobStorage: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;"
     ports:
-      - "8089:8080" # Mapping port for your ASP.NET app
-      - "8090:8081" # Mapping port for your ASP.NET app
+      - "8093:8080" # Mapping port for your ASP.NET app
+      - "8094:8081" # Mapping port for your ASP.NET app
     networks:
       - app-network
 

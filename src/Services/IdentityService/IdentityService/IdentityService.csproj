@@ -7,6 +7,7 @@
     <UserSecretsId>aspnet-IdentityService-0f87684f-9fce-452d-9440-4bf59b483623</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

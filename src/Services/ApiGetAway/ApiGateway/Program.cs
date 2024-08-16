@@ -1,34 +1,38 @@
-using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddEndpointsApiExplorer();
 
 
-builder.Services.AddSwaggerForOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-var authentication = "Bearer";
-builder.Services.AddAuthentication()
-    .AddJwtBearer(authentication, x =>
-    {
-        x.Authority = "http://localhost:5252";
-        x.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = false,
-        };
-    });
-builder.Services.AddOcelot();
-builder.Services.AddAuthentication();
-var app = builder.Build();
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.UseSwaggerForOcelotUI(option =>
-{
-    option.PathToSwaggerGenerator = "/swagger/docs";
-});
-app.UseAuthentication();
-app.UseAuthorization();
-await app.UseOcelot();
 
+var corsAllowedHosts = builder.Configuration.GetSection("MraInfrastructure-CORS").Get<string[]>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CORS_POLICY", policyConfig =>
+    {
+        policyConfig.WithOrigins(corsAllowedHosts)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddOcelot();
+
+
+
+var app = builder.Build();
+
+
+
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogWarning("Protocol", ServicePointManager.SecurityProtocol);
+
+
+app.UseHttpsRedirection();
+app.UseCors("CORS_POLICY");
+
+// step 3:
+app.UseOcelot().Wait();
 app.Run();

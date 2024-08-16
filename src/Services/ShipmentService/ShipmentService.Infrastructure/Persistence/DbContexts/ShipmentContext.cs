@@ -57,7 +57,7 @@ namespace ShipmentService.Infrastructure.Persistence.DbContexts
 
             modelBuilder.Entity<ShipmentItem>(entity =>
             {
-                entity.HasKey(e => e.ItemId);
+                entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.BookName)
                       .IsRequired();

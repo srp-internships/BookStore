@@ -10,9 +10,8 @@ namespace ShipmentService.Domain.Entities.Shipments
     public class ShipmentItem
     {
         [Key]
-        public Guid ItemId { get; set; }
-
-        [Required(ErrorMessage = "Title is required")]
+        public Guid Id { get; set; }
+        public Guid BookId { get; set; }
         public string? BookName { get; set; }
         public int Quantity { get; set; } = 1;
     }

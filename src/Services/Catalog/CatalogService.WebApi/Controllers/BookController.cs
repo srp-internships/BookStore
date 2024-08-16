@@ -41,6 +41,15 @@ namespace CatalogService.WebApi.Controllers
             return Ok(bookDto);
         }
 
+        [HttpGet]
+        [Route("ids")]
+        public async Task<IActionResult> GetByIds([FromRoute] List<Guid> ids, CancellationToken token = default)
+        {
+            var query = new GetByIdsBookQuery() { BookIds = ids };
+            var bookDtos = await _mediator.Send(query, token);
+            return Ok(bookDtos);
+        }
+
         //[Authorize]
         [HttpPut]
         public async Task<IActionResult> Update([FromForm] UpdateBookDto bookDto, CancellationToken token = default)

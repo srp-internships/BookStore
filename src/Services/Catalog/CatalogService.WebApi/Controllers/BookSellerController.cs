@@ -15,8 +15,8 @@ namespace CatalogService.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateBookSellerCommand request, CancellationToken token = default)
         {
-            await _mediator.Send(request, token);
-            return Ok();
+            var id = await _mediator.Send(request, token);
+            return Ok(id);
         }
 
         [HttpGet]
@@ -28,6 +28,14 @@ namespace CatalogService.WebApi.Controllers
             return Ok(bookSellerDto);
         }
 
+        [HttpGet]
+        [Route("book_id")]
+        public async Task<IActionResult> GetListByBookId([FromRoute] Guid book_id, CancellationToken token = default)
+        {
+            var query = new GetListByBookIdBookSellerQuery() { BookId = book_id };
+            var bookSellerDtos = await _mediator.Send(query, token);
+            return Ok(bookSellerDtos);
+        }
         //[Authorize]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateBookSellerCommand request, CancellationToken token = default)

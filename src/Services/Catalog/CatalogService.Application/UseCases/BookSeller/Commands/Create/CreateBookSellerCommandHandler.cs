@@ -14,7 +14,7 @@ namespace CatalogService.Application.UseCases
         IMapper mapper,
         IValidator<CreateBookSellerCommand> validator,
         IBus bus,
-        IUnitOfWork unitOfWork) : IRequestHandler<CreateBookSellerCommand>
+        IUnitOfWork unitOfWork) : IRequestHandler<CreateBookSellerCommand, Guid>
     {
         private readonly IBookSellerRepository _repository = sellerRepository;
         private readonly IMapper _mapper = mapper;
@@ -22,7 +22,7 @@ namespace CatalogService.Application.UseCases
         private readonly IBus _bus = bus;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-        public async Task Handle(CreateBookSellerCommand request, CancellationToken token)
+        public async Task<Guid> Handle(CreateBookSellerCommand request, CancellationToken token)
         {
             // TODO check that this code runs mediator validation second time the remove it
             await _validator.ValidateAndThrowAsync(request, token);
@@ -33,7 +33,7 @@ namespace CatalogService.Application.UseCases
             }
 
             var bookSeller = _mapper.Map<BookSeller>(request);
-            await _repository.CreateAsync(bookSeller, token);
+            var bookSellerId = await _repository.CreateAsync(bookSeller, token);
             await _unitOfWork.SaveChangesAsync();
 
             await _bus.Publish(new PriceCreatedEvent
@@ -42,6 +42,8 @@ namespace CatalogService.Application.UseCases
                 SellerId = bookSeller.SellerId,
                 Price = bookSeller.Price,
             });
+
+            return bookSellerId;
         }
     }
 }

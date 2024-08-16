@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
-    public class CreateBookSellerCommand : IRequest, IMapWith<BookSeller>
+    public class CreateBookSellerCommand : IRequest<Guid>, IMapWith<BookSeller>
     {
         public Guid BookId { get; set; }
         public Guid SellerId { get; set; }

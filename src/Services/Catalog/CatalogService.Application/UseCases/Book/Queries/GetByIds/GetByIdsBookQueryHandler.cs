@@ -30,7 +30,7 @@ namespace CatalogService.Application
 
             if (books.Count == 0)
             {
-                throw new NotFoundException(nameof(Book));
+                return [];
             }
 
             var bookDtos = _mapper.Map<IEnumerable<BookDto>>(books);

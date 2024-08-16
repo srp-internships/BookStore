@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShipmentService.Infrastructure.Persistence.DbContexts;
 
@@ -11,9 +12,11 @@ using ShipmentService.Infrastructure.Persistence.DbContexts;
 namespace ShipmentService.Infrastructure.Migrations
 {
     [DbContext(typeof(ShipmentContext))]
-    partial class ShipmentContextModelSnapshot : ModelSnapshot
+    [Migration("20240816062617_ChangeShipmentItemValue")]
+    partial class ChangeShipmentItemValue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,11 +59,8 @@ namespace ShipmentService.Infrastructure.Migrations
 
             modelBuilder.Entity("ShipmentService.Domain.Entities.Shipments.ShipmentItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ItemId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BookName")
@@ -75,7 +75,7 @@ namespace ShipmentService.Infrastructure.Migrations
                     b.Property<Guid?>("ShipmentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("ItemId");
 
                     b.HasIndex("ShipmentId");
 

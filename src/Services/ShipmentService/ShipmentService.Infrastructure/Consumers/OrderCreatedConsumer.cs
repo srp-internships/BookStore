@@ -41,7 +41,8 @@ namespace ShipmentService.Infrastructure.Consumers
                     OrderStatus = OrderStatusConverter.ToShipmentOrderStatus(orderEvent.Status),
                     Items = orderEvent.Items.Select(item => new ShipmentItem
                     {
-                        ItemId = item.BookId,
+                        Id = Guid.NewGuid(),
+                        BookId = item.BookId,
                         BookName = item.Title,
                         Quantity = item.Quantity
                     }).ToList()

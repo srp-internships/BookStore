@@ -16,7 +16,6 @@ namespace CatalogService.WebApi.Dto
         [FileSize(5 * 1024 * 1024, ErrorMessage = "Image size cannot exceed 5 MB.")]
         [FileType("image/jpeg,image/png", ErrorMessage = "Only JPEG and PNG images are allowed.")]
         public IFormFile Image { get; set; }
-        public string ISBN { get; set; }
         public Guid PublisherId { get; set; }
         public ICollection<Guid> CategoryIds { get; set; }
         public ICollection<Guid> AuthorIds { get; set; }

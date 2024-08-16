@@ -35,10 +35,11 @@ namespace CatalogService.Infostructure.Repositories
         public Task<List<Book>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken token = default)
         {
             return _dbcontext.Books
-                .Include(s => s.Categories)
-                .Include(s => s.Authors)
-                .Include(s => s.Publisher)
-                .Where(p => ids.Contains(p.Id)).Include(p => p.Authors).ToListAsync(token); ;
+                 .Include(s => s.Categories)
+                 .Include(s => s.Authors) 
+                 .Include(s => s.Publisher)
+                 .Where(p => ids.Contains(p.Id))
+                 .ToListAsync(token);
         }
 
         public Task UpdateAsync(Book book, CancellationToken token = default)

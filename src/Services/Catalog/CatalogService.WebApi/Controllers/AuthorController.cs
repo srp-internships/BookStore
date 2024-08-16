@@ -27,9 +27,6 @@ namespace CatalogService.WebApi.Controllers
 
         }
 
-
-
-
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token = default)

@@ -2,6 +2,7 @@
 using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace CatalogService.Infostructure.Repositories
 {
@@ -10,18 +11,26 @@ namespace CatalogService.Infostructure.Repositories
     {
         private readonly CatalogDbContext _dbcontext = dbContext;
 
-        public async Task CreateAsync(BookSeller bookSeller, CancellationToken token = default)
+        public async Task<Guid> CreateAsync(BookSeller bookSeller, CancellationToken token = default)
         {
             await _dbcontext.BookSellers.AddAsync(bookSeller, token);
+            return bookSeller.Id;
         }
         public Task<BookSeller?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             return _dbcontext.BookSellers
                 .Include(bs => bs.Book)
                 .Include(bs => bs.Seller)
-                .FirstOrDefaultAsync(bs => bs.Id.Equals(id), token); ;
+                .FirstOrDefaultAsync(bs => bs.Id.Equals(id), token);
         }
-
+        public Task<List<BookSeller>> GetListByBookIdAsync(Guid id, CancellationToken token = default)
+        {
+            return _dbcontext.BookSellers
+                .Include(bs => bs.Book)
+                .Include(bs => bs.Seller)
+                .Where(p => p.BookId.Equals(id))
+                .ToListAsync(token);
+        }
         public async Task UpdateAsync(BookSeller bookSeller, CancellationToken token = default)
         {
             await _dbcontext.BookSellers

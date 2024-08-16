@@ -12,7 +12,7 @@ namespace PaymentService.WebApi.Common.Extensions
             services.ConfigureOptions<RabbitMqOptionsSetup>()
                 .AddMassTransit(busConfigurator =>
                 {
-                    busConfigurator.SetKebabCaseEndpointNameFormatter();
+                    busConfigurator.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "payment", includeNamespace: false));
 
                     //busConfigurator.AddConsumers(typeof(Application.DependencyInjection).Assembly);
                     busConfigurator.AddConsumer<OrderProcessedIntegrationEventConsumer>();

@@ -32,6 +32,7 @@ namespace ShipmentService.Infrastructure.Consumers
                     shipment.Status = Domain.Enums.Status.Pending;
                 else if (statusUpdateEvent.Status == OrderStatus.Failed)
                     _context.Shipments.Remove(shipment);
+                _context.Shipments.Update(shipment);
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation($"Updated shipment status for OrderId {statusUpdateEvent.OrderId} to {statusUpdateEvent.Status}");

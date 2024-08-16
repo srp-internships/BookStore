@@ -26,6 +26,7 @@ namespace CatalogService.Infostructure
 
             services.AddMassTransit(x =>
             {
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "catalog", includeNamespace: false));
                 x.AddConsumers(typeof(DependencyInjection).Assembly);
                 //x.UsingInMemory();
                 // Configure RabbitMQ

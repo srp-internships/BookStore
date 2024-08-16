@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShipmentService.Aplication.Common.Extentions;
 using ShipmentService.Aplication.CQRS.Shipments.Commands.Update;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetAll;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetById;
@@ -19,14 +18,9 @@ namespace ShipmentService.WebApi.Controllers
         }
 
         // PUT api/shipments/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateShipment(Guid id, [FromBody] UpdateShipmentCommand command)
+        [HttpPut]
+        public async Task<IActionResult> UpdateShipment([FromForm] UpdateShipmentCommand command)
         {
-            if (id != command.ShipmentId)
-            {
-                return BadRequest("ID mismatch.");
-            }
-
             await _mediator.Send(command);
             return Ok("Updated successfully");
         }

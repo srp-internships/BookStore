@@ -27,6 +27,7 @@ public class Program
         #region AddMassTransit
         builder.Services.AddMassTransit(x =>
         {
+            x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "review", includeNamespace: false));
             x.AddConsumer<BookCreatedConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>

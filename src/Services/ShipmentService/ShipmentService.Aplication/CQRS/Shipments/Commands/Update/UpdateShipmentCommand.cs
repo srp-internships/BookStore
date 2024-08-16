@@ -6,7 +6,6 @@ namespace ShipmentService.Aplication.CQRS.Shipments.Commands.Update
     public record UpdateShipmentCommand
    (
        Guid ShipmentId,
-       ShipmentStatus Status,
-       DateTime UpdatedStatusDateTime
+       ShipmentStatus Status
    ) : IRequest<Unit>;
 }

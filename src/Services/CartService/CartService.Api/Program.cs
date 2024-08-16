@@ -22,6 +22,8 @@ builder.Services.AddLogging();
 #region MassTransit
 builder.Services.AddMassTransit(x =>
 {
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "cart", includeNamespace: false));
+
     x.AddConsumer<BookCreatedConsumer>();
     x.AddConsumer<PriceCreatedConsumer>();
     x.AddConsumer<BookUpdatedConsumer>();

@@ -21,6 +21,7 @@ builder.Services.AddStackExchangeRedisCache(redisOptions =>
 // Add MassTransit 
 builder.Services.AddMassTransit(x =>
 {
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "order", includeNamespace: false));
     x.AddConsumer<PaymentStatusUpdatedConsumer>();
     x.AddConsumer<ShipmentStatusUpdatedConsumer>();
 

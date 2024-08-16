@@ -39,6 +39,7 @@ builder.Services.AddTransient<IValidator<GetShipmentByIdQuery>, GetShipmentByIdQ
 
 builder.Services.AddMassTransit(x =>
 {
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "shipment", includeNamespace: false));
     x.AddConsumer<OrderCreatedConsumer>();
     x.AddConsumer<OrderStatusUpdatedConsumer>();
     x.UsingRabbitMq((context, cfg) =>

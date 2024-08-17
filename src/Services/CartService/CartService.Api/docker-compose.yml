@@ -1,0 +1,31 @@
+﻿version: '3.8'
+
+services:
+  web:
+    image: cartservice:latest 
+    build:
+      context: . 
+    ports:
+      - "80:80"  
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=db;Database=mydb;User Id=sa;Password=Password123;  
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - SA_PASSWORD=Password123
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"  
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

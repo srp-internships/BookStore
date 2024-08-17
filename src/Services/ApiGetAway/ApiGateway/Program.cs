@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddOcelot();
+builder.Services.AddOcelot(builder.Configuration);
 
 
 

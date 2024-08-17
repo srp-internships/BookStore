@@ -4,13 +4,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>85409eb7-dd68-40e8-ab40-664e6e49a227</UserSecretsId>
+    <UserSecretsId>46aeef0d-b393-4891-ade9-6a538dc6d1d0</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-
+    <PackageReference Include="Ocelot" Version="23.3.3" />
   </ItemGroup>
+
 
 </Project>

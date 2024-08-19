@@ -31,7 +31,7 @@ namespace CartService.Api.Controllers
         }
 
         [HttpPut("items/{cartItemId}")]
-        public async Task<IActionResult> UpdateCartItemQuantityAsync(Guid cartItemId, [FromQuery] int quantity)
+        public async Task<IActionResult> UpdateCartItemQuantityAsync(Guid cartItemId, [FromBody] int quantity)
         {
             await _cartService.UpdateCartItemQuantityAsync(cartItemId, quantity);
             return NoContent();

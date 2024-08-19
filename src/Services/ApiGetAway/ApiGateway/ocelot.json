@@ -1,861 +1,915 @@
 ﻿{
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5194"
+    "BaseUrl": "http://172.21.48.1:8095"
   },
   "Routes": [
-    //Authentication Web api
-    {
-      "DownstreamPathTemplate": "/api/identity/{everything}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7167
-        }
-      ],
-      "UpstreamPathTemplate": "/identity/{everything}",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
-    //Catalog Web Api
-    //Post Book
+    //  Get Books
     {
       "DownstreamPathTemplate": "/book",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/book",
-      "UpstreamHttpMethod": [ "POST" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "book.write" ]
-
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin,`Seller"
-          }
-      },
-      //Put Book by Id
-    {
-      "DownstreamPathTemplate": "/book/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5162
-        }
-      ],
-      "UpstreamPathTemplate": "/api/book/{id}",
-      "UpstreamHttpMethod": [ "Put" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "book.wtite" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-          }
-      },
-      //Get Book By Id
-      {
-        "DownstreamPathTemplate": "/book/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/book/{id}",
-        "UpstreamHttpMethod": [ "GET" ]
-      },
-      //Get Books
-      {
-        "DownstreamPathTemplate": "/book",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/book",
-        "UpstreamHttpMethod": [ "Get" ]
-      },
-      //delete book by id
-    {
-      "DownstreamPathTemplate": "/book/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5162
-        }
-      ],
-      "UpstreamPathTemplate": "/api/book/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "book.deleted" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Get" ]
     },
-      //Post and Put Category
+    //  Get Book By Id
+    {
+      "DownstreamPathTemplate": "/book/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/book/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+
+
+    // Post Book
+    {
+      "DownstreamPathTemplate": "/book",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/book",
+      "UpstreamHttpMethod": [ "POST" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
+    },
+
+
+
+    //  Put Book by Id
+    {
+      "DownstreamPathTemplate": "/book/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/book/{id}",
+      "UpstreamHttpMethod": [ "Put" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
+    },
+
+
+
+    //  delete book by id
+    {
+      "DownstreamPathTemplate": "/book/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/book/{everything}",
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
+    },
+
+
+
+    //Post and Put Category
     {
       "DownstreamPathTemplate": "/category",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/category",
-      "UpstreamHttpMethod": [ "POST", "Put" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "Bearer" },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Post", "Put" ]
+      //"AuthenticationOptions": { "AuthenticationProviderKey": "Bearer" },
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
-      //Get Categories
-      {
-        "DownstreamPathTemplate": "/category",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/category",
-        "UpstreamHttpMethod": [ "Get" ]
-      },
-      //Get category by Id
-      {
-        "DownstreamPathTemplate": "/category/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/category/{id}",
-        "UpstreamHttpMethod": [ "GET" ]
-      },
-      //Delete Category By Id
+
+
+
+    //Get Categories
+    {
+      "DownstreamPathTemplate": "/category",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/category",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+
+
+    //Get category by Id
     {
       "DownstreamPathTemplate": "/category/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/category/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "category.deleted" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
-      // Post and Put Publisher
+
+
+
+    //Delete Category By Id
+    {
+      "DownstreamPathTemplate": "/category/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/category/{everything}",
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "category.deleted" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
+    },
+
+
+    //// Authentication Web api
+    //{
+    //  "DownstreamPathTemplate": "/api/identity/{everything}",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "172.21.48.1",
+    //      "Port": 8085
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/identity/{everything}",
+    //  "UpstreamHttpMethod": [ "POST" ]
+    //},
+    //// Catalog Web Api
+
+
+
+
+
+
+
+    //// Post and Put Publisher
     {
       "DownstreamPathTemplate": "/publisher",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/publisher",
-      "UpstreamHttpMethod": [ "POST", "Put" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Post", "Put" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer"
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "Admin, Seller"
+      //}
     },
-      //Get publishers
-      {
-        "DownstreamPathTemplate": "/publisher",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/publisher",
-        "UpstreamHttpMethod": [ "Get" ]
-      },
-      //Get publisher by id
-      {
-        "DownstreamPathTemplate": "/publisher/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/publisher/{id}",
-        "UpstreamHttpMethod": [ "GET" ]
-      },
-      //Delete publisher by id
+
+
+
+    ////Get publishers
+    {
+      "DownstreamPathTemplate": "/publisher",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/publisher",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+
+
+    //Get publisher by id
     {
       "DownstreamPathTemplate": "/publisher/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/publisher/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "publisher.deleted" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
-      //Post and Put Author
+
+
+
+    ////Delete publisher by id
+    {
+      "DownstreamPathTemplate": "/publisher/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/publisher/{everything}",
+      "UpstreamHttpMethod": [ "Delete" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": [ "publisher.deleted" ]
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "Admin, Seller"
+      //  }
+    },
+
+
+
+    //Post and Put Author
     {
       "DownstreamPathTemplate": "/author",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/author",
-      "UpstreamHttpMethod": [ "Post", "Put" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "author.write" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Post", "Put" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": [ "author.write" ]
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "Admin, Seller"
+      //  }
     },
-      //Delete author by id
+
+
+
+    //Delete author by id
+    {
+      "DownstreamPathTemplate": "/author/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/author/{everything}",
+      "UpstreamHttpMethod": [ "Delete" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": []
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "Admin, Seller"
+      //  }
+    },
+
+
+
+
+    //Get Authors
+    {
+      "DownstreamPathTemplate": "/author",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/author",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+
+
+    ////Get Author By Id
     {
       "DownstreamPathTemplate": "/author/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/author/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
-      //Get Authors
-      {
-        "DownstreamPathTemplate": "/author",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/author",
-        "UpstreamHttpMethod": [ "Get" ]
-      },
-      //Get Author By Id
-      {
-        "DownstreamPathTemplate": "/author/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/author/{id}",
-        "UpstreamHttpMethod": [ "GET" ]
-      },
-      //Post and Put BookSeller
+
+
+
+    ////Post and Put BookSeller
     {
       "DownstreamPathTemplate": "/bookseller",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/bookseller",
-      "UpstreamHttpMethod": [ "POST", "PUT" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Post", "Put" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": []
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "Admin, Seller"
+      //  }
     },
-      // Delete bookseller by  id
+
+
+
+    //// Delete bookseller by  id
+    {
+      "DownstreamPathTemplate": "/bookseller/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/bookseller/{everything}",
+      "UpstreamHttpMethod": [ "Delete" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": [ "bookseller.deleted" ]
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "Admin, Seller"
+      //  }
+    },
+
+
+
+    //// Get BookSeller By BookId
+    {
+      "DownstreamPathTemplate": "/bookseller/book_id/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8093
+        }
+      ],
+      "UpstreamPathTemplate": "/api/bookseller/book_id/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+
+
+    ////Get bookSeller by id
     {
       "DownstreamPathTemplate": "/bookseller/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "172.21.48.1",
+          "Port": 8093
         }
       ],
       "UpstreamPathTemplate": "/api/bookseller/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "bookseller.deleted" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
-      // Get BookSellers
-      {
-        "DownstreamPathTemplate": "/bookseller",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/bookseller",
-        "UpstreamHttpMethod": [ "Get" ]
-      },
-      //Get bookSeller by id
-      {
-        "DownstreamPathTemplate": "/bookseller/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5162
-          }
-        ],
-        "UpstreamPathTemplate": "/api/bookseller/{id}",
-        "UpstreamHttpMethod": [ "GET" ]
-      },
 
-      //CartService Web Api
+
+
+    ////CartService Web Api
     {
       "DownstreamPathTemplate": "/api/cart/{userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5124
+          "Host": "172.21.48.1",
+          "Port": 8082
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "cart.read" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": [ "cart.read" ]
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "User"
+      //  }
     },
+
+
+
+    // AddToCartItems
     {
       "DownstreamPathTemplate": "/api/cart/{userId}/items",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5124
+          "Host": "172.21.48.1",
+          "Port": 8082
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}/items",
-      "UpstreamHttpMethod": [ "POST" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "cart.write" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "POST" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": [ "cart.write" ]
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "User"
+      //  }
     },
+
+
+    //Put and Delete CartItemId
     {
       "DownstreamPathTemplate": "/api/cart/items/{cartItemId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5124
+          "Host": "172.21.48.1",
+          "Port": 8082
         }
       ],
       "UpstreamPathTemplate": "/cart/items/{cartItemId}",
-      "UpstreamHttpMethod": [ "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "PUT", "DELETE" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": []
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "User"
+      //  }
     },
+
+
+    //Clear Cart
     {
       "DownstreamPathTemplate": "/api/cart/{userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5124
+          "Host": "172.21.48.1",
+          "Port": 8082
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}",
-      "UpstreamHttpMethod": [ "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "DELETE" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": []
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "User"
+      //  }
     },
+
+
+    //Get TotalPrice
+
     {
       "DownstreamPathTemplate": "/api/cart/{userId}/total",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5124
+          "Host": "172.21.48.1",
+          "Port": 8082
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}/total",
-      "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "cart.read" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": [ "cart.read" ]
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "User"
+      //  }
     },
 
-      //PaymentService
+
+    //PaymentService
     {
       "DownstreamPathTemplate": "/api/card/addOrUpdate",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5011
+          "Host": "172.21.48.1",
+          "Port": 8087
         }
       ],
       "UpstreamPathTemplate": "/card/addOrUpdate",
-      "UpstreamHttpMethod": [ "POST" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "card.write" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "POST" ]
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": [ "card.write" ]
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "User"
+      //  }
     },
     {
-      "DownstreamPathTemplate": "/api/card",
+      "DownstreamPathTemplate": "/api/1/card/get",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5011
+          "Host": "172.21.48.1",
+          "Port": 8087
         }
       ],
       "UpstreamPathTemplate": "/card",
       "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "card.read" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
+      "AddQueriesToRequest": {
+        "UserId": "{query.UserId}"
       }
+
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "Bearer",
+      //    "AllowedScopes": [ "card.read" ]
+      //  },
+      //  "AddHeadersToRequest": {
+      //    "Authorization": "Bearer {Token}"
+      //  },
+      //  "RouteClaimsRequirement": {
+      //    "role": "User"
+      //}
+
     },
 
-      //ReviewService
-      {
-        "DownstreamPathTemplate": "/api/reviews/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/reviews/{id}",
-        "UpstreamHttpMethod": [ "GET" ]
-      },
-      {
-        "DownstreamPathTemplate": "/api/reviews/book/{bookId}/average-rating",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/reviews/book/{bookId}/average-rating",
-        "UpstreamHttpMethod": [ "GET" ]
-      },
-      {
-        "DownstreamPathTemplate": "/api/reviews/book/{bookId}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/reviews/book/{bookId}",
-        "UpstreamHttpMethod": [ "GET" ]
-      },
+    //ReviewService
+    //Get ReviewById
+    {
+      "DownstreamPathTemplate": "/api/reviews/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8091
+        }
+      ],
+      "UpstreamPathTemplate": "/reviews/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    //Get Review  average-rating by BookId
+    {
+      "DownstreamPathTemplate": "/api/reviews/book/{bookId}/average-rating",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8091
+        }
+      ],
+      "UpstreamPathTemplate": "/reviews/book/{bookId}/average-rating",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    //Get Review By BookId
+    {
+      "DownstreamPathTemplate": "/api/reviews/book/{bookId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8091
+        }
+      ],
+      "UpstreamPathTemplate": "/reviews/book/{bookId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    //Get Review By User Id
     {
       "DownstreamPathTemplate": "/api/reviews/user/{userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5257
+          "Host": "172.21.48.1",
+          "Port": 8091
         }
       ],
       "UpstreamPathTemplate": "/reviews/user/{userId}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "reviews.read" ]
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "reviews.read" ]
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
+
+    //Create Review
     {
       "DownstreamPathTemplate": "/api/reviews",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5257
+          "Host": "172.21.48.1",
+          "Port": 8091
         }
       ],
       "UpstreamPathTemplate": "/reviews",
-      "UpstreamHttpMethod": [ "POST" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "reviews.write" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "POST" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "reviews.write" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
-      {
-        "DownstreamPathTemplate": "/api/reviews/{id}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5257
-          }
-        ],
-        "UpstreamPathTemplate": "/reviews/{id}",
-        "UpstreamHttpMethod": [ "DELETE" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": []
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "User"
+
+
+    //Delete Review By Id
+    {
+      "DownstreamPathTemplate": "/api/reviews/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8091
         }
-      },
+      ],
+      "UpstreamPathTemplate": "/reviews/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
+    },
+
+    //Delete Review By userId
     {
       "DownstreamPathTemplate": "/api/reviews/{id}/user/{userId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5257
+          "Host": "172.21.48.1",
+          "Port": 8091
         }
       ],
       "UpstreamPathTemplate": "/reviews/{id}/user/{userId}",
-      "UpstreamHttpMethod": [ "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "DELETE" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
-      //ShipmentService
-      //GetById Put
+    //ShipmentService
+    //GetById
     {
       "DownstreamPathTemplate": "/api/shipments/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 3040
+          "Host": "172.21.48.1",
+          "Port": 8089
         }
       ],
       "UpstreamPathTemplate": "/shipments/{id}",
-      "UpstreamHttpMethod": [ "GET", "PUT" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "shipments.read", "shipments.write" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User, Admin, Seller, Manager"
-      }
+      "UpstreamHttpMethod": [ "Get" ]
     },
-      //Get Shipments
+    //Put Shipment Status
     {
       "DownstreamPathTemplate": "/api/shipments",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 3040
+          "Host": "172.21.48.1",
+          "Port": 8089
+        }
+      ],
+      "UpstreamPathTemplate": "/shipments/",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "SwaggerKey": "shipments"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "shipments.read", "shipments.write" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User, Admin, Seller, Manager"
+      //}
+    },
+
+
+    //Get Shipments
+    {
+      "DownstreamPathTemplate": "/api/shipments",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.21.48.1",
+          "Port": 8089
         }
       ],
       "UpstreamPathTemplate": "/shipments",
-      "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "shipments.read" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "shipments.read" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User,Admin,Seller"
+      //}
     },
-      //OrderService
+
+
+    //OrderService
+    //Get And Post Order
     {
-      "DownstreamPathTemplate": "/api/orders",
+      "DownstreamPathTemplate": "/orders",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5023
+          "Host": "172.21.48.1",
+          "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/orders",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "orders.read", "orders.write" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
+      "UpstreamPathTemplate": "/api/orders",
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "orders.read", "orders.write" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User,Admin,Seller"
+      //}
     },
+
+    //Delete OrderById
     {
-      "DownstreamPathTemplate": "/api/orders/{id}",
+      "DownstreamPathTemplate": "/orders/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5023
+          "Host": "172.21.48.1",
+          "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/orders/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "orders.deleted" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
+      "UpstreamPathTemplate": "/api/orders/{id}",
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "orders.deleted" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User,Admin,Seller"
+      //}
     },
+
+
+    //Get Orders By CustomerId
     {
-      "DownstreamPathTemplate": "/api/orders/customer/{customerId}",
+      "DownstreamPathTemplate": "/orders/customer/{customerId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5023
+          "Host": "172.21.48.1",
+          "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/orders/customer/{customerId}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "orders.read" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
-    },
-      //AnalyticsService
-    {
-      "DownstreamPathTemplate": "/api/analytics",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/analytics",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "analytics.read", "analytics.write" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
-    },
-    {
-      "DownstreamPathTemplate": "/api/analytics/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/api/analytics/{id}",
-      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "analytics.read", "analytics.write" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
-    },
-    {
-      "DownstreamPathTemplate": "/api/analytics/salesreport",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5257
-        }
-      ],
-      "UpstreamPathTemplate": "/api/analytics/salesreport",
-      "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "analytics.read" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
+      "UpstreamPathTemplate": "/api/orders/customer/{customerId}",
+      "UpstreamHttpMethod": [ "Get" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "orders.read" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User,Admin,Seller"
+      //}
     }
+
   ]
 }

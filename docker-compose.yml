@@ -216,6 +216,21 @@ services:
     networks:
       - app-network
 
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: src/Services/ApiGetAway/ApiGateway/Dockerfile
+    environment:
+      - JwtSettings__Authority=https://localhost:7167
+      - JwtSettings__SecurityKey=your-very-secure-key
+      - MraInfrastructure-CORS__0=http://localhost
+    ports:
+      - "8095:8080"
+    networks:
+      - app-network
+
+
 volumes:
   postgres_data:
   rabbitmq_data:
@@ -225,3 +240,4 @@ volumes:
 networks:
   app-network:
     driver: bridge
+

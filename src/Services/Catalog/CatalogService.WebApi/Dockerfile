@@ -19,7 +19,7 @@ RUN dotnet restore "./src/Services/Catalog/CatalogService.WebApi/CatalogService.
 COPY . .
 WORKDIR "/src/src/Services/Catalog/CatalogService.WebApi"
 RUN dotnet build "./CatalogService.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
+   
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./CatalogService.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false

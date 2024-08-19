@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
-using CatalogService.Domain.Entities;
 using CatalogService.Application.Exceptions;
 using CatalogService.Application.Interfaces.Repositories;
+using CatalogService.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalogService.Application.UseCases
 {
@@ -34,8 +29,8 @@ namespace CatalogService.Application.UseCases
 
             if (author == null)
             {
-                throw new NotFoundException(nameof(Book), request.Id);
-            } 
+                throw new NotFoundException(nameof(Author), request.Id);
+            }
 
             return _mapper.Map<AuthorDto>(author);
         }

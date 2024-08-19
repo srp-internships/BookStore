@@ -34,7 +34,7 @@ namespace AnalyticsService.Application.Services
             return await _bookSaleRepository.GetSalesReportByDateAsync(startDate, endDate);
         }
 
-        public async Task<List<AnalyticsReport>> GetSalesReportBySeller(Guid sellerId)
+        public async Task<IEnumerable<BookSale>> GetSalesReportBySeller(Guid sellerId)
         {
             if (_bookSaleRepository.IsSellerExest(sellerId))
             {

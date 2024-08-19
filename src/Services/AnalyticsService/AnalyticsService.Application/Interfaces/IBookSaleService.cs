@@ -12,6 +12,6 @@ namespace AnalyticsService.Application.Interfaces
         Task<BookSale> GetBookSaleByIdAsync(Guid id);
         Task<IEnumerable<BookSale>> GetAllBookSalesAsync();
         Task<List<AnalyticsReport>> GetSalesReportByDateAsync(DateTime startDate, DateTime endDate);
-        Task<List<AnalyticsReport>> GetSalesReportBySeller(Guid SellerId);
+        Task<IEnumerable<BookSale>> GetSalesReportBySeller(Guid SellerId);
     }
 }

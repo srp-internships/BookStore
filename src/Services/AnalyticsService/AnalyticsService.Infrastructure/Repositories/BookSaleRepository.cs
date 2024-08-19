@@ -61,9 +61,11 @@ namespace AnalyticsService.Infrastructure.Repositories
         
         }
 
-        public Task<List<AnalyticsReport>> GetSalesReportBySeller(Guid SellerId)
+        public async Task<IEnumerable<BookSale>>  GetSalesReportBySeller(Guid SellerId)
         {
-            throw new NotImplementedException();  // ishi bor hali
+            return await _context.BookSales
+                                 .Where(c => c.SellerId == SellerId)
+                                 .ToListAsync();  
         }
     }
 }

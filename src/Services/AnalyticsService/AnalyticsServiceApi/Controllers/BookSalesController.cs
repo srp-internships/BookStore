@@ -9,24 +9,24 @@ namespace AnalyticsServiceApi.Controllers
     [ApiController]
     public class BookSalesController : ControllerBase
     {
-        private readonly IBookSaleRepository _bookSaleRepository;
+        private readonly IBookSaleService _bookSaleService;
 
-        public BookSalesController(IBookSaleRepository bookSaleRepository)
+        public BookSalesController(IBookSaleService bookSaleService)
         {
-            _bookSaleRepository = bookSaleRepository;
+            _bookSaleService = bookSaleService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookSale>>> GetAllBookSales()
         {
-            var bookSales = await _bookSaleRepository.GetAllBookSalesAsync();
+            var bookSales = await _bookSaleService.GetAllBookSalesAsync();
             return Ok(bookSales);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<BookSale>> GetBookSaleById(Guid id)
         {
-            var bookSale = await _bookSaleRepository.GetBookSaleByIdAsync(id);
+            var bookSale = await _bookSaleService.GetBookSaleByIdAsync(id);
             if (bookSale == null)
             {
                 return NotFound();
@@ -40,7 +40,7 @@ namespace AnalyticsServiceApi.Controllers
         {
             try
             {
-                var report = await _bookSaleRepository.GetSalesReportByDateAsync(startDate, endDate);
+                var report = await _bookSaleService.GetSalesReportByDateAsync(startDate, endDate);
                 return Ok(report);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace AnalyticsServiceApi.Controllers
         {
             try
             {
-                var report = await _bookSaleRepository.GetBookSaleByIdAsync(sellerId);
+                var report = await _bookSaleService.GetBookSaleByIdAsync(sellerId);
                 return Ok(report);
             }
             catch (Exception ex)

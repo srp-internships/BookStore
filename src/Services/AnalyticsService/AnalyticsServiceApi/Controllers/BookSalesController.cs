@@ -48,48 +48,19 @@ namespace AnalyticsServiceApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost]
-        public async Task<ActionResult> AddBookSale([FromBody] BookSale bookSale)
+        [HttpGet("api/analytics/sallerId")]
+        public async Task<IActionResult> GetBySellerId(Guid sellerId)
         {
-            if (bookSale == null)
+            try
             {
-                return BadRequest();
+                var report = await _bookSaleRepository.GetBookSaleByIdAsync(sellerId);
+                return Ok(report);
             }
-
-            await _bookSaleRepository.AddBookSaleAsync(bookSale);
-            return CreatedAtAction(nameof(GetBookSaleById), new { id = bookSale.Id }, bookSale);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateBookSale(Guid id, [FromBody] BookSale bookSale)
-        {
-            if (id != bookSale.Id)
-            {
-                return BadRequest();
-            }
-
-            var existingBookSale = await _bookSaleRepository.GetBookSaleByIdAsync(id);
-            if (existingBookSale == null)
-            {
-                return NotFound();
-            }
-
-            await _bookSaleRepository.UpdateBookSaleAsync(bookSale);
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteBookSale(Guid id)
-        {
-            var existingBookSale = await _bookSaleRepository.GetBookSaleByIdAsync(id);
-            if (existingBookSale == null)
-            {
-                return NotFound();
-            }
-
-            await _bookSaleRepository.DeleteBookSaleAsync(id);
-            return NoContent();
-        }
     }
 }

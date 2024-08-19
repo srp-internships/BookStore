@@ -12,5 +12,7 @@ namespace AnalyticService.Domain.Entities
         public Guid BookId { get; set; }
         public int Quantity { get; set; }
         public DateTime PurchaseDate { get; set; }
+        public string Title { get; set; }
+        public Guid SellerId { get; set; }
     }
 }

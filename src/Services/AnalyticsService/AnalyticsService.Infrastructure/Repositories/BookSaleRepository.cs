@@ -10,6 +10,7 @@ using AnalyticsService.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
 
+
 namespace AnalyticsService.Infrastructure.Repositories
 {
     public class BookSaleRepository : IBookSaleRepository
@@ -21,12 +22,6 @@ namespace AnalyticsService.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddBookSaleAsync(BookSale bookSale)
-        {
-            await _context.BookSales.AddAsync(bookSale);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<BookSale> GetBookSaleByIdAsync(Guid id)
         {
             return await _context.BookSales.FindAsync(id);
@@ -35,19 +30,6 @@ namespace AnalyticsService.Infrastructure.Repositories
         public async Task<IEnumerable<BookSale>> GetAllBookSalesAsync()
         {
             return await _context.BookSales.ToListAsync();
-        }
-
-        public async Task UpdateBookSaleAsync(BookSale bookSale)
-        {
-            _context.BookSales.Update(bookSale);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteBookSaleAsync(Guid id)
-        {
-            var bookSale = await _context.BookSales.FindAsync(id);
-            _context.BookSales.Remove(bookSale);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<AnalyticsReport>> GetSalesReportByDateAsync(DateTime startDate, DateTime endDate)
@@ -71,6 +53,17 @@ namespace AnalyticsService.Infrastructure.Repositories
                 .ToListAsync();
 
             return report;
+        }
+
+        public bool IsSellerExest(Guid id)
+        {
+          return  _context.BookSales.Where(c => c.SellerId == id).Any();
+        
+        }
+
+        public Task<List<AnalyticsReport>> GetSalesReportBySeller(Guid SellerId)
+        {
+            throw new NotImplementedException();  // ishi bor hali
         }
     }
 }

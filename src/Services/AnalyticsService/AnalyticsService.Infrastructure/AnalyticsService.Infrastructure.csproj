@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\OrderService\Orders.IntegrationEvents\Orders.IntegrationEvents.csproj" />
     <ProjectReference Include="..\AnalyticService.Domain\AnalyticService.Domain.csproj" />
     <ProjectReference Include="..\AnalyticsService.Application\AnalyticsService.Application.csproj" />
   </ItemGroup>

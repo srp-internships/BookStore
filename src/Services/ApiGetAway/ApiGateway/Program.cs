@@ -1,4 +1,5 @@
 using ApiGateway;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System.Net;
@@ -6,58 +7,37 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Добавление файла конфигурации Ocelot
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 
-// Загрузка допустимых хостов для CORS
-var corsAllowedHosts = builder.Configuration.GetSection("Cors_client").Get<string[]>();
-
-// Загрузка настроек JWT
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 
-// Настройка аутентификации JWT
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        options.Authority = jwtSettings.Authority; // URL  Identity Service
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings.Authority,
-            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecurityKey))
-        };
-    });
 
-// Настройка CORS
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.Authority = jwtSettings.Authority;
+    options.RequireHttpsMetadata = false;
+});
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CORS_POLICY", policyConfig =>
+    options.AddPolicy("AllowAll", builder =>
     {
-        policyConfig.WithOrigins(corsAllowedHosts)
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
     });
 });
-
-// Добавление Ocelot в сервисы
 builder.Services.AddOcelot(builder.Configuration);
-
 var app = builder.Build();
-
-// Логирование текущего протокола безопасности
-var logger = app.Services.GetRequiredService<ILogger<Program>>();
-logger.LogWarning($"Security Protocol: {ServicePointManager.SecurityProtocol}");
-
-// Конвейер обработки HTTP-запросов
 app.UseHttpsRedirection();
-app.UseCors("CORS_POLICY");
-app.UseAuthentication();
 app.UseRouting();
+app.UseCors("AllowAll");
 app.UseAuthorization();
-
-// Запуск Ocelot Middleware
+app.UseAuthentication();
 await app.UseOcelot();
 app.Run();

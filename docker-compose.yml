@@ -168,7 +168,7 @@ services:
       RabbitMq__VirtualHost: "/"
       RabbitMq__Username: "guest"
       RabbitMq__Password: "guest"
-      WebApi__LogFilesDirectory: "./"
+      WebApi__LogFilesDirectory: "./log/"
       WebApi__EnableSwaggerUI: true
     ports:
       - "8087:8080" # Mapping port for your ASP.NET app

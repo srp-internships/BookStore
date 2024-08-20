@@ -1,0 +1,4 @@
+2024-08-20 03:07:37.459 +00:00 [WRN] Entity 'Card' has a global query filter defined and is the required end of a relationship with the entity 'Transaction'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2024-08-20 03:07:39.109 +00:00 [WRN] Using an in-memory repository. Keys will not be persisted to storage.
+2024-08-20 03:07:39.119 +00:00 [WRN] Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits.
+2024-08-20 03:07:39.402 +00:00 [WRN] No XML encryptor configured. Key {f2207f7e-e7e0-4cef-ba3e-e97e963d3387} may be persisted to storage in unencrypted form.

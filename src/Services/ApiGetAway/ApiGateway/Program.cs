@@ -1,52 +1,43 @@
 using ApiGateway;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System.Net;
 using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 
-var corsAllowedHosts = builder.Configuration.GetSection("MraInfrastructure-CORS").Get<string[]>();
-
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        options.Authority = jwtSettings.Authority;
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings.Authority,
-            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecurityKey))
-        };
-    });
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.Authority = jwtSettings.Authority;
+    options.RequireHttpsMetadata = false;
+});
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CORS_POLICY", policyConfig =>
+    options.AddPolicy("AllowAll", builder =>
     {
-        policyConfig.WithOrigins(corsAllowedHosts)
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
     });
 });
-
 builder.Services.AddOcelot(builder.Configuration);
-
 var app = builder.Build();
-
-var logger = app.Services.GetRequiredService<ILogger<Program>>();
-logger.LogWarning("Protocol", ServicePointManager.SecurityProtocol);
-
 app.UseHttpsRedirection();
-app.UseCors("CORS_POLICY");
-app.UseAuthentication();
 app.UseRouting();
+app.UseCors("AllowAll");
 app.UseAuthorization();
+app.UseAuthentication();
 await app.UseOcelot();
 app.Run();

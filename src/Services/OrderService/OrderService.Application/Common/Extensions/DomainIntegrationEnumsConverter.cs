@@ -2,26 +2,26 @@
 
 public static class DomainIntegrationEnumsConverter
 {
-    public static OrderStatus ToIntegrationEnum(this OrderService.Domain.Enums.OrderStatus status)
+    public static OrderStatus ToIntegrationEnum(this OrderStatus status)
     {
         return status switch
         {
-            OrderService.Domain.Enums.OrderStatus.Failed => OrderStatus.Failed,
-            OrderService.Domain.Enums.OrderStatus.Completed => OrderStatus.Completed,
-            OrderService.Domain.Enums.OrderStatus.PaymentProcessing => OrderStatus.PaymentProcessing,
-            OrderService.Domain.Enums.OrderStatus.ShipmentProcessing => OrderStatus.ShipmentProcessing,
+            OrderStatus.Failed => OrderStatus.Failed,
+            OrderStatus.Completed => OrderStatus.Completed,
+            OrderStatus.PaymentProcessing => OrderStatus.PaymentProcessing,
+            OrderStatus.ShipmentProcessing => OrderStatus.ShipmentProcessing,
             _ => throw new InvalidCastException($"Not matchable domain enum value detected: {status}"),
         };
     }
 
-    public static OrderService.Domain.Enums.OrderStatus ToDomainEnum(this OrderStatus status)
+    public static OrderStatus ToDomainEnum(this OrderStatus status)
     {
         return status switch
         {
-            OrderStatus.Failed => OrderService.Domain.Enums.OrderStatus.Failed,
-            OrderStatus.Completed => OrderService.Domain.Enums.OrderStatus.Completed,
-            OrderStatus.PaymentProcessing => OrderService.Domain.Enums.OrderStatus.PaymentProcessing,
-            OrderStatus.ShipmentProcessing => OrderService.Domain.Enums.OrderStatus.ShipmentProcessing,
+            OrderStatus.Failed => OrderStatus.Failed,
+            OrderStatus.Completed => OrderStatus.Completed,
+            OrderStatus.PaymentProcessing => OrderStatus.PaymentProcessing,
+            OrderStatus.ShipmentProcessing => OrderStatus.ShipmentProcessing,
             _ => throw new InvalidCastException($"Not matchable domain enum value detected: {status}"),
         };
     }

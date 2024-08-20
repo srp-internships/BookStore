@@ -3,6 +3,7 @@
     "BaseUrl": "http://172.21.48.1:8095"
   },
   "Routes": [
+    // Catalog Web Api
     //  Get Books
     {
       "DownstreamPathTemplate": "/book",
@@ -16,6 +17,7 @@
       "UpstreamPathTemplate": "/api/book",
       "UpstreamHttpMethod": [ "Get" ]
     },
+
     //  Get Book By Id
     {
       "DownstreamPathTemplate": "/book/{id}",
@@ -29,8 +31,6 @@
       "UpstreamPathTemplate": "/api/book/{id}",
       "UpstreamHttpMethod": [ "Get" ]
     },
-
-
 
     // Post Book
     {
@@ -55,8 +55,6 @@
       //}
     },
 
-
-
     //  Put Book by Id
     {
       "DownstreamPathTemplate": "/book/{id}",
@@ -79,8 +77,6 @@
       //  "role": "Admin, Seller"
       //}
     },
-
-
 
     //  delete book by id
     {
@@ -105,8 +101,6 @@
       //}
     },
 
-
-
     //Post and Put Category
     {
       "DownstreamPathTemplate": "/category",
@@ -125,8 +119,6 @@
       //}
     },
 
-
-
     //Get Categories
     {
       "DownstreamPathTemplate": "/category",
@@ -141,8 +133,6 @@
       "UpstreamHttpMethod": [ "Get" ]
     },
 
-
-
     //Get category by Id
     {
       "DownstreamPathTemplate": "/category/{id}",
@@ -156,8 +146,6 @@
       "UpstreamPathTemplate": "/api/category/{id}",
       "UpstreamHttpMethod": [ "GET" ]
     },
-
-
 
     //Delete Category By Id
     {
@@ -183,29 +171,7 @@
       //}
     },
 
-
-    //// Authentication Web api
-    //{
-    //  "DownstreamPathTemplate": "/api/identity/{everything}",
-    //  "DownstreamScheme": "https",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "172.21.48.1",
-    //      "Port": 8085
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/identity/{everything}",
-    //  "UpstreamHttpMethod": [ "POST" ]
-    //},
-    //// Catalog Web Api
-
-
-
-
-
-
-
-    //// Post and Put Publisher
+    // Post and Put Publisher
     {
       "DownstreamPathTemplate": "/publisher",
       "DownstreamScheme": "http",
@@ -228,9 +194,7 @@
       //}
     },
 
-
-
-    ////Get publishers
+    //Get publishers
     {
       "DownstreamPathTemplate": "/publisher",
       "DownstreamScheme": "http",
@@ -243,8 +207,6 @@
       "UpstreamPathTemplate": "/api/publisher",
       "UpstreamHttpMethod": [ "Get" ]
     },
-
-
 
     //Get publisher by id
     {
@@ -259,8 +221,6 @@
       "UpstreamPathTemplate": "/api/publisher/{id}",
       "UpstreamHttpMethod": [ "GET" ]
     },
-
-
 
     ////Delete publisher by id
     {
@@ -286,8 +246,6 @@
       //  }
     },
 
-
-
     //Post and Put Author
     {
       "DownstreamPathTemplate": "/author",
@@ -311,8 +269,6 @@
       //    "role": "Admin, Seller"
       //  }
     },
-
-
 
     //Delete author by id
     {
@@ -338,9 +294,6 @@
       //  }
     },
 
-
-
-
     //Get Authors
     {
       "DownstreamPathTemplate": "/author",
@@ -354,8 +307,6 @@
       "UpstreamPathTemplate": "/api/author",
       "UpstreamHttpMethod": [ "Get" ]
     },
-
-
 
     ////Get Author By Id
     {
@@ -371,9 +322,7 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
 
-
-
-    ////Post and Put BookSeller
+    //Post and Put BookSeller
     {
       "DownstreamPathTemplate": "/bookseller",
       "DownstreamScheme": "http",
@@ -396,8 +345,6 @@
       //    "role": "Admin, Seller"
       //  }
     },
-
-
 
     //// Delete bookseller by  id
     {
@@ -423,8 +370,6 @@
       //  }
     },
 
-
-
     //// Get BookSeller By BookId
     {
       "DownstreamPathTemplate": "/bookseller/book_id/{everything}",
@@ -439,8 +384,6 @@
       "UpstreamHttpMethod": [ "Get" ]
     },
 
-
-
     ////Get bookSeller by id
     {
       "DownstreamPathTemplate": "/bookseller/{id}",
@@ -454,8 +397,6 @@
       "UpstreamPathTemplate": "/api/bookseller/{id}",
       "UpstreamHttpMethod": [ "GET" ]
     },
-
-
 
     ////CartService Web Api
     {
@@ -481,8 +422,6 @@
       //  }
     },
 
-
-
     // AddToCartItems
     {
       "DownstreamPathTemplate": "/api/cart/{userId}/items",
@@ -506,7 +445,6 @@
       //    "role": "User"
       //  }
     },
-
 
     //Put and Delete CartItemId
     {
@@ -532,7 +470,6 @@
       //  }
     },
 
-
     //Clear Cart
     {
       "DownstreamPathTemplate": "/api/cart/{userId}",
@@ -557,9 +494,7 @@
       //  }
     },
 
-
     //Get TotalPrice
-
     {
       "DownstreamPathTemplate": "/api/cart/{userId}/total",
       "DownstreamScheme": "http",
@@ -583,8 +518,8 @@
       //  }
     },
 
-
     //PaymentService
+    //AddOrUpdate
     {
       "DownstreamPathTemplate": "/api/card/addOrUpdate",
       "DownstreamScheme": "http",
@@ -607,6 +542,8 @@
       //    "role": "User"
       //  }
     },
+
+    //Get Card
     {
       "DownstreamPathTemplate": "/api/1/card/get",
       "DownstreamScheme": "http",
@@ -722,7 +659,6 @@
       //  "role": "User"
       //}
     },
-
 
     //Delete Review By Id
     {
@@ -886,7 +822,6 @@
       //}
     },
 
-
     //Get Orders By CustomerId
     {
       "DownstreamPathTemplate": "/orders/customer/{customerId}",
@@ -910,6 +845,5 @@
       //  "role": "User,Admin,Seller"
       //}
     }
-
   ]
 }

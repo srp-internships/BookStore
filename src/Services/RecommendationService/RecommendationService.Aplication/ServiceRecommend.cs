@@ -25,7 +25,7 @@ namespace RecommendationService.Application
             {
                 throw new RpcException(new Status(StatusCode.NotFound, "Book not found"));
             }
-            //var bookCategory = _dbContext.Books.Where(c => c.CategoriesIds == bookRequest.CategoriesIds);
+           // var bookCategory = _dbContext.Books.Where(c => c.CategoriesIds == bookRequest.CategoriesIds);
 
             var popularBooks = new BookListResponse();
 

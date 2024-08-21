@@ -16,7 +16,7 @@ namespace RecommendationService.Infrastructure.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
         //public DbSet<BookCategory> BookCategories { get; set; }
-
+    
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

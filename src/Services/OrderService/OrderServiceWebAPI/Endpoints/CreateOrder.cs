@@ -1,10 +1,12 @@
-﻿namespace OrderServiceWebAPI.Endpoints;
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace OrderServiceWebAPI.Endpoints;
 
 public class CreateOrder : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/orders", async (CreateOrderCommand command, ISender sender) =>
+        app.MapPost("/orders", [Authorize(Roles = "customer")] async (CreateOrderCommand command, ISender sender) =>
         {
             var orderId = await sender.Send(command);
 
@@ -14,6 +16,7 @@ public class CreateOrder : ICarterModule
         .Produces(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Create Order")
-        .WithDescription("Create Order");
+        .WithDescription("Create Order")
+        .RequireAuthorization();
     }
 }

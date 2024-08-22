@@ -66,16 +66,16 @@
         }
       ],
       "UpstreamPathTemplate": "/api/book/{id}",
-      "UpstreamHttpMethod": [ "Put" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Put" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //  delete book by id
@@ -89,16 +89,16 @@
         }
       ],
       "UpstreamPathTemplate": "/api/book/{everything}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //Post and Put Category
@@ -112,11 +112,11 @@
         }
       ],
       "UpstreamPathTemplate": "/api/category",
-      "UpstreamHttpMethod": [ "Post", "Put" ],
-      "AuthenticationOptions": { "AuthenticationProviderKey": "Bearer" },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Post", "Put" ]
+      //"AuthenticationOptions": { "AuthenticationProviderKey": "Bearer" },
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //Get Categories
@@ -158,17 +158,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/category/{everything}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "category.deleted" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "category.deleted" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     // Post and Put Publisher
@@ -182,16 +182,16 @@
         }
       ],
       "UpstreamPathTemplate": "/api/publisher",
-      "UpstreamHttpMethod": [ "Post", "Put" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer"
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "Admin, Seller"
-      }
+      "UpstreamHttpMethod": [ "Post", "Put" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //Get publishers
@@ -233,17 +233,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/publisher/{everything}",
-      "UpstreamHttpMethod": [ "Delete" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "publisher.deleted" ]
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "Admin, Seller"
-        }
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "publisher.deleted" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //Post and Put Author
@@ -257,17 +257,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/author",
-      "UpstreamHttpMethod": [ "Post", "Put" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "author.write" ]
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "Admin, Seller"
-        }
+      "UpstreamHttpMethod": [ "Post", "Put" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "author.write" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //Delete author by id
@@ -281,17 +281,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/author/{everything}",
-      "UpstreamHttpMethod": [ "Delete" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": []
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "Admin, Seller"
-        }
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //Get Authors
@@ -333,17 +333,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/bookseller",
-      "UpstreamHttpMethod": [ "Post", "Put" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": []
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "Admin, Seller"
-        }
+      "UpstreamHttpMethod": [ "Post", "Put" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //// Delete bookseller by  id
@@ -357,17 +357,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/bookseller/{everything}",
-      "UpstreamHttpMethod": [ "Delete" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "bookseller.deleted" ]
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "Admin, Seller"
-        }
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "bookseller.deleted" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "Admin, Seller"
+      //}
     },
 
     //// Get BookSeller By BookId
@@ -409,17 +409,17 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}",
-      "UpstreamHttpMethod": [ "GET" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "cart.read" ]
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "User"
-        }
+      "UpstreamHttpMethod": [ "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "cart.read" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     // AddToCartItems
@@ -433,17 +433,17 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}/items",
-      "UpstreamHttpMethod": [ "POST" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "cart.write" ]
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "User"
-        }
+      "UpstreamHttpMethod": [ "POST" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "cart.write" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //Put and Delete CartItemId
@@ -457,17 +457,17 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/items/{cartItemId}",
-      "UpstreamHttpMethod": [ "PUT", "DELETE" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": []
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "User"
-        }
+      "UpstreamHttpMethod": [ "PUT", "DELETE" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //Clear Cart
@@ -481,17 +481,17 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}",
-      "UpstreamHttpMethod": [ "DELETE" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": []
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "User"
-        }
+      "UpstreamHttpMethod": [ "DELETE" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //Get TotalPrice
@@ -505,17 +505,17 @@
         }
       ],
       "UpstreamPathTemplate": "/cart/{userId}/total",
-      "UpstreamHttpMethod": [ "GET" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "cart.read" ]
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "User"
-        }
+      "UpstreamHttpMethod": [ "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "cart.read" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //PaymentService
@@ -530,17 +530,17 @@
         }
       ],
       "UpstreamPathTemplate": "/card/addOrUpdate",
-      "UpstreamHttpMethod": [ "POST" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "Bearer",
-          "AllowedScopes": [ "card.write" ]
-        },
-        "AddHeadersToRequest": {
-          "Authorization": "Bearer {Token}"
-        },
-        "RouteClaimsRequirement": {
-          "role": "User"
-        }
+      "UpstreamHttpMethod": [ "POST" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "card.write" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //Get Card
@@ -554,17 +554,17 @@
         }
       ],
       "UpstreamPathTemplate": "/card",
-      "UpstreamHttpMethod": [ "GET" ],
-      "AddQueriesToRequest": {
-        "UserId": "{query.UserId}"
-      },
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "card.read" ]
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
+      //"AddQueriesToRequest": {
+      //  "UserId": "{query.UserId}"
+      //},
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "card.read" ]
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //ReviewService
@@ -621,14 +621,14 @@
         }
       ],
       "UpstreamPathTemplate": "/reviews/user/{userId}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "reviews.read" ]
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "reviews.read" ]
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //Create Review
@@ -642,17 +642,17 @@
         }
       ],
       "UpstreamPathTemplate": "/reviews",
-      "UpstreamHttpMethod": [ "POST" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "reviews.write" ]
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "POST" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "reviews.write" ]
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //Delete Review By Id
@@ -666,17 +666,17 @@
         }
       ],
       "UpstreamPathTemplate": "/reviews/{id}",
-      "UpstreamHttpMethod": [ "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "DELETE" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //Delete Review By userId
@@ -690,17 +690,17 @@
         }
       ],
       "UpstreamPathTemplate": "/reviews/{id}/user/{userId}",
-      "UpstreamHttpMethod": [ "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User"
-      }
+      "UpstreamHttpMethod": [ "DELETE" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"AddHeadersToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User"
+      //}
     },
 
     //ShipmentService
@@ -729,17 +729,17 @@
       ],
       "UpstreamPathTemplate": "/shipments/",
       "UpstreamHttpMethod": [ "PUT" ],
-      "SwaggerKey": "shipments",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "shipments.read", "shipments.write" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User, Admin, Seller, Manager"
-      }
+      "SwaggerKey": "shipments"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "shipments.read", "shipments.write" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User, Admin, Seller, Manager"
+      //}
     },
 
 
@@ -754,17 +754,17 @@
         }
       ],
       "UpstreamPathTemplate": "/shipments",
-      "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "shipments.read" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
+      "UpstreamHttpMethod": [ "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "shipments.read" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User,Admin,Seller"
+      //}
     },
 
 
@@ -780,17 +780,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/orders",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "orders.read", "orders.write" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "orders.read", "orders.write" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User,Admin,Seller"
+      //}
     },
 
     //Delete OrderById
@@ -804,17 +804,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/orders/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "orders.deleted" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
+      "UpstreamHttpMethod": [ "Delete" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "orders.deleted" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User,Admin,Seller"
+      //}
     },
 
     //Get Orders By CustomerId
@@ -828,17 +828,17 @@
         }
       ],
       "UpstreamPathTemplate": "/api/orders/customer/{customerId}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "orders.read" ]
-      },
-      "AddClaimsToRequest": {
-        "Authorization": "Bearer {Token}"
-      },
-      "RouteClaimsRequirement": {
-        "role": "User,Admin,Seller"
-      }
+      "UpstreamHttpMethod": [ "Get" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": [ "orders.read" ]
+      //},
+      //"AddClaimsToRequest": {
+      //  "Authorization": "Bearer {Token}"
+      //},
+      //"RouteClaimsRequirement": {
+      //  "role": "User,Admin,Seller"
+      //}
     }
   ]
 }

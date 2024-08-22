@@ -1,4 +1,5 @@
-﻿using OrderService.Application.UseCases.Orders.Commands.DeleteOrder;
+﻿using Microsoft.AspNetCore.Authorization;
+using OrderService.Application.UseCases.Orders.Commands.DeleteOrder;
 
 namespace OrderServiceWebAPI.Endpoints;
 
@@ -6,7 +7,7 @@ public class DeleteOrder : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/orders/{id}", async (Guid id, ISender sender) =>
+        app.MapDelete("/orders/{id}", [Authorize(Roles = "admin")] async (Guid id, ISender sender) =>
         {
             var isSuccess = await sender.Send(new DeleteOrderCommand(id));
 
@@ -17,6 +18,7 @@ public class DeleteOrder : ICarterModule
         .Produces(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Delete Order")
-        .WithDescription("Delete Order");
+        .WithDescription("Delete Order")
+        .RequireAuthorization();
     }
 }

@@ -1,10 +1,11 @@
 ﻿using CartService.Aplication.Commons.DTOs;
 using CartService.Aplication.Commons.Interfaces;
-using CartService.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CartService.Api.Controllers
 {
+    [Authorize(Roles = "customer")]
     [ApiController]
     [Route("api/[controller]")]
     public class CartController : ControllerBase

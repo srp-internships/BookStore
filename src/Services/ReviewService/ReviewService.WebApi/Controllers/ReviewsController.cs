@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReviewService.Application.Common.DTOs;
 using ReviewService.Application.Services;
 using ReviewService.Domain.Exceptions;
 
 namespace ReviewService.WebApi.Controllers
 {
+    [Authorize(Roles = "customer")]
     [Route("api/[controller]")]
     [ApiController]
     public class ReviewsController : ControllerBase
@@ -35,6 +37,7 @@ namespace ReviewService.WebApi.Controllers
         #endregion
 
         #region Average-rating by BookId
+        [AllowAnonymous]
         [HttpGet("book/{bookId}/average-rating")]
         public async Task<IActionResult> GetAverageRatingByBookId(Guid bookId)
         {
@@ -54,6 +57,7 @@ namespace ReviewService.WebApi.Controllers
         #endregion
 
         #region GetReviewByBookId
+        [AllowAnonymous]
         [HttpGet("book/{bookId}")]
         public async Task<IActionResult> GetByBookId(Guid bookId)
         {

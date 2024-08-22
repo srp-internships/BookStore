@@ -1,72 +1,92 @@
-﻿using Duende.IdentityServer.Models;
-using Duende.IdentityServer;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace IdentityService.Components.IDS
 {
-	public static class IdsConfig
-	{
-		public static IEnumerable<IdentityResource> IdentityResources =>
-			[
-				new IdentityResources.OpenId(),
-				new IdentityResources.Profile(),
-				new IdentityResources.Email(),
-				new IdentityResources.Address(),
-				new IdentityResources.Phone(),
-			];
+    public static class IdsConfig
+    {
+        public static IEnumerable<IdentityResource> IdentityResources =>
+            [
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResources.Address(),
+                new IdentityResources.Phone(),
+            ];
 
-		public static IEnumerable<ApiScope> ApiScopes =>
-			[
-				new ApiScope("common_scope", "Common scope", [ "role", "name" ]),
-			];
+        public static IEnumerable<ApiScope> ApiScopes =>
+            [
+                new ApiScope("common_scope", "Common scope", [ "role", "name" ]),
+            ];
 
-		public static IEnumerable<ApiResource> ApiResources =>
-			[
-				new ApiResource("payment", "Payment service")
-				{
-					Scopes = { "common_scope" }
-				},
-			];
+        public static IEnumerable<ApiResource> ApiResources =>
+            [
+                new ApiResource("book_program", "Book program")
+                {
+                    Scopes = { "common_scope" }
+                },
+            ];
 
-		public static IEnumerable<Client> Clients =>
-			[
-				new Client
-				{
-					ClientId = "swagger-client-3F9610DD-0032-41FA-92F5-397E6B66AE15",
-					ClientName = "Swagger UI",
+        public static IEnumerable<Client> Clients =>
+            [
+                new Client
+                {
+                    ClientId = "swagger-client-3F9610DD-0032-41FA-92F5-397E6B66AE15",
+                    ClientName = "Swagger UI",
 
-					RequireClientSecret = true,
-					ClientSecrets = { new Secret("swagger-ui-DF669678-66B8-4982-890A-E52F7632A3BA".Sha256()) },
+                    RequireClientSecret = true,
+                    ClientSecrets = { new Secret("swagger-ui-DF669678-66B8-4982-890A-E52F7632A3BA".Sha256()) },
 
-					Enabled = true,
+                    Enabled = true,
 
-					AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.Code,
 
-					RedirectUris = { "https://localhost:7096/signin-oidc" },
-					PostLogoutRedirectUris = { "https://localhost:7096/signout-callback-oidc" },
+                    RedirectUris = {
+                        "https://localhost:7096/swagger/oauth2-redirect.html",
+                        "https://localhost:7257/swagger/oauth2-redirect.html",
+                        "https://localhost:7209/swagger/oauth2-redirect.html",
+                        "https://localhost:7132/swagger/oauth2-redirect.html",
+                        "https://localhost:7309/swagger/oauth2-redirect.html",
+                        "https://localhost:3040/swagger/oauth2-redirect.html",
 
-					AllowedScopes =
-					[
-						"common_scope",
-						IdentityServerConstants.StandardScopes.OpenId,
-						IdentityServerConstants.StandardScopes.Profile,
-					],
+                    },
+                    PostLogoutRedirectUris = {
+                        "https://localhost:7096/swagger/signout-callback-oidc",
+                        "https://localhost:7257/swagger/signout-callback-oidc",
+                        "https://localhost:7209/swagger/signout-callback-oidc",
+                        "https://localhost:7132/swagger/signout-callback-oidc",
+                        "https://localhost:7309/swagger/signout-callback-oidc",
+                        "https://localhost:3040/swagger/signout-callback-oidc",
+                    },
 
-					AllowAccessTokensViaBrowser = true,
+                    AllowedScopes =
+                    [
+                        "common_scope",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                    ],
 
-					AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowAccessTokensViaBrowser = true,
 
-					AccessTokenLifetime = 60 * 60,
+                    AlwaysIncludeUserClaimsInIdToken = true,
 
-					AllowedCorsOrigins =
-					{
-						"https://localhost:7096",
-					},
+                    AccessTokenLifetime = 60 * 60,
 
-					RequireConsent = false,
+                    AllowedCorsOrigins =
+                    {
+                        "https://localhost:7096",
+                         "https://localhost:7257",
+                          "https://localhost:7209",
+                           "https://localhost:7132",
+                            "https://localhost:7309",
+                             "https://localhost:3040"
+                    },
 
-					RequirePkce = true,
-				}
-			];
-	}
+                    RequireConsent = false,
+
+                    RequirePkce = true,
+                }
+            ];
+    }
 
 }

@@ -3,10 +3,12 @@ using CatalogService.Application.Interfaces.BlobServices;
 using CatalogService.Application.UseCases;
 using CatalogService.WebApi.Dto;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.WebApi.Controllers
 {
+    [Authorize(Roles = "seller, admin")]
     [ApiController]
     [Route("publisher")]
     public class PublisherController(
@@ -18,8 +20,9 @@ namespace CatalogService.WebApi.Controllers
         private readonly IMapper _mapper = mapper;
         private readonly IBlobService _blobService = blobService;
 
-        //[Authorize]
+
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Create([FromForm] CreatePublisherDto publisherDto, CancellationToken token = default)
         {
             var request = _mapper.Map<CreatePublisherCommand>(publisherDto);
@@ -29,6 +32,7 @@ namespace CatalogService.WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll(CancellationToken token = default)
         {
             var vm = await _mediator.Send(new GetAllPublisherQuery(), token);
@@ -36,6 +40,7 @@ namespace CatalogService.WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken token = default)
         {
@@ -44,7 +49,6 @@ namespace CatalogService.WebApi.Controllers
             return Ok(publisherDto);
         }
 
-        //[Authorize]
         [HttpPut]
         public async Task<IActionResult> Update([FromForm] UpdatePublisherDto publisherDto, CancellationToken token = default)
         {
@@ -53,7 +57,6 @@ namespace CatalogService.WebApi.Controllers
             return Ok();
         }
 
-        //[Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromQuery] Guid id, CancellationToken token = default)
         {

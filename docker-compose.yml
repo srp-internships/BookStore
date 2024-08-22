@@ -103,33 +103,33 @@ services:
     networks:
       - app-network
 
-  identityservice:
-    image: ${DOCKER_REGISTRY-}identityservice
-    build:
-      context: .
-      dockerfile: src/Services/IdentityService/IdentityService/Dockerfile
-    container_name: ids-service
-    depends_on:
-      - sqlserver
-      - rabbitmq
-    environment:
-      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=user_management;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
-      ConnectionStrings__IdsDb: "Server=sqlserver;Database=identity;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
-      RabbitMq__Host: "rabbitmq"
-      RabbitMq__VirtualHost: "/"
-      RabbitMq__Username: "guest"
-      RabbitMq__Password: "guest"
-      SmtpSettings__Host: "smtp.gmail.com"
-      SmtpSettings__Port: 587
-      SmtpSettings__EnableSsl: true
-      SmtpSettings__Username: "1998venomx@gmail.com"
-      SmtpSettings__Password: "vlwgzuqanyhbacda"
-      SmtpSettings__From: "1998venomx@gmail.com"
-    ports:
-      - "8085:8080" # Mapping port for your ASP.NET app
-      - "8086:8081" # Mapping port for your ASP.NET app
-    networks:
-      - app-network
+  # identityservice:
+  #   image: ${DOCKER_REGISTRY-}identityservice
+  #   build:
+  #     context: .
+  #     dockerfile: src/Services/IdentityService/IdentityService/Dockerfile
+  #   container_name: ids-service
+  #   depends_on:
+  #     - sqlserver
+  #     - rabbitmq
+  #   environment:
+  #     ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=user_management;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
+  #     ConnectionStrings__IdsDb: "Server=sqlserver;Database=identity;User=sa;Password=3322_SQL_Pass;TrustServerCertificate=True;"
+  #     RabbitMq__Host: "rabbitmq"
+  #     RabbitMq__VirtualHost: "/"
+  #     RabbitMq__Username: "guest"
+  #     RabbitMq__Password: "guest"
+  #     SmtpSettings__Host: "smtp.gmail.com"
+  #     SmtpSettings__Port: 587
+  #     SmtpSettings__EnableSsl: true
+  #     SmtpSettings__Username: "1998venomx@gmail.com"
+  #     SmtpSettings__Password: "vlwgzuqanyhbacda"
+  #     SmtpSettings__From: "1998venomx@gmail.com"
+  #   ports:
+  #     - "8085:8080" # Mapping port for your ASP.NET app
+  #     - "8086:8081" # Mapping port for your ASP.NET app
+  #   networks:
+  #     - app-network
 
   orderservicewebapi:
     image: ${DOCKER_REGISTRY-}orderservicewebapi
@@ -168,7 +168,7 @@ services:
       RabbitMq__VirtualHost: "/"
       RabbitMq__Username: "guest"
       RabbitMq__Password: "guest"
-      WebApi__LogFilesDirectory: "./"
+      WebApi__LogFilesDirectory: "./log/"
       WebApi__EnableSwaggerUI: true
     ports:
       - "8087:8080" # Mapping port for your ASP.NET app
@@ -216,6 +216,22 @@ services:
     networks:
       - app-network
 
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: src/Services/ApiGetAway/ApiGateway/Dockerfile
+    environment:
+      - JwtSettings__Authority=https://localhost:7167
+      - JwtSettings__SecurityKey=your-very-secure-key
+      - MraInfrastructure-CORS__0=http://localhost
+    ports:
+      - "8095:8080"
+      - "8096:8081"
+    networks:
+      - app-network
+
+
 volumes:
   postgres_data:
   rabbitmq_data:
@@ -225,3 +241,4 @@ volumes:
 networks:
   app-network:
     driver: bridge
+

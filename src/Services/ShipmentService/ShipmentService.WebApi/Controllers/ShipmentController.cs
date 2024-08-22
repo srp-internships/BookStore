@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShipmentService.Aplication.CQRS.Shipments.Commands.Update;
 using ShipmentService.Aplication.CQRS.Shipments.Queries.GetAll;
@@ -6,6 +7,7 @@ using ShipmentService.Aplication.CQRS.Shipments.Queries.GetById;
 
 namespace ShipmentService.WebApi.Controllers
 {
+    [Authorize(Roles = "seller")]
     [ApiController]
     [Route("api/[controller]")]
     public class ShipmentsController : ControllerBase

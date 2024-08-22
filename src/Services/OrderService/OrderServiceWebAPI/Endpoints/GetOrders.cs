@@ -1,4 +1,5 @@
-﻿using OrderService.Application.UseCases.DTOs;
+﻿using Microsoft.AspNetCore.Authorization;
+using OrderService.Application.UseCases.DTOs;
 using OrderService.Application.UseCases.Orders.Queries.GetOrders;
 
 namespace OrderServiceWebAPI.Endpoints;
@@ -7,7 +8,7 @@ public class GetOrders : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/orders", async ([AsParameters] PagingParameters pagingParameters, ISender sender) =>
+        app.MapGet("/orders", [Authorize(Roles = "customer, seller")] async ([AsParameters] PagingParameters pagingParameters, ISender sender) =>
         {
             var result = await sender.Send(new GetOrdersQuery(pagingParameters));
 
@@ -18,6 +19,7 @@ public class GetOrders : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Get Orders")
-        .WithDescription("Get Orders");
+        .WithDescription("Get Orders")
+        .RequireAuthorization();
     }
 }

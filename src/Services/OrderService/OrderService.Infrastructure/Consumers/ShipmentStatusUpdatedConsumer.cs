@@ -14,16 +14,19 @@ public class ShipmentStatusUpdatedConsumer : IConsumer<ShipmentUpdatedEvent>
     private readonly ApplicationDbContext _context;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IDistributedCache _distributedCache;
 
     public ShipmentStatusUpdatedConsumer(ILogger<ShipmentStatusUpdatedConsumer> logger,
         ApplicationDbContext context,
         IPublishEndpoint publishEndpoint,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IDistributedCache distributedCache)
     {
         _logger = logger;
         _context = context;
         _publishEndpoint = publishEndpoint;
         _unitOfWork = unitOfWork;
+        _distributedCache = distributedCache;
     }
 
     public async Task Consume(ConsumeContext<ShipmentUpdatedEvent> context)
@@ -79,6 +82,9 @@ public class ShipmentStatusUpdatedConsumer : IConsumer<ShipmentUpdatedEvent>
             {
                 _logger.LogInformation($"Order {message.OrderId} shipment status is pending.");
             }
+
+            var cacheKey = $"CustomerOrders_{order.CustomerId}";
+            await _distributedCache.RemoveAsync(cacheKey);
         }
         else
         {

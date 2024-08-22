@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReviewService.Application.Common.DTOs;
 using ReviewService.Application.Services;
 using ReviewService.Domain.Exceptions;
+using System.Security.Claims;
 
 namespace ReviewService.WebApi.Controllers
 {
+    [Authorize(Roles = "customer")]
     [Route("api/[controller]")]
     [ApiController]
     public class ReviewsController : ControllerBase
@@ -35,6 +38,7 @@ namespace ReviewService.WebApi.Controllers
         #endregion
 
         #region Average-rating by BookId
+        [AllowAnonymous]
         [HttpGet("book/{bookId}/average-rating")]
         public async Task<IActionResult> GetAverageRatingByBookId(Guid bookId)
         {
@@ -54,6 +58,7 @@ namespace ReviewService.WebApi.Controllers
         #endregion
 
         #region GetReviewByBookId
+        [AllowAnonymous]
         [HttpGet("book/{bookId}")]
         public async Task<IActionResult> GetByBookId(Guid bookId)
         {
@@ -102,9 +107,10 @@ namespace ReviewService.WebApi.Controllers
         #endregion
 
         #region GetReviewByUserId
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetByUserId(Guid userId)
+        [HttpGet("user")]
+        public async Task<IActionResult> GetByUserId()
         {
+            var userId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier).Value);
             _logger.LogInformation("Getting reviews for user with ID {UserId}", userId);
             try
             {
@@ -128,12 +134,20 @@ namespace ReviewService.WebApi.Controllers
 
         #region PostReview
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateReviewDto reviewDto)
+        public async Task<IActionResult> Post([FromBody] CreateReviewRequest reviewDto)
         {
             _logger.LogInformation("Adding new review for book with ID {BookId}", reviewDto.BookId);
             try
             {
-                var createdReview = await _reviewService.AddAsync(reviewDto);
+                var createdReview = await _reviewService.AddAsync(new CreateReviewDto
+                {
+                    UserId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier).Value),
+                    BookId = reviewDto.BookId,
+
+                    Comment = reviewDto.Comment,
+                    Rating = reviewDto.Rating,
+                });
+
                 return CreatedAtAction(nameof(GetById), new { id = createdReview.Id }, createdReview);
             }
             catch (Exception ex)
@@ -161,9 +175,10 @@ namespace ReviewService.WebApi.Controllers
         #endregion
 
         #region DeleteReviewByUserId
-        [HttpDelete("{id}/user/{userId}")]
-        public async Task<IActionResult> DeleteByUserId(Guid id, Guid userId)
+        [HttpDelete("{id}/user")]
+        public async Task<IActionResult> DeleteByUserId(Guid id)
         {
+            var userId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier).Value);
             _logger.LogInformation("Deleting review with ID {Id} for user with ID {UserId}", id, userId);
             try
             {

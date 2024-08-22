@@ -26,8 +26,8 @@ public class GetOrdersQueryHandler : IQueryHandler<GetOrdersQuery, GetOrdersResu
             .ToList();
 
         var paginatedResult = new PaginatedResult<OrderDto>(
-            pagingParams.PageNumber,
-            pagingParams.PageSize,
+            (int)pagingParams.PageNumber,
+            (int)pagingParams.PageSize,
             totalCount,
             ordersDto
         );

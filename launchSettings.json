@@ -9,7 +9,8 @@
         "orderservicewebapi": "StartDebugging",
         "paymentservice.webapi": "StartDebugging",
         "reviewservice.webapi": "StartDebugging",
-        "shipmentservice.webapi": "StartDebugging"
+        "shipmentservice.webapi": "StartDebugging",
+        "apigateway": "StartDebugging"
       }
     }
   }

@@ -57,6 +57,11 @@ if (app.Environment.IsDevelopment() || webApiSettings.EnableSwaggerUI)
         foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
         {
             opt.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+
+            opt.OAuthClientId("swagger-client-3F9610DD-0032-41FA-92F5-397E6B66AE15");
+            opt.OAuthAppName("Swagger UI");
+            opt.OAuthClientSecret("swagger-ui-DF669678-66B8-4982-890A-E52F7632A3BA");
+            opt.OAuthUsePkce();
         }
         opt.InjectStylesheet("/swagger-ui/SwaggerDark.css");
     });

@@ -17,9 +17,11 @@ public class DecoratedOrderRepository : IOrderRepository
         this.orderRepository = orderRepository;
     }
 
-    public Task<Order> CreateAsync(Order order, CancellationToken token = default)
+    public async Task<Order> CreateAsync(Order order, CancellationToken token = default)
     {
-        return orderRepository.CreateAsync(order, token);
+        var cacheKey = $"CustomerOrders_{order.CustomerId}";
+        await distributedCache.RemoveAsync(cacheKey, token);
+        return await orderRepository.CreateAsync(order, token);
     }
 
     public Task DeleteAsync(Order order, CancellationToken token = default)

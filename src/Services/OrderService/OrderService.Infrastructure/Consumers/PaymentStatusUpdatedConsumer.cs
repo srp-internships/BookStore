@@ -15,16 +15,19 @@ public class PaymentStatusUpdatedConsumer : IConsumer<PaymentRequestProcessedEve
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ApplicationDbContext _context;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IDistributedCache _distributedCache;
 
     public PaymentStatusUpdatedConsumer(ILogger<PaymentStatusUpdatedConsumer> logger,
         IPublishEndpoint publishEndpoint,
         ApplicationDbContext dbContext,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IDistributedCache distributedCache)
     {
         _logger = logger;
         _publishEndpoint = publishEndpoint;
         _context = dbContext;
         _unitOfWork = unitOfWork;
+        _distributedCache = distributedCache;
     }
 
     public async Task Consume(ConsumeContext<PaymentRequestProcessedEvent> context)
@@ -78,6 +81,8 @@ public class PaymentStatusUpdatedConsumer : IConsumer<PaymentRequestProcessedEve
             {
                 _logger.LogInformation($"Order {message.OrderId} payment status is pending.");
             }
+            var cacheKey = $"CustomerOrders_{order.CustomerId}";
+            await _distributedCache.RemoveAsync(cacheKey);
         }
         else
         {

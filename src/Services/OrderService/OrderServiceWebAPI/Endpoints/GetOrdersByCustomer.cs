@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using OrderService.Application.UseCases.DTOs;
 using OrderService.Application.UseCases.Orders.Queries.GetOrdersByCustomer;
+using System.Security.Claims;
 
 namespace OrderServiceWebAPI.Endpoints;
 
@@ -8,9 +9,9 @@ public class GetOrdersByCustomer : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/orders/customer/{customerId}", [Authorize(Roles = "customer")] async (Guid customerId, ISender sender) =>
+        app.MapGet("/orders/customer", [Authorize(Roles = "customer")] async (HttpContext httpContext, ISender sender) =>
         {
-            var orders = await sender.Send(new GetOrdersByCustomerQuery(customerId));
+            var orders = await sender.Send(new GetOrdersByCustomerQuery(Guid.Parse(httpContext.User.Claims.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier).Value)));
 
             return Results.Ok(orders);
         })

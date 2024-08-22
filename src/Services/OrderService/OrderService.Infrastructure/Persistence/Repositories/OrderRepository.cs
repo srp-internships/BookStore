@@ -28,7 +28,7 @@ public class OrderRepository : IOrderRepository
     {
         var query = _dbSet.Include(o => o.Items).AsQueryable();
 
-        if (pagingParameters.OrderByDescending)
+        if (pagingParameters.OrderByDescending == true)
         {
             query = query.OrderByDescending(o => o.Id);
         }

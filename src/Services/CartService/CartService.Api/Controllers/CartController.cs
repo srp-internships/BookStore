@@ -2,6 +2,7 @@
 using CartService.Aplication.Commons.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CartService.Api.Controllers
 {
@@ -11,23 +12,27 @@ namespace CartService.Api.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
+        private Guid GetUserId()
+        {
+            return Guid.Parse(HttpContext.User.Claims.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier).Value);
+        }
 
         public CartController(ICartService cartService)
         {
             _cartService = cartService;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetCartByUserIdAsync(Guid userId)
+        [HttpGet("userId")]
+        public async Task<IActionResult> GetCartByUserIdAsync()
         {
-            var cart = await _cartService.GetCartByUserIdAsync(userId);
+            var cart = await _cartService.GetCartByUserIdAsync(GetUserId());
             return Ok(cart);
         }
 
-        [HttpPost("{userId}/items")]
-        public async Task<IActionResult> AddToCartAsync(Guid userId, [FromBody] AddToCartRequest request)
+        [HttpPost("userId/items")]
+        public async Task<IActionResult> AddToCartAsync([FromBody] AddToCartRequest request)
         {
-            await _cartService.AddToCartAsync(userId, request);
+            await _cartService.AddToCartAsync(GetUserId(), request);
             return NoContent();
         }
 
@@ -45,17 +50,18 @@ namespace CartService.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{userId}")]
+        [HttpDelete("userId")]
         public async Task<IActionResult> ClearCartAsync(Guid userId)
         {
+            userId = GetUserId();
             await _cartService.ClearCartAsync(userId);
             return NoContent();
         }
 
-        [HttpGet("{userId}/total")]
-        public async Task<IActionResult> GetTotalPriceAsync(Guid userId)
+        [HttpGet("userId/total")]
+        public async Task<IActionResult> GetTotalPriceAsync()
         {
-            var totalPrice = await _cartService.GetTotalPriceAsync(userId);
+            var totalPrice = await _cartService.GetTotalPriceAsync(GetUserId());
             return Ok(totalPrice);
         }
     }

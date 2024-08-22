@@ -136,7 +136,15 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{ACFC7CDB-AB77-46F4-9CD9-AE2FC25A5D1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "src\Services\ApiGetAway\ApiGateway\ApiGateway.csproj", "{6CA91FBE-79CD-4975-AFAD-1D4F2863B8E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "src\Services\ApiGetAway\ApiGateway\ApiGateway.csproj", "{6CA91FBE-79CD-4975-AFAD-1D4F2863B8E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyticService.Contracts", "src\Services\AnalyticsService\AnalyticService.Contracts\AnalyticService.Contracts.csproj", "{9B33E148-EB39-4CB1-BD8D-FCC958C31DF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyticService.Domain", "src\Services\AnalyticsService\AnalyticService.Domain\AnalyticService.Domain.csproj", "{664A4FF2-CED5-4DA4-9E1F-5ADC91A7E722}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyticsService.Application", "src\Services\AnalyticsService\AnalyticsService.Application\AnalyticsService.Application.csproj", "{6EA7E341-0966-4486-8F69-D84CBD94E37C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnalyticsService.Infrastructure", "src\Services\AnalyticsService\AnalyticsService.Infrastructure\AnalyticsService.Infrastructure.csproj", "{093044C4-D1D8-49A2-9EED-A0F7EA1A454F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -340,6 +348,22 @@ Global
 		{6CA91FBE-79CD-4975-AFAD-1D4F2863B8E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CA91FBE-79CD-4975-AFAD-1D4F2863B8E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CA91FBE-79CD-4975-AFAD-1D4F2863B8E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B33E148-EB39-4CB1-BD8D-FCC958C31DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B33E148-EB39-4CB1-BD8D-FCC958C31DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B33E148-EB39-4CB1-BD8D-FCC958C31DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B33E148-EB39-4CB1-BD8D-FCC958C31DF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{664A4FF2-CED5-4DA4-9E1F-5ADC91A7E722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{664A4FF2-CED5-4DA4-9E1F-5ADC91A7E722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{664A4FF2-CED5-4DA4-9E1F-5ADC91A7E722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{664A4FF2-CED5-4DA4-9E1F-5ADC91A7E722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EA7E341-0966-4486-8F69-D84CBD94E37C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EA7E341-0966-4486-8F69-D84CBD94E37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EA7E341-0966-4486-8F69-D84CBD94E37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EA7E341-0966-4486-8F69-D84CBD94E37C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093044C4-D1D8-49A2-9EED-A0F7EA1A454F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093044C4-D1D8-49A2-9EED-A0F7EA1A454F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093044C4-D1D8-49A2-9EED-A0F7EA1A454F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093044C4-D1D8-49A2-9EED-A0F7EA1A454F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -410,6 +434,10 @@ Global
 		{269B35C5-6929-4841-A359-46D0C651BA9F} = {DBC32000-6380-49A3-B8DD-B086D047B9CB}
 		{ACFC7CDB-AB77-46F4-9CD9-AE2FC25A5D1E} = {A0806768-C6D7-47C3-A08A-DDCFF6D8618D}
 		{6CA91FBE-79CD-4975-AFAD-1D4F2863B8E4} = {ACFC7CDB-AB77-46F4-9CD9-AE2FC25A5D1E}
+		{9B33E148-EB39-4CB1-BD8D-FCC958C31DF5} = {24360CC8-42E1-4643-9891-1B04CE72993C}
+		{664A4FF2-CED5-4DA4-9E1F-5ADC91A7E722} = {24360CC8-42E1-4643-9891-1B04CE72993C}
+		{6EA7E341-0966-4486-8F69-D84CBD94E37C} = {24360CC8-42E1-4643-9891-1B04CE72993C}
+		{093044C4-D1D8-49A2-9EED-A0F7EA1A454F} = {24360CC8-42E1-4643-9891-1B04CE72993C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CD6E12B-9281-4A9A-89C5-AC0F937CF536}

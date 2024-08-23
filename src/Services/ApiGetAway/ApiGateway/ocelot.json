@@ -594,6 +594,63 @@
       ],
       "UpstreamPathTemplate": "/api/account/login",
       "UpstreamHttpMethod": [ "Post" ]
+    },
+
+    // AnaliticService
+    {
+      "DownstreamPathTemplate": "/api/analytics/salesreport",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7054
+        }
+      ],
+      "UpstreamPathTemplate": "/analytics/salesreport",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+    // 
+    {
+
+      "DownstreamPathTemplate": "/api/BookSales/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7054
+        }
+      ],
+      "UpstreamPathTemplate": "/BookSales/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+    //
+    {
+      "DownstreamPathTemplate": "/api/BookSales/api/analytics/salesreport/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7054
+        }
+      ],
+      "UpstreamPathTemplate": "/BookSales/api/analytics/salesreport/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+    //
+    {
+      "DownstreamPathTemplate": "/api/BookSales/api/analytics/sallerId/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7054
+        }
+      ],
+      "UpstreamPathTemplate": "/BookSales/api/analytics/sallerId/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
     }
   ]
 }

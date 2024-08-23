@@ -39,4 +39,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+var applicationDbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<RecommendationDbContext>();
+await applicationDbContext.Database.MigrateAsync();
+
 app.Run();

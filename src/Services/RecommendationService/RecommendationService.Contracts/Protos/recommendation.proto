@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "RecommendationService";
+option csharp_namespace = "RecommendationService.Contracts";
 
 service Recommendation {
     // Get a list of similar books

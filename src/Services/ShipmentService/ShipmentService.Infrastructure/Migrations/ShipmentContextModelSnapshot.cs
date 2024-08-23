@@ -17,12 +17,12 @@ namespace ShipmentService.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipment", b =>
+            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipments.Shipment", b =>
                 {
                     b.Property<Guid>("ShipmentId")
                         .ValueGeneratedOnAdd()
@@ -31,17 +31,21 @@ namespace ShipmentService.Infrastructure.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("EstimatedDeliveryDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ShippingAddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateShipmentStatus")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ShipmentId");
 
@@ -50,38 +54,50 @@ namespace ShipmentService.Infrastructure.Migrations
                     b.ToTable("Shipments");
                 });
 
-            modelBuilder.Entity("ShipmentService.Domain.Entities.ShipmentItem", b =>
+            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipments.ShipmentItem", b =>
                 {
-                    b.Property<Guid>("ItemId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BookName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.Property<Guid?>("ShipmentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ItemId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ShipmentId");
 
                     b.ToTable("ShipmentItems");
                 });
 
-            modelBuilder.Entity("ShipmentService.Domain.Entities.ShippingAddress", b =>
+            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipments.ShippingAddress", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -89,23 +105,25 @@ namespace ShipmentService.Infrastructure.Migrations
                     b.ToTable("ShippingAddresses");
                 });
 
-            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipment", b =>
+            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipments.Shipment", b =>
                 {
-                    b.HasOne("ShipmentService.Domain.Entities.ShippingAddress", "ShippingAddress")
+                    b.HasOne("ShipmentService.Domain.Entities.Shipments.ShippingAddress", "ShippingAddress")
                         .WithMany()
-                        .HasForeignKey("ShippingAddressId");
+                        .HasForeignKey("ShippingAddressId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("ShippingAddress");
                 });
 
-            modelBuilder.Entity("ShipmentService.Domain.Entities.ShipmentItem", b =>
+            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipments.ShipmentItem", b =>
                 {
-                    b.HasOne("ShipmentService.Domain.Entities.Shipment", null)
+                    b.HasOne("ShipmentService.Domain.Entities.Shipments.Shipment", null)
                         .WithMany("Items")
-                        .HasForeignKey("ShipmentId");
+                        .HasForeignKey("ShipmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipment", b =>
+            modelBuilder.Entity("ShipmentService.Domain.Entities.Shipments.Shipment", b =>
                 {
                     b.Navigation("Items");
                 });

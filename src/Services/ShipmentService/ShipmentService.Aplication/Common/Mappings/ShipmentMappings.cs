@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
-using System.Text;
-using AutoMapper;
-using System.Threading.Tasks;
-using ShipmentService.Aplication.CQRS.Shipments.Commands.Create;
-using ShipmentService.Domain.Entities;
+﻿using AutoMapper;
+using ShipmentService.Aplication.CQRS.Shipments.Commands.Update;
+using ShipmentService.Aplication.CQRS.Shipments.Queries.GetAll;
+using ShipmentService.Aplication.CQRS.Shipments.Queries.GetById;
+using ShipmentService.Domain.Entities.Shipments;
 
 namespace ShipmentService.Aplication.Common.Mappings
 {
@@ -14,7 +10,11 @@ namespace ShipmentService.Aplication.Common.Mappings
     {
         public ShipmentMappings() 
         {
-            CreateMap<CreateShipmentCommand, Shipment>();
+            CreateMap<UpdateShipmentCommand, Shipment>();
+            CreateMap<Shipment, GetShipmentByIdQuery>()
+                .ReverseMap();
+            CreateMap<Shipment, GetShipmentsQuery>()
+                .ReverseMap();
         }
     }
 }

@@ -1,33 +1,27 @@
-﻿using CartService.Aplication.Interfaces;
-using CartService.Domain.Entities;
+﻿using CartService.Aplication.Commons.Interfaces;
 using CartService.Infrastructure.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CartService.Infrastructure.Repositories
 {
     public class BookRepository: IBookRepository
     {
-        private readonly CartDbContext _dbContext; 
+        private readonly CartDbContext _context;
 
-        public BookRepository(CartDbContext dbContext)
+        public BookRepository(CartDbContext context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
 
-        public async Task<Book> GetByIdAsync(Guid bookId)
+        public async Task<Book?> GetByIdAsync(Guid bookId)
         {
-            return await _dbContext.Set<Book>().FindAsync(bookId);
+            return await _context.Books
+                .FirstOrDefaultAsync(b => b.Id == bookId);
         }
 
-        public async Task UpdateAsync(Book book)
+        public async Task<bool> IsAvailableAsync(Guid bookId)
         {
-            _dbContext.Entry(book).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            return await _context.Books
+                .AnyAsync(b => b.Id == bookId);
         }
     }
 }

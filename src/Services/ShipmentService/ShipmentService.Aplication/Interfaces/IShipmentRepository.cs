@@ -1,4 +1,4 @@
-﻿using ShipmentService.Domain.Entities;
+﻿using ShipmentService.Domain.Entities.Shipments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,8 @@ namespace ShipmentService.Aplication.Interfaces
 {
     public interface IShipmentRepository
     {
-        Task<Shipment> GetShipmentByIdAsync(Guid shipmentId);
-        Task CreateShipmentAsync(Shipment shipment);
-        Task UpdateShipmentAsync(Shipment shipment);
-        Task DeleteShipmentAsync(Guid shipmentId);
+        Task<IEnumerable<Shipment>> GetAllShipmentsAsync();
+        Task<Shipment?> GetShipmentByIdAsync(Guid shipmentId);
+        Task  UpdateShipmentAsync(Shipment shipment);
     }
 }
